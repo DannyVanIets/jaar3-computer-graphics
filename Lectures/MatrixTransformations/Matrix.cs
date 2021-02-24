@@ -34,78 +34,70 @@ namespace MatrixTransformations
             mat[1, 0] = v.y;
             mat[2, 0] = v.z;
         }
+        public static Matrix ZeroMatrix()
+        {
+            Matrix matrix = new Matrix();
+            matrix.mat[0, 0] = 0; matrix.mat[0, 1] = 0; matrix.mat[0, 2] = 0;
+            matrix.mat[1, 0] = 0; matrix.mat[1, 1] = 0; matrix.mat[1, 2] = 0;
+            matrix.mat[2, 0] = 0; matrix.mat[2, 1] = 0; matrix.mat[2, 1] = 0;
+            return matrix;
+        }
 
         public static Matrix operator +(Matrix m1, Matrix m2)
         {
-            float[,] matrice = new float[2, 2];
+            Matrix matrix = new Matrix();
             for (int i = 0; i < m1.mat.GetLength(0); i++)
             {
                 for (int j = 0; j < m1.mat.GetLength(1); j++)
                 {
-                    matrice[i, j] = m1.mat[i, j] + m2.mat[i, j];
+                    matrix.mat[i, j] = m1.mat[i, j] + m2.mat[i, j];
                 }
             }
-            Matrix matrix = new Matrix
-            {
-                mat = matrice
-            };
             return matrix;
         }
 
         public static Matrix operator -(Matrix m1, Matrix m2)
         {
-            float[,] matrice = new float[2, 2];
+            Matrix matrix = new Matrix();
             for (int i = 0; i < m1.mat.GetLength(0); i++)
             {
                 for (int j = 0; j < m1.mat.GetLength(1); j++)
                 {
-                    matrice[i, j] = m1.mat[i, j] - m2.mat[i, j];
+                    matrix.mat[i, j] = m1.mat[i, j] - m2.mat[i, j];
                 }
             }
-            Matrix matrix = new Matrix
-            {
-                mat = matrice
-            };
             return matrix;
         }
 
         public static Matrix operator *(Matrix m1, float f)
         {
-            float[,] matrice = new float[2, 2];
+            Matrix matrix = new Matrix();
             for (int i = 0; i < m1.mat.GetLength(0); i++)
             {
                 for (int j = 0; j < m1.mat.GetLength(1); j++)
                 {
-                    matrice[i, j] = m1.mat[i, j] * f;
+                    matrix.mat[i, j] = m1.mat[i, j] * f;
                 }
             }
-            Matrix matrix = new Matrix
-            {
-                mat = matrice
-            };
             return matrix;
         }
 
         public static Matrix operator *(float f, Matrix m1)
         {
-            float[,] matrice = new float[2, 2];
+            Matrix matrix = new Matrix();
             for (int i = 0; i < m1.mat.GetLength(0); i++)
             {
                 for (int j = 0; j < m1.mat.GetLength(1); j++)
                 {
-                    matrice[i, j] = m1.mat[i, j] * f;
+                    matrix.mat[i, j] = m1.mat[i, j] * f;
                 }
             }
-            Matrix matrix = new Matrix
-            {
-                mat = matrice
-            };
             return matrix;
         }
 
         public static Matrix operator *(Matrix m1, Matrix m2)
         {
-            Matrix matrix = new Matrix(0, 0, 0, 0);
+            Matrix matrix = ZeroMatrix();
             int columns = m1.mat.GetLength(0);
             int rows = m1.mat.GetLength(1);
 

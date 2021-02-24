@@ -90,7 +90,7 @@ namespace MatrixTransformations
 
             // Draw rotated square.
             square = new Square(Color.Orange);
-            Matrix rotateMatrix = Matrix.RotateMatrix(40);
+            Matrix rotateMatrix = Matrix.RotateMatrix(20);
             List<Vector> rotateVectors = new List<Vector>();
 
             foreach (Vector v in square.vb)
