@@ -63,6 +63,6 @@ var render = function() {
     controls.update(); //update for auto-rotation
     
     renderer.render(scene, camera); 
-}
+};
 
 render();
