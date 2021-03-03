@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MatrixTransformations.lecture_4;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,13 +11,22 @@ namespace MatrixTransformations
         // Axes
         AxisX x_axis;
         AxisY y_axis;
+        AxisZ z_axis;
 
         // Objects
-        Square square;
+        Cube cube;
 
         // Window dimensions
         const int WIDTH = 800;
         const int HEIGHT = 600;
+        
+        // Camera variable.
+        public float r { get; set; } = 10;
+        public float theta { get; set; } = -100;
+        public float phi { get; set; } = -10;
+        public float distance { get; set; } = 800;
+
+        public float scale { get; set; } = 1;
 
         public Form1()
         {
@@ -54,9 +64,10 @@ namespace MatrixTransformations
             // Define axes
             x_axis = new AxisX(200);
             y_axis = new AxisY(200);
+            z_axis = new AxisZ(200);
 
             // Create object
-            square = new Square(Color.Purple, 100);
+            cube = new Cube(Color.Purple);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -65,54 +76,24 @@ namespace MatrixTransformations
 
             List<Vector> vb;
 
+            // Update the labels.
+            labelR.Text = r.ToString();
+            labelDistance.Text = distance.ToString();
+            labelPhi.Text = phi.ToString();
+            labelTheta.Text = theta.ToString();
+
             // Draw axes
             vb = ViewportTransformation(x_axis.vb);
             x_axis.Draw(e.Graphics, vb);
             vb = ViewportTransformation(y_axis.vb);
             y_axis.Draw(e.Graphics, vb);
+            vb = ViewportTransformation(z_axis.vb);
+            z_axis.Draw(e.Graphics, vb);
 
-            // Draw square
-            vb = ViewportTransformation(square.vb);
-            square.Draw(e.Graphics, vb);
-
-            // Draw scaled square.
-            square = new Square(Color.Cyan);
-            Matrix scaledMatrix = Matrix.ScaleMatrix(1.5f);
-            List<Vector> scaledVectors = new List<Vector>();
-
-            foreach(Vector v in square.vb)
-            {
-                scaledVectors.Add(scaledMatrix * v);
-            }
-
-            vb = ViewportTransformation(scaledVectors);
-            square.Draw(e.Graphics, vb);
-
-            // Draw rotated square.
-            square = new Square(Color.Orange);
-            Matrix rotateMatrix = Matrix.RotateMatrix(20);
-            List<Vector> rotateVectors = new List<Vector>();
-
-            foreach (Vector v in square.vb)
-            {
-                rotateVectors.Add(rotateMatrix * v);
-            }
-
-            vb = ViewportTransformation(rotateVectors);
-            square.Draw(e.Graphics, vb);
-
-            // Draw translation square.
-            square = new Square(Color.DarkBlue);
-            Matrix translateMatrix = Matrix.TranslateMatrix(new Vector(75, -25));
-            List<Vector> translateVectors = new List<Vector>();
-
-            foreach (Vector v in square.vb) // Turn these foreaches into a function, saves a lot of code.
-            {
-                translateVectors.Add(translateMatrix * v);
-            }
-
-            vb = ViewportTransformation(translateVectors);
-            square.Draw(e.Graphics, vb);
+            // Translation should always be last.
+            // Draw cube.
+            vb = ViewingPipeline(cube.vertexbuffer);
+            cube.Draw(e.Graphics, vb);
         }
 
         public static List<Vector> ViewportTransformation(List<Vector> vb)
@@ -122,7 +103,7 @@ namespace MatrixTransformations
             float delta_x = WIDTH / 2;
             float delta_y = HEIGHT / 2;
 
-            foreach(Vector v in vb)
+            foreach (Vector v in vb)
             {
                 Vector v2 = new Vector(v.x + delta_x, delta_y - v.y);
                 result.Add(v2);
@@ -130,10 +111,55 @@ namespace MatrixTransformations
             return result;
         }
 
+        public static List<Vector> ViewingPipeline(List<Vector> vb)
+        {
+            List<Vector> result = new List<Vector>();
+            Form1 form = new Form1();
+            Matrix viewMatrix = Matrix.ViewMatrix(form.r, form.theta, form.phi);
+
+            vb.ForEach(v =>
+            {
+                Vector vp = viewMatrix * v;
+                vp = Matrix.ProjectionMatrix(form.distance, vp) * vp;
+                result.Add(vp);
+            });
+            return ViewportTransformation(result);
+        }
+
+        public static void Reset()
+        {
+            Form1 form = new Form1
+            {
+                r = 10,
+                distance = 800,
+                theta = -100,
+                phi = -10,
+                scale = 1
+            };
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
-                Application.Exit();
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    Application.Exit();
+                    break;
+
+                case Keys.S when e.Shift:
+                    scale++;
+                    labelScale.Text = scale.ToString();
+                    break;
+
+                case Keys.S:
+                    scale--;
+                    labelScale.Text = scale.ToString();
+                    break;
+
+                case Keys.C:
+                    Reset();
+                    break;
+            }
         }
     }
 }

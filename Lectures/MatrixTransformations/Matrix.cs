@@ -13,10 +13,10 @@ namespace MatrixTransformations
              * [1,0]
              * [0,1]
              */
-            new Matrix(
+            mat = new Matrix(
                 1, 0, 
                 0, 1
-                );
+            ).mat;
         }
 
         public Matrix(float m11, float m12,
@@ -24,22 +24,22 @@ namespace MatrixTransformations
         {
             mat[0, 0] = m11; mat[0, 1] = m12; mat[0, 2] = 0;
             mat[1, 0] = m21; mat[1, 1] = m22; mat[1, 2] = 0;
-            mat[2, 0] = 0;   mat[2, 1] = 0;   mat[2, 1] = 1;
+            mat[2, 0] = 0;   mat[2, 1] = 0;   mat[2, 2] = 1;
         }
 
         public Matrix(Vector v)
         {
-
             mat[0, 0] = v.x;
             mat[1, 0] = v.y;
             mat[2, 0] = v.z;
         }
+
         public static Matrix ZeroMatrix()
         {
             Matrix matrix = new Matrix();
             matrix.mat[0, 0] = 0; matrix.mat[0, 1] = 0; matrix.mat[0, 2] = 0;
             matrix.mat[1, 0] = 0; matrix.mat[1, 1] = 0; matrix.mat[1, 2] = 0;
-            matrix.mat[2, 0] = 0; matrix.mat[2, 1] = 0; matrix.mat[2, 1] = 0;
+            matrix.mat[2, 0] = 0; matrix.mat[2, 1] = 0; matrix.mat[2, 2] = 0;
             return matrix;
         }
 
@@ -173,7 +173,7 @@ namespace MatrixTransformations
         public static Matrix RotateMatrix(float degrees)
         {
             // Turn degrees into radians, radians is used by cos and sin.
-            float radians = degrees * ((float)Math.PI / 180);
+            double radians = degrees * Math.PI / 180;
 
             Matrix rotatedMatrix = new Matrix(
                 (float)Math.Cos(radians), -(float)Math.Sin(radians),
@@ -184,7 +184,13 @@ namespace MatrixTransformations
 
         public static Matrix TranslateMatrix(Vector t)
         {
-            throw new NotImplementedException();
+            Matrix matrix = new Matrix();
+
+            matrix.mat[0,2] += t.x;
+            matrix.mat[1,2] += t.y;
+            matrix.mat[2,2] += t.z;
+
+            return matrix;
         }
     }
 }
