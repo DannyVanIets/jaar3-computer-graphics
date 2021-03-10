@@ -73,24 +73,9 @@ void Render()
     // Attach to program_id.
     glUseProgram(program_id);
 
-	// Bind buffer.
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-
-	// Define an array of generic vertex attribute data.
-	// ID, size, type, normalized, stride, offset first component.
-    glVertexAttribPointer(position_id, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// Enable array.
-    glEnableVertexAttribArray(position_id);
-
-	// Colors
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-    glVertexAttribPointer(color_id, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(color_id);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Draw
+    glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
 
 	// Disable array.
     //glDisableVertexAttribArray(position_id);
@@ -141,23 +126,43 @@ int main(int argc, char** argv)
     InitGlutGlew(argc, argv);
     InitShaders();
 
-	// Generate buffer object (in this case 1).
+	// First
+	// - Allocate and fill VBO's
+	// - Create attrib attribute
+    
+    // Generate buffer object (in this case 1).
     glGenBuffers(1, &vbo_vertices);
-	// Bind named buffer object.
+    // Bind named buffer object.
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-	// Create and initialize buffer object's data store.
+    // Create and initialize buffer object's data store.
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// Unbind
+    // Unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-	// Location of attribute variable
+    // Location of attribute variable
     position_id = glGetAttribLocation(program_id, "position");
 
-	// Colors
+    // Colors
     glGenBuffers(1, &vbo_colors);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
     glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     color_id = glGetAttribLocation(program_id, "color");
+
+    glGenVertexArrays(1, &vao);
+
+    glBindVertexArray(vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+    glVertexAttribPointer(position_id, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(position_id);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+    glVertexAttribPointer(color_id, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(color_id);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
 	
     // Hide console window
     HWND hWnd = GetConsoleWindow();
