@@ -101,7 +101,6 @@ void InitShaders()
     GLuint fsh_id = glsl::makeFragmentShader(fragshader);
 
     program_id = glsl::makeShaderProgram(vsh_id, fsh_id);
-    
 }
 
 
