@@ -10,6 +10,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Cube.h"
+
+#include "glfw3.h"
+
 using namespace std;
 
 //--------------------------------------------------------------------------------
@@ -28,81 +32,19 @@ unsigned const int DELTA_TIME = 10;
 // Variables
 //--------------------------------------------------------------------------------
 
-// ID's
-GLuint program_id;
-GLuint vao;
 
-glm::mat4 model, view, projection, mvp;
+GLuint program_id;
+
+glm::mat4 view, projection;
 GLuint uniform_mvp;
 
-GLfloat vertices[] = {
-    // front
-    -1.0, -1.0, 1.0,
-	1.0, -1.0, 1.0,
-	1.0, 1.0, 1.0,
-	-1.0, 1.0, 1.0,
-    // back
-    -1.0, -1.0, -1.0,
-	1.0, -1.0, -1.0,
-	1.0, 1.0, -1.0,
-	-1.0, 1.0, -1.0
-};
+Cube cube = Cube(2.0, 2.0, 2.0, -1.0, -1.0, 1.0);
+Cube cube2 = Cube(2.0, 2.0, 2.0, -4.0, -1.0, 1.0);
 
-GLfloat colors[] = {
-    // front colors
-    1.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0,
-    1.0, 1.0, 1.0,
-    // right side colors
-    0.0, 1.0, 1.0,
-    1.0, 0.0, 1.0,
-    1.0, 0.0, 0.0,
-    1.0, 1.0, 0.0,
-    // left side colors
-    1.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0,
-    1.0, 1.0, 1.0,
-    // back colors
-    0.0, 1.0, 1.0,
-    1.0, 0.0, 1.0,
-    1.0, 0.0, 0.0,
-    1.0, 1.0, 0.0,
-    // top colors
-    1.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0,
-    1.0, 1.0, 1.0,
-    // bottom colors
-    0.0, 1.0, 1.0,
-    1.0, 0.0, 1.0,
-    1.0, 0.0, 0.0,
-    1.0, 1.0, 0.0
-};
-
-//------------------------------------------------------------
-// Variables for object
-//
-//           7----------6
-//          /|         /|
-//         / |        / |
-//        /  4-------/--5               y
-//       /  /       /  /                |
-//      3----------2  /                 ----x
-//      | /        | /                 /
-//      |/         |/                  z
-//      0----------1
-//------------------------------------------------------------
-
-GLushort cube_elements[] = {
-    0,1,2, 0,2,3,
-    1,5,6, 1,6,2,
-    4,0,3, 4,3,7,
-    4,5,6, 4,6,7,
-    3,2,6, 3,6,7,
-    0,1,5, 0,5,4,
-};
+// Camera
+float angle = 0.0; // Angle of rotation for the camera direction.
+float lx = -4.0, lz = -14.0; // Actual vector representing the camera's direction.
+float x = 2.0, z = 7.0; // XZ position of the camera.
 
 //--------------------------------------------------------------------------------
 // Keyboard handling
@@ -110,10 +52,40 @@ GLushort cube_elements[] = {
 
 void keyboardHandler(unsigned char key, int a, int b)
 {
-    if (key == 27)
-        glutExit();
+	if (key == 27)
+		glutExit();
 }
 
+void processSpecialKeys(int key, int xx, int yy)
+{
+	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
+	float fraction = 0.1f;
+
+	switch(key)
+	{
+	case GLUT_KEY_LEFT:
+		angle -= 0.01f;
+		lx = sin(angle);
+		lz = -cos(angle);
+		break;
+		
+	case GLUT_KEY_RIGHT:
+		angle += 0.01;
+		lx = sin(angle);
+		lz = -cos(angle);
+		break;
+		
+	case GLUT_KEY_UP:
+		x += lx * fraction;
+		z += lz * fraction;
+		break;
+		
+	case GLUT_KEY_DOWN:
+		x -= lx * fraction;
+		z -= lz * fraction;
+		break;
+	}
+}
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -121,35 +93,28 @@ void keyboardHandler(unsigned char key, int a, int b)
 
 void Render()
 {
-    // Define background
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Define background
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Attach to program_id
-    glUseProgram(program_id);
+	// Attach to program_id
+	glUseProgram(program_id);
 
-    model = glm::rotate(
-        model,
-        glm::radians(1.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f));
-
-    mvp = projection * view * model;
-
-    glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+	cube.Render(uniform_mvp, projection, view);
+	cube2.Render(uniform_mvp, projection, view);
 	
-    // Send vao
-    glBindVertexArray(vao);
-	
-    glDrawElements(
-        GL_TRIANGLES,
-        sizeof(cube_elements) / sizeof(GLushort),
-        GL_UNSIGNED_SHORT,
-        0);
-	
-    glBindVertexArray(0);
+	// Draw the ground.
+	/*glColor3f(0.0f, 0.5f, 0.5f);
+	glBegin(GL_QUADS);
+	glVertex3f(-100.0f, 0.0f, -100.0f);
+	glVertex3f(-100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, -100.0f);
+	glVertex3f(100.0f, 0.0f, -100.0f);
+	glEnd();*/
 
-    // Swap buffers
-    glutSwapBuffers();
+	// Swap buffers
+	glutSwapBuffers();
 }
 
 
@@ -160,8 +125,8 @@ void Render()
 
 void Render(int n)
 {
-    Render();
-    glutTimerFunc(DELTA_TIME, Render, 0);
+	Render();
+	glutTimerFunc(DELTA_TIME, Render, 0);
 }
 
 
@@ -172,15 +137,15 @@ void Render(int n)
 
 void InitGlutGlew(int argc, char** argv)
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(WIDTH, HEIGHT);
-    glutCreateWindow("Hello OpenGL");
-    glutDisplayFunc(Render);
-    glutKeyboardFunc(keyboardHandler);
-    glutTimerFunc(DELTA_TIME, Render, 0);
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(WIDTH, HEIGHT);
+	glutCreateWindow("Hello OpenGL");
+	glutDisplayFunc(Render);
+	glutKeyboardFunc(keyboardHandler);
+	glutTimerFunc(DELTA_TIME, Render, 0);
 
-    glewInit();
+	glewInit();
 }
 
 
@@ -191,137 +156,82 @@ void InitGlutGlew(int argc, char** argv)
 
 void InitShaders()
 {
-    char* vertexshader = glsl::readFile(vertexshader_name);
-    GLuint vsh_id = glsl::makeVertexShader(vertexshader);
+	char* vertexshader = glsl::readFile(vertexshader_name);
+	GLuint vsh_id = glsl::makeVertexShader(vertexshader);
 
-    char* fragshader = glsl::readFile(fragshader_name);
-    GLuint fsh_id = glsl::makeFragmentShader(fragshader);
+	char* fragshader = glsl::readFile(fragshader_name);
+	GLuint fsh_id = glsl::makeFragmentShader(fragshader);
 
-    program_id = glsl::makeShaderProgram(vsh_id, fsh_id);
+	program_id = glsl::makeShaderProgram(vsh_id, fsh_id);
 }
 
 void InitMatrices()
 {
-    model = glm::mat4();
+	cube.model = glm::mat4();
+	
+	// Scaling
+	/*model = glm::scale(
+		model,
+		glm::vec3(1.0f, 0.5f, 1.0f));
 
-    // Scaling
-    /*model = glm::scale(
-        model,
-        glm::vec3(1.0f, 0.5f, 1.0f));
+	// Rotation
+	model = glm::rotate(
+		model,
+		glm::radians(10.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f));
 
-    // Rotation
-    model = glm::rotate(
-        model,
-        glm::radians(10.0f),
-        glm::vec3(0.0f, 0.0f, 1.0f));
-
-    // Translation
-    model = glm::translate(
-        model,
-        glm::vec3(1.0f, 2.0f, -1.0f));*/
-
+	// Translation
+	model = glm::translate(
+		model,
+		glm::vec3(1.0f, 2.0f, -1.0f));*/
+	
 	// View.
-    view = glm::lookAt(
-        glm::vec3(0.0, 0.0, 5.0),
-        glm::vec3(0.0, 0.0, 0.0),
-        glm::vec3(0.0, 1.0, 0.0)
-    );
+	view = glm::lookAt(
+		glm::vec3(x, 1.0, z),
+		glm::vec3(x + lx, 1.0, z + lz),
+		glm::vec3(0.0, 1.0, 0.0)
+	);
 
 	// Projection.
 	projection = glm::perspective(
-    glm::radians(45.0f),
-        800.0f / 600.0f,
-        0.1f,
-        10.0f);
-	
+		glm::radians(45.0f),
+		800.0f / 600.0f,
+		0.1f,
+		10.0f);
+
 	// Combine everything.
-    mvp = projection * view * model;
+	cube.mvp = projection * view * cube.model;
 }
 
 
-//------------------------------------------------------------
+//-----------------------------------------------------------
 // void InitBuffers()
 // Allocates and fills buffers
 //------------------------------------------------------------
 
 void InitBuffers()
 {
-    GLuint position_id;
-    GLuint color_id;
-    GLuint vbo_vertices;
-    GLuint vbo_colors;
-    GLuint ibo_cube_elements;
-
-    // vbo for vertices
-    glGenBuffers(1, &vbo_vertices);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // vbo for colors
-    glGenBuffers(1, &vbo_colors);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for cube elements
-    glGenBuffers(1, &ibo_cube_elements);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_cube_elements);
-    glBufferData(
-        GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_elements),
-        cube_elements, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	
-    // Get vertex attributes
-    position_id = glGetAttribLocation(program_id, "position");
-    color_id = glGetAttribLocation(program_id, "color");
-
-    // Allocate memory for vao
-    glGenVertexArrays(1, &vao);
-
-    // Bind to vao
-    glBindVertexArray(vao);
-
-    // Bind vertices to vao
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(position_id);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Bind colors to vao
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-    glVertexAttribPointer(color_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(color_id);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	// Bind cube elements.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_cube_elements);
-
-    // Stop bind to vao
-    glBindVertexArray(0);
-
-    uniform_mvp = glGetUniformLocation(program_id, "mvp");
-    glUseProgram(program_id);
-    glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+	cube.InitBuffers(program_id, uniform_mvp);
+	cube2.InitBuffers(program_id, uniform_mvp);
 }
-
 
 int main(int argc, char** argv)
 {
-    InitGlutGlew(argc, argv);
-    InitShaders();
-    InitMatrices();
-    InitBuffers();
+	InitGlutGlew(argc, argv);
+	InitShaders();
+	InitMatrices();
+	InitBuffers();
+	glutSpecialFunc(processSpecialKeys);
 
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-	
-    // Hide console window
-    HWND hWnd = GetConsoleWindow();
-    ShowWindow(hWnd, SW_HIDE);
+	// Main loop
+	glutMain.Loop();
 
-    // Main loop
-    glutMainLoop();
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
-    return 0;
+	// Hide console window
+	HWND hWnd = GetConsoleWindow();
+	ShowWindow(hWnd, SW_HIDE); // Set to SW_SHOW to debug
+
+	return 0;
 }
