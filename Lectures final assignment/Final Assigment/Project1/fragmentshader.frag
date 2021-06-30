@@ -1,5 +1,6 @@
 #version 430 core
 
+// Inputs from vertexshader
 in vec3 vColor;
 
 void main()

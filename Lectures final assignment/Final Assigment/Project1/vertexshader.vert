@@ -1,9 +1,12 @@
 #version 430 core
 
-in vec3 position;
-in vec3 color;
 uniform mat4 mvp;
 
+// Per-vertex inputs
+in vec3 position;
+in vec3 color;
+
+// Outputs
 out vec3 vColor;
 
 void main()

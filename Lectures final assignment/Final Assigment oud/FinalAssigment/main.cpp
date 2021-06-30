@@ -223,8 +223,7 @@ int main(int argc, char** argv)
 	InitBuffers();
 	glutSpecialFunc(processSpecialKeys);
 
-	// Main loop
-	glutMain.Loop();
+
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
@@ -232,6 +231,9 @@ int main(int argc, char** argv)
 	// Hide console window
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE); // Set to SW_SHOW to debug
+	
+	// Main loop
+	glutMainLoop();
 
 	return 0;
 }
