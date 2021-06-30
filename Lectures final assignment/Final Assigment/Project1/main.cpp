@@ -28,62 +28,160 @@ const char* vertexshader_name = "vertexshader.vert";
 
 unsigned const int DELTA_TIME = 10;
 
-
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
-
-
 GLuint program_id;
 
-glm::mat4 view, projection;
 GLuint uniform_mvp;
 
-glm::mat4 model, mvp; // Not sure if needed.
+glm::mat4 model, mvp;
 
 Cube cube = Cube(2.0, 2.0, 2.0, -1.0, -1.0, 1.0);
 Cube cube2 = Cube(2.0, 2.0, 2.0, -4.0, -1.0, 1.0);
 
-Camera camera;
+Cube cubes[2] = { cube, cube2 };
 
+Camera camera;
 
 //--------------------------------------------------------------------------------
 // Keyboard handling
 //--------------------------------------------------------------------------------
 
-void keyboardHandler(unsigned char key, int a, int b)
+// TODO: Remove this later.
+/*void keyboardHandler(unsigned char key, int a, int b)
 {
 	if (key == 27)
 		glutExit();
+}*/
+
+void pressKey(unsigned char key, int a, int b)
+{
+	// TODO: Add mouse controls.
+
+	if (key == 27) // 27 is ESC, closes the tab.
+		glutExit();
+
+	/*---------------------------MOVEMENT---------------------------------*/
+
+	if (key == 119) { // 119 is W, moving forwards.
+		camera.deltaMove += 0.5f;
+	}
+
+	if (key == 115) { // 115 is S, moving backwards.
+		camera.deltaMove += -0.5f;
+	}
+
+	if (key == 97) { // 97 is A, moving left.
+		
+	}
+
+	if (key == 100) { // 100 is D, moving right.
+		
+	}
+
+	/*---------------------------STRAFING---------------------------------*/
+
+	if (key == 106) { // 65 is J, strafing to the left.
+		camera.deltaAngle += -0.01f;
+	}
+
+	if (key == 108) { // 108 is L, strafing to the right.
+		camera.deltaAngle += 0.01f;
+	}
+
+	if (key == 105) { // 105 is I, strafing up.
+
+	}
+
+	if (key == 107) { // 107 is K, strafing down.
+
+	}
 }
 
-void processSpecialKeys(int key, int xx, int yy)
+void releaseKey(unsigned char key, int a, int b)
+{
+	/*---------------------------MOVEMENT---------------------------------*/
+
+	if (key == 119) { // 119 is W, moving forwards.
+		camera.deltaMove -= 0.5f;
+	}
+
+	if (key == 115) { // 115 is S, moving backwards.
+		camera.deltaMove -= -0.5f;
+	}
+
+	if (key == 97) { // 97 is A, moving left.
+
+	}
+
+	if (key == 100) { // 100 is D, moving right.
+
+	}
+
+	/*---------------------------STRAFING---------------------------------*/
+
+	if (key == 105) { // 105 is I, strafing up.
+
+	}
+
+	if (key == 107) { // 107 is K, strafing down.
+
+	}
+
+	if (key == 106) { // 106 is J, strafing left.
+		camera.deltaAngle -= -0.01f;
+	}
+
+	if (key == 108) { // 108 is L, strafing right.
+		camera.deltaAngle -= 0.01f;
+	}
+}
+
+void pressKeySpecial(int key, int a, int b)
 {
 	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
-	float fraction = 0.1f;
 
 	switch (key)
 	{
+	case GLUT_KEY_UP: // Move forward.
+		camera.deltaMove = 0.5f;
+		break;
+
 	case GLUT_KEY_LEFT: // strafe left.
-		camera.angle -= 0.01f;
-		camera.lx = sin(camera.angle);
-		camera.lz = -cos(camera.angle);
+		camera.deltaAngle = -0.01f;
+		break;
+
+	case GLUT_KEY_DOWN: // Move backward.
+		camera.deltaMove = -0.5f;
 		break;
 
 	case GLUT_KEY_RIGHT: // strafe right.
-		camera.angle += 0.01;
-		camera.lx = sin(camera.angle);
-		camera.lz = -cos(camera.angle);
+		camera.deltaAngle = 0.01f;
 		break;
+	}
+}
 
+void releaseKeySpecial(int key, int a, int b)
+{
+	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
+
+	switch (key)
+	{
 	case GLUT_KEY_UP: // Move forward.
-		camera.x += camera.lx * fraction;
-		camera.z += camera.lz * fraction;
+		camera.deltaMove = 0.0f;
 		break;
 
-	case GLUT_KEY_DOWN: // Move backwards.
-		camera.x -= camera.lx * fraction;
-		camera.z -= camera.lz * fraction;
+	case GLUT_KEY_LEFT: // strafe left.
+		camera.deltaAngle = 0.0f;
+		break;
+
+	case GLUT_KEY_DOWN: // Move backward.
+		camera.deltaMove = 0.0f;
+		break;
+
+	case GLUT_KEY_RIGHT: // strafe right.
+		camera.deltaAngle = 0.0f;
 		break;
 	}
 }
@@ -101,46 +199,41 @@ void Render()
 	// Attach to program_id
 	glUseProgram(program_id);
 
+	// Rotate the models.
 	/*model = glm::rotate(
 		model,
 		glm::radians(0.1f),
 		glm::vec3(0.0f, 1.0f, 0.0f));*/
 
-	/*--------------------CAMERA START-----------------------*/
-	// View.
-	view = glm::lookAt(
-		glm::vec3(camera.x, 1.0, camera.z),
-		glm::vec3(camera.x + camera.lx, 1.0, camera.z + camera.lz),
-		glm::vec3(0.0, 1.0, 0.0)
-	);
+	if (camera.deltaMove) {
+		camera.ComputePos();
+	}
+	if (camera.deltaAngle) {
+		camera.ComputeDir();
+	}
 
-	// Projection.
-	projection = glm::perspective(
-		glm::radians(45.0f),
-		800.0f / 600.0f,
-		0.1f,
-		10.0f);
-	/*--------------------CAMERA END-----------------------*/
+	// Calculate the view of the camera.
+	// Will update the view after a button has been pressed for the movement.
+	camera.CalculateView();
 
-	mvp = projection * view * model;
+	mvp = camera.projection * camera.view * model;
 
-	cube.Render(uniform_mvp, projection, view, mvp);
-	cube2.Render(uniform_mvp, projection, view, mvp);
+	cube.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
 	// Draw the ground.
 	/*glColor3f(0.0f, 0.5f, 0.5f);
 	glBegin(GL_QUADS);
-	glVertex3f(-100.0f, 0.0f, -100.0f);
-	glVertex3f(-100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, -100.0f);
-	glVertex3f(100.0f, 0.0f, -100.0f);
+		glVertex3f(-100.0f, 0.0f, -100.0f);
+		glVertex3f(-100.0f, 0.0f, 100.0f);
+		glVertex3f(100.0f, 0.0f, 100.0f);
+		glVertex3f(100.0f, 0.0f, -100.0f);
+		glVertex3f(100.0f, 0.0f, -100.0f);
 	glEnd();*/
 
 	// Swap buffers
 	glutSwapBuffers();
 }
-
 
 //------------------------------------------------------------
 // void Render(int n)
@@ -152,7 +245,6 @@ void Render(int n)
 	Render();
 	glutTimerFunc(DELTA_TIME, Render, 0);
 }
-
 
 //------------------------------------------------------------
 // void InitGlutGlew(int argc, char **argv)
@@ -166,12 +258,11 @@ void InitGlutGlew(int argc, char** argv)
 	glutInitWindowSize(WIDTH, HEIGHT);
 	glutCreateWindow("Hello OpenGL");
 	glutDisplayFunc(Render);
-	glutKeyboardFunc(keyboardHandler);
+	//glutKeyboardFunc(keyboardHandler);
 	glutTimerFunc(DELTA_TIME, Render, 0);
 
 	glewInit();
 }
-
 
 //------------------------------------------------------------
 // void InitShaders()
@@ -209,24 +300,12 @@ void InitMatrices()
 		model,
 		glm::vec3(1.0f, 2.0f, -1.0f));*/
 
-	// View.
-	view = glm::lookAt(
-		glm::vec3(x, 1.0, z),
-		glm::vec3(x + lx, 1.0, z + lz),
-		glm::vec3(0.0, 1.0, 0.0)
-	);
-
-	// Projection.
-	projection = glm::perspective(
-		glm::radians(45.0f),
-		800.0f / 600.0f,
-		0.1f,
-		10.0f);
+	// Calculate the camera projection.
+	camera.CalculateProjection();
 
 	// Combine everything.
-	mvp = projection * view * model;
+	mvp = camera.projection * camera.view * model;
 }
-
 
 //-----------------------------------------------------------
 // void InitBuffers()
@@ -245,7 +324,16 @@ int main(int argc, char** argv)
 	InitShaders();
 	InitMatrices();
 	InitBuffers();
-	glutSpecialFunc(processSpecialKeys);
+
+	// For the movement with arrow keys.
+	/*glutSpecialFunc(pressKeySpecial);
+	glutIgnoreKeyRepeat(1);
+	glutSpecialUpFunc(releaseKeySpecial);*/
+
+	// For the movement with WASD.
+	glutKeyboardFunc(pressKey);
+	glutIgnoreKeyRepeat(1);
+	glutKeyboardUpFunc(releaseKey);
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
