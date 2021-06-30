@@ -65,19 +65,21 @@ void pressKey(unsigned char key, int a, int b)
 	/*---------------------------MOVEMENT---------------------------------*/
 
 	if (key == 119) { // 119 is W, moving forwards.
-		camera.deltaMove += 0.5f;
+		camera.deltaMoveX += 0.5f;
+		camera.deltaMoveZ += 0.5f;
 	}
 
 	if (key == 115) { // 115 is S, moving backwards.
-		camera.deltaMove += -0.5f;
+		camera.deltaMoveX += -0.5f;
+		camera.deltaMoveZ += -0.5f;
 	}
 
 	if (key == 97) { // 97 is A, moving left.
-		
+		camera.deltaMoveX += 0.5f;
 	}
 
 	if (key == 100) { // 100 is D, moving right.
-		
+		camera.deltaMoveX += -0.5f;
 	}
 
 	/*---------------------------STRAFING---------------------------------*/
@@ -104,19 +106,21 @@ void releaseKey(unsigned char key, int a, int b)
 	/*---------------------------MOVEMENT---------------------------------*/
 
 	if (key == 119) { // 119 is W, moving forwards.
-		camera.deltaMove -= 0.5f;
+		camera.deltaMoveX -= 0.5f;
+		camera.deltaMoveZ -= 0.5f;
 	}
 
 	if (key == 115) { // 115 is S, moving backwards.
-		camera.deltaMove -= -0.5f;
+		camera.deltaMoveX -= -0.5f;
+		camera.deltaMoveZ -= -0.5f;
 	}
 
 	if (key == 97) { // 97 is A, moving left.
-
+		camera.deltaMoveX = 0.0f;
 	}
 
 	if (key == 100) { // 100 is D, moving right.
-
+		camera.deltaMoveX = 0.0f;
 	}
 
 	/*---------------------------STRAFING---------------------------------*/
@@ -138,14 +142,15 @@ void releaseKey(unsigned char key, int a, int b)
 	}
 }
 
-void pressKeySpecial(int key, int a, int b)
+/*void pressKeySpecial(int key, int a, int b)
 {
 	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
 
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Move forward.
-		camera.deltaMove = 0.5f;
+		camera.deltaMoveX = 0.5f;
+		camera.deltaMoveZ = 0.5f;
 		break;
 
 	case GLUT_KEY_LEFT: // strafe left.
@@ -153,7 +158,8 @@ void pressKeySpecial(int key, int a, int b)
 		break;
 
 	case GLUT_KEY_DOWN: // Move backward.
-		camera.deltaMove = -0.5f;
+		camera.deltaMoveX = 0.5f;
+		camera.deltaMoveZ = 0.5f;
 		break;
 
 	case GLUT_KEY_RIGHT: // strafe right.
@@ -169,7 +175,8 @@ void releaseKeySpecial(int key, int a, int b)
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Move forward.
-		camera.deltaMove = 0.0f;
+		camera.deltaMoveX = 0.0f;
+		camera.deltaMoveZ = 0.0f;
 		break;
 
 	case GLUT_KEY_LEFT: // strafe left.
@@ -177,14 +184,15 @@ void releaseKeySpecial(int key, int a, int b)
 		break;
 
 	case GLUT_KEY_DOWN: // Move backward.
-		camera.deltaMove = 0.0f;
+		camera.deltaMoveX = 0.0f;
+		camera.deltaMoveZ = 0.0f;
 		break;
 
 	case GLUT_KEY_RIGHT: // strafe right.
 		camera.deltaAngle = 0.0f;
 		break;
 	}
-}
+}*/
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -205,7 +213,7 @@ void Render()
 		glm::radians(0.1f),
 		glm::vec3(0.0f, 1.0f, 0.0f));*/
 
-	if (camera.deltaMove) {
+	if (camera.deltaMoveX || camera.deltaMoveZ) {
 		camera.ComputePos();
 	}
 	if (camera.deltaAngle) {

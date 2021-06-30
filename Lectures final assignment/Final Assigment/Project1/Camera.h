@@ -6,7 +6,8 @@ class Camera
 public:
 	// The key states. These variables will be zero when no key is being pressed.
 	float deltaAngle = 0.0f;
-	float deltaMove = 0;
+	float deltaMoveX = 0;
+	float deltaMoveZ = 0;
 
 	float angle = 0.0; // Angle of rotation for the camera direction.
 	float lx = -4.0, lz = -14.0; // Actual vector representing the camera's direction.
