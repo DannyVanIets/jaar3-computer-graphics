@@ -4,18 +4,14 @@
 class Camera
 {
 public:
-	/*glm::vec3(2.0, 1.0, 7.0), cameraPos
-		glm::vec3(-2.0, 1.0, -7.0), cameraPos + cameraFront
-		glm::vec3(0.0, 1.0, 0.0) cameraUp
-	*/
-
-	// Camera Direction
+	// Vec3's used for the view.
+	// Will be used in the LookAt function.
 	glm::vec3 cameraPos = glm::vec3(2.0, 1.0, 7.0);
 	glm::vec3 cameraFront = glm::vec3(-4.0, 0.0, -14.0);
 	glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
 
-	float yaw = -90.0;
-	float pitch = 0;
+	float yaw = -90.0; // The magnitude we're looking to the left or to the right.
+	float pitch = 0; // Is the angle that depicts how much we're looking up or down.
 
 	bool firstMouse = true;
 
@@ -25,5 +21,5 @@ public:
 
 	void CalculateView();
 	void CalculateProjection();
-	void MouseMovement(int xpos, int ypos);
+	void LookAround(int xpos, int ypos);
 };

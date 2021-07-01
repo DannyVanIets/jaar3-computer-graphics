@@ -13,8 +13,6 @@
 #include "Cube.h"
 #include "Camera.h"
 
-//#include "glfw3.h"
-
 using namespace std;
 
 //--------------------------------------------------------------------------------
@@ -27,14 +25,11 @@ const char* fragshader_name = "fragmentshader.frag";
 const char* vertexshader_name = "vertexshader.vert";
 
 unsigned const int DELTA_TIME = 10;
-float deltaTime = 0;
-float lastFrame = 0;
 
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
 GLuint program_id;
-
 GLuint uniform_mvp;
 
 glm::mat4 model, mvp;
@@ -47,18 +42,22 @@ Cube cubes[2] = { cube, cube2 };
 Camera camera;
 
 //--------------------------------------------------------------------------------
-// Keyboard handling
+// Control handling, with keyboard and mouse
 //--------------------------------------------------------------------------------
 
 void keyboardHandler(unsigned char key, int a, int b)
 {
-	const float cameraSpeedX = 0.01f * deltaTime;
-	const float cameraSpeedZ = 0.005f * deltaTime;
+	// TODO: Implement movement speed from here: https://learnopengl.com/Getting-started/Camera.
+	// Helpful: https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/game_callbacks.cpp, ctrl + f on deltatime.
+	// All code: https://github.com/mattearly/TheOnlyEscapeIsESC/tree/master/code.
 
 	if (key == 27) // 27 is ESC, closes the tab.
 		glutExit();
 
 	/*---------------------------MOVEMENT---------------------------------*/
+
+	const float cameraSpeedZ = 0.1f; // Controls how fast you can move forward/backward.
+	const float cameraSpeedX = 0.1f; // Controls how fast you can move left/right.
 
 	if (key == 87 || key == 119) { // 87 is W and 119 is w, moving forwards.
 		camera.cameraPos += cameraSpeedZ * camera.cameraFront;
@@ -76,14 +75,16 @@ void keyboardHandler(unsigned char key, int a, int b)
 		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 	}
 
+	camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
+
 	/*---------------------------STRAFING---------------------------------*/
 
 	if (key == 106) { // 65 is J, strafing to the left.
-		
+
 	}
 
 	if (key == 108) { // 108 is L, strafing to the right.
-		
+
 	}
 
 	if (key == 105) { // 105 is I, strafing up.
@@ -93,13 +94,12 @@ void keyboardHandler(unsigned char key, int a, int b)
 	if (key == 107) { // 107 is K, strafing down.
 
 	}
-	camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
 }
 
 void pressKeySpecial(int key, int a, int b)
 {
-	const float cameraSpeedX = 0.01f * deltaTime;
-	const float cameraSpeedZ = 0.005f * deltaTime;
+	const float cameraSpeedZ = 0.1f; // Controls how fast you can move forward/backward.
+	const float cameraSpeedX = 0.1f; // Controls how fast you can move left/right.
 
 	// Move around with the arrow keys.
 	switch (key)
@@ -123,7 +123,7 @@ void pressKeySpecial(int key, int a, int b)
 }
 
 void MouseCallback(int x, int y) {
-	camera.MouseMovement(x, y);
+	camera.LookAround(x, y);
 }
 
 //--------------------------------------------------------------------------------
@@ -154,16 +154,6 @@ void Render()
 	cube.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
-	// Draw the ground.
-	/*glColor3f(0.0f, 0.5f, 0.5f);
-	glBegin(GL_QUADS);
-		glVertex3f(-100.0f, 0.0f, -100.0f);
-		glVertex3f(-100.0f, 0.0f, 100.0f);
-		glVertex3f(100.0f, 0.0f, 100.0f);
-		glVertex3f(100.0f, 0.0f, -100.0f);
-		glVertex3f(100.0f, 0.0f, -100.0f);
-	glEnd();*/
-
 	// Swap buffers
 	glutSwapBuffers();
 }
@@ -191,7 +181,17 @@ void InitGlutGlew(int argc, char** argv)
 	glutInitWindowSize(WIDTH, HEIGHT);
 	glutCreateWindow("Hello OpenGL");
 	glutDisplayFunc(Render);
-	//glutKeyboardFunc(keyboardHandler);
+
+	// For the movement with WASD.
+	glutKeyboardFunc(keyboardHandler);
+
+	// For the movement with arrow keys.
+	glutSpecialFunc(pressKeySpecial);
+
+	// For the mouse.
+	glutSetCursor(GLUT_CURSOR_NONE); // Hides the mouse.
+	glutPassiveMotionFunc(MouseCallback);
+
 	glutTimerFunc(DELTA_TIME, Render, 0);
 
 	glewInit();
@@ -253,24 +253,10 @@ void InitBuffers()
 
 int main(int argc, char** argv)
 {
-	float currentFrame = DELTA_TIME;
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
-
 	InitGlutGlew(argc, argv);
 	InitShaders();
 	InitMatrices();
 	InitBuffers();
-
-	// For the movement with arrow keys.
-	//glutSpecialFunc(pressKeySpecial);
-
-	// For the movement/strafing with WASD/IJKL.
-	glutKeyboardFunc(keyboardHandler);
-
-	// For the mouse.
-	glutSetCursor(GLUT_CURSOR_NONE); // Hides the mouse.
-	glutPassiveMotionFunc(MouseCallback);
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
