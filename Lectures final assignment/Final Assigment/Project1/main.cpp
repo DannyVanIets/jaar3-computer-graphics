@@ -76,10 +76,11 @@ void pressKey(unsigned char key, int a, int b)
 
 	if (key == 97) { // 97 is A, moving left.
 		camera.deltaMoveX += 0.5f;
+		//camera.deltaMoveZ -= 0.5f;
 	}
 
 	if (key == 100) { // 100 is D, moving right.
-		camera.deltaMoveX += -0.5f;
+		//camera.deltaMoveX += -0.5f;
 	}
 
 	/*---------------------------STRAFING---------------------------------*/
@@ -103,9 +104,12 @@ void pressKey(unsigned char key, int a, int b)
 
 void releaseKey(unsigned char key, int a, int b)
 {
+	camera.deltaMoveX = 0.0f;
+	camera.deltaMoveZ = 0.0f;
+
 	/*---------------------------MOVEMENT---------------------------------*/
 
-	if (key == 119) { // 119 is W, moving forwards.
+	/*if (key == 119) { // 119 is W, moving forwards.
 		camera.deltaMoveX -= 0.5f;
 		camera.deltaMoveZ -= 0.5f;
 	}
@@ -117,11 +121,12 @@ void releaseKey(unsigned char key, int a, int b)
 
 	if (key == 97) { // 97 is A, moving left.
 		camera.deltaMoveX = 0.0f;
+		camera.deltaMoveZ = 0.0f;
 	}
 
 	if (key == 100) { // 100 is D, moving right.
-		camera.deltaMoveX = 0.0f;
-	}
+		//camera.deltaMoveX = 0.0f;
+	}*/
 
 	/*---------------------------STRAFING---------------------------------*/
 
