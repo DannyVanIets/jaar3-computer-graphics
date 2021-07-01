@@ -27,6 +27,8 @@ const char* fragshader_name = "fragmentshader.frag";
 const char* vertexshader_name = "vertexshader.vert";
 
 unsigned const int DELTA_TIME = 10;
+float deltaTime = 0;
+float lastFrame = 0;
 
 //--------------------------------------------------------------------------------
 // Variables
@@ -48,49 +50,40 @@ Camera camera;
 // Keyboard handling
 //--------------------------------------------------------------------------------
 
-// TODO: Remove this later.
-/*void keyboardHandler(unsigned char key, int a, int b)
+void keyboardHandler(unsigned char key, int a, int b)
 {
-	if (key == 27)
-		glutExit();
-}*/
-
-void pressKey(unsigned char key, int a, int b)
-{
-	// TODO: Add mouse controls.
+	const float cameraSpeedX = 0.01f * deltaTime;
+	const float cameraSpeedZ = 0.005f * deltaTime;
 
 	if (key == 27) // 27 is ESC, closes the tab.
 		glutExit();
 
 	/*---------------------------MOVEMENT---------------------------------*/
 
-	if (key == 119) { // 119 is W, moving forwards.
-		camera.deltaMoveX += 0.5f;
-		camera.deltaMoveZ += 0.5f;
+	if (key == 87 || key == 119) { // 87 is W and 119 is w, moving forwards.
+		camera.cameraPos += cameraSpeedZ * camera.cameraFront;
 	}
 
-	if (key == 115) { // 115 is S, moving backwards.
-		camera.deltaMoveX += -0.5f;
-		camera.deltaMoveZ += -0.5f;
+	if (key == 83 || key == 115) { // 83 is S and 115 is s, moving backwards.
+		camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
 	}
 
-	if (key == 97) { // 97 is A, moving left.
-		camera.deltaMoveX += 0.5f;
-		//camera.deltaMoveZ -= 0.5f;
+	if (key == 65 || key == 97) { // 65 is A and 97 is a, moving left.
+		camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 	}
 
-	if (key == 100) { // 100 is D, moving right.
-		//camera.deltaMoveX += -0.5f;
+	if (key == 68 || key == 100) { // 68 is D and 100 is d, moving right.
+		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 	}
 
 	/*---------------------------STRAFING---------------------------------*/
 
 	if (key == 106) { // 65 is J, strafing to the left.
-		camera.deltaAngle += -0.01f;
+		
 	}
 
 	if (key == 108) { // 108 is L, strafing to the right.
-		camera.deltaAngle += 0.01f;
+		
 	}
 
 	if (key == 105) { // 105 is I, strafing up.
@@ -100,104 +93,38 @@ void pressKey(unsigned char key, int a, int b)
 	if (key == 107) { // 107 is K, strafing down.
 
 	}
+	camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
 }
 
-void releaseKey(unsigned char key, int a, int b)
+void pressKeySpecial(int key, int a, int b)
 {
-	camera.deltaMoveX = 0.0f;
-	camera.deltaMoveZ = 0.0f;
+	const float cameraSpeedX = 0.01f * deltaTime;
+	const float cameraSpeedZ = 0.005f * deltaTime;
 
-	/*---------------------------MOVEMENT---------------------------------*/
-
-	/*if (key == 119) { // 119 is W, moving forwards.
-		camera.deltaMoveX -= 0.5f;
-		camera.deltaMoveZ -= 0.5f;
-	}
-
-	if (key == 115) { // 115 is S, moving backwards.
-		camera.deltaMoveX -= -0.5f;
-		camera.deltaMoveZ -= -0.5f;
-	}
-
-	if (key == 97) { // 97 is A, moving left.
-		camera.deltaMoveX = 0.0f;
-		camera.deltaMoveZ = 0.0f;
-	}
-
-	if (key == 100) { // 100 is D, moving right.
-		//camera.deltaMoveX = 0.0f;
-	}*/
-
-	/*---------------------------STRAFING---------------------------------*/
-
-	if (key == 105) { // 105 is I, strafing up.
-
-	}
-
-	if (key == 107) { // 107 is K, strafing down.
-
-	}
-
-	if (key == 106) { // 106 is J, strafing left.
-		camera.deltaAngle -= -0.01f;
-	}
-
-	if (key == 108) { // 108 is L, strafing right.
-		camera.deltaAngle -= 0.01f;
-	}
-}
-
-/*void pressKeySpecial(int key, int a, int b)
-{
-	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
-
+	// Move around with the arrow keys.
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Move forward.
-		camera.deltaMoveX = 0.5f;
-		camera.deltaMoveZ = 0.5f;
-		break;
-
-	case GLUT_KEY_LEFT: // strafe left.
-		camera.deltaAngle = -0.01f;
+		camera.cameraPos += cameraSpeedZ * camera.cameraFront;
 		break;
 
 	case GLUT_KEY_DOWN: // Move backward.
-		camera.deltaMoveX = 0.5f;
-		camera.deltaMoveZ = 0.5f;
+		camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
+		break;
+
+	case GLUT_KEY_LEFT: // Move left
+		camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 		break;
 
 	case GLUT_KEY_RIGHT: // strafe right.
-		camera.deltaAngle = 0.01f;
+		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 		break;
 	}
 }
 
-void releaseKeySpecial(int key, int a, int b)
-{
-	// FROM: https://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
-
-	switch (key)
-	{
-	case GLUT_KEY_UP: // Move forward.
-		camera.deltaMoveX = 0.0f;
-		camera.deltaMoveZ = 0.0f;
-		break;
-
-	case GLUT_KEY_LEFT: // strafe left.
-		camera.deltaAngle = 0.0f;
-		break;
-
-	case GLUT_KEY_DOWN: // Move backward.
-		camera.deltaMoveX = 0.0f;
-		camera.deltaMoveZ = 0.0f;
-		break;
-
-	case GLUT_KEY_RIGHT: // strafe right.
-		camera.deltaAngle = 0.0f;
-		break;
-	}
-}*/
+void MouseCallback(int x, int y) {
+	camera.MouseMovement(x, y);
+}
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -217,13 +144,6 @@ void Render()
 		model,
 		glm::radians(0.1f),
 		glm::vec3(0.0f, 1.0f, 0.0f));*/
-
-	if (camera.deltaMoveX || camera.deltaMoveZ) {
-		camera.ComputePos();
-	}
-	if (camera.deltaAngle) {
-		camera.ComputeDir();
-	}
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
@@ -333,20 +253,24 @@ void InitBuffers()
 
 int main(int argc, char** argv)
 {
+	float currentFrame = DELTA_TIME;
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
 	InitGlutGlew(argc, argv);
 	InitShaders();
 	InitMatrices();
 	InitBuffers();
 
 	// For the movement with arrow keys.
-	/*glutSpecialFunc(pressKeySpecial);
-	glutIgnoreKeyRepeat(1);
-	glutSpecialUpFunc(releaseKeySpecial);*/
+	//glutSpecialFunc(pressKeySpecial);
 
-	// For the movement with WASD.
-	glutKeyboardFunc(pressKey);
-	glutIgnoreKeyRepeat(1);
-	glutKeyboardUpFunc(releaseKey);
+	// For the movement/strafing with WASD/IJKL.
+	glutKeyboardFunc(keyboardHandler);
+
+	// For the mouse.
+	glutSetCursor(GLUT_CURSOR_NONE); // Hides the mouse.
+	glutPassiveMotionFunc(MouseCallback);
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);

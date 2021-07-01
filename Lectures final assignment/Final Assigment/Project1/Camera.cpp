@@ -1,14 +1,13 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
-
-// TODO: Currently uses polar coordinates, should use spherical coordinates!
+#include <GL/freeglut_std.h>
 
 void Camera::CalculateView()
 {
 	view = glm::lookAt(
-		glm::vec3(x, 1.0, z),
-		glm::vec3(x + lx, 1.0, z + lz),
-		glm::vec3(0.0, 1.0, 0.0)
+		glm::vec3(cameraPos),
+		glm::vec3(cameraPos + cameraFront),
+		glm::vec3(cameraUp)
 	);
 }
 
@@ -21,15 +20,42 @@ void Camera::CalculateProjection()
 		10.0f);
 }
 
-void Camera::ComputePos() // Moving
+void Camera::MouseMovement(int xpos, int ypos) 
 {
-	x += deltaMoveX * lx * 0.1f;
-	z += deltaMoveZ * lz * 0.1f;
-}
+	float lastX = 400, lastY = 300;
 
-void Camera::ComputeDir() // Strafing
-{
-	angle += deltaAngle;
-	lx = sin(angle);
-	lz = -cos(angle);
+	/*if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}*/
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
+
+	const float sensitivity = 0.1f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	// Make sure that the camera can't go over 90 degrees while looking up or below -90 degrees while looking down.
+	if (pitch > 89.0f) {
+		pitch = 89.0f;
+	}
+	if (pitch < -89.0f) {
+		pitch = -89.0f;
+	}
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(direction);
+
+	glutWarpPointer(400, 300); // Centers the mouse after moving it into a certain direction.
 }

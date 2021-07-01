@@ -4,14 +4,20 @@
 class Camera
 {
 public:
-	// The key states. These variables will be zero when no key is being pressed.
-	float deltaAngle = 0.0f;
-	float deltaMoveX = 0;
-	float deltaMoveZ = 0;
+	/*glm::vec3(2.0, 1.0, 7.0), cameraPos
+		glm::vec3(-2.0, 1.0, -7.0), cameraPos + cameraFront
+		glm::vec3(0.0, 1.0, 0.0) cameraUp
+	*/
 
-	float angle = 0.0; // Angle of rotation for the camera direction.
-	float lx = -4.0, lz = -14.0; // Actual vector representing the camera's direction.
-	float x = 2.0, z = 7.0; // XZ position of the camera.
+	// Camera Direction
+	glm::vec3 cameraPos = glm::vec3(2.0, 1.0, 7.0);
+	glm::vec3 cameraFront = glm::vec3(-4.0, 0.0, -14.0);
+	glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
+
+	float yaw = -90.0;
+	float pitch = 0;
+
+	bool firstMouse = true;
 
 	glm::mat4 view, projection;
 
@@ -19,6 +25,5 @@ public:
 
 	void CalculateView();
 	void CalculateProjection();
-	void ComputePos();
-	void ComputeDir();
+	void MouseMovement(int xpos, int ypos);
 };
