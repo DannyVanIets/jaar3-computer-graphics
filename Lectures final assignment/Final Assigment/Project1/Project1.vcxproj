@@ -156,6 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentshader.frag" />
+    <None Include="skyboxfs.frag" />
+    <None Include="skyboxvs.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

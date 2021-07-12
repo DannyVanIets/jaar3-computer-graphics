@@ -16,6 +16,7 @@
 #include "Hexagon.h"
 #include "Icosahedron.h"
 #include "TriangularPrism.h"
+#include "Skybox.h"
 
 using namespace std;
 
@@ -25,7 +26,9 @@ using namespace std;
 
 const int WIDTH = 800, HEIGHT = 600;
 
+const char* skybox_fragshader_name = "skyboxfs.frag";
 const char* fragshader_name = "fragmentshader.frag";
+const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* vertexshader_name = "vertexshader.vert";
 
 unsigned const int DELTA_TIME = 10;
@@ -34,6 +37,8 @@ unsigned const int DELTA_TIME = 10;
 // Variables
 //--------------------------------------------------------------------------------
 GLuint program_id;
+GLuint skybox_shader; // Uses skyboxfs.frag and skyboxvs.vert for the shading and such.
+
 GLuint uniform_mvp;
 
 Camera camera;
@@ -42,6 +47,8 @@ glm::mat4 model, mvp;
 
 // ideas for forms:
 // hemisphere
+
+Skybox skybox;
 
 TriangularPrism tripri;
 Icosahedron ico;
@@ -172,6 +179,8 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
+	//skybox.renderCubemap(skybox_shader); // Skybox_shader = program_id, but then for the skybox.
+
 	for (Cube& c : cubes) {
 		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	}
@@ -231,6 +240,7 @@ void InitGlutGlew(int argc, char** argv)
 
 void InitShaders()
 {
+	// for the cubes, pyramids, etc.
 	char* vertexshader = glsl::readFile(vertexshader_name);
 	GLuint vsh_id = glsl::makeVertexShader(vertexshader);
 
@@ -238,6 +248,15 @@ void InitShaders()
 	GLuint fsh_id = glsl::makeFragmentShader(fragshader);
 
 	program_id = glsl::makeShaderProgram(vsh_id, fsh_id);
+
+	// For the skybox.
+	vertexshader = glsl::readFile(skybox_vertexshader_name);
+	vsh_id = glsl::makeVertexShader(vertexshader);
+
+	fragshader = glsl::readFile(skybox_fragshader_name);
+	fsh_id = glsl::makeFragmentShader(fragshader);
+
+	skybox_shader = glsl::makeShaderProgram(vsh_id, fsh_id);
 }
 
 void InitMatrices()

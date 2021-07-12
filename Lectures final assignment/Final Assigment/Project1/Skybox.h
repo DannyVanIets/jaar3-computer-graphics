@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <GL/glew.h>
+#include <glm/gtc/type_ptr.hpp>
 using namespace std;
 
 class Skybox
@@ -52,21 +54,21 @@ public:
          1.0f, -1.0f,  1.0f
     };
 
-	int width, height, nrChannels;
-	unsigned char* data;
+    GLuint vao;
 
 	vector<string> faces
 	{
-		"right.jpg",
-		"left.jpg",
-		"top.jpg",
-		"bottom.jpg",
-		"front.jpg",
-		"back.jpg"
+		"textures/right.jpg",
+		"textures/left.jpg",
+		"textures/top.jpg",
+		"textures/bottom.jpg",
+		"textures/front.jpg",
+		"textures/back.jpg"
 	};
 
 	Skybox() = default;
 	unsigned int loadCubemap(vector<std::string> faces); // or std::string faces[]
+	void renderCubemap(GLuint program_id);
 
 	unsigned int cubemapTexture = loadCubemap(faces);
 };
