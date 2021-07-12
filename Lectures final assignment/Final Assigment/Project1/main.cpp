@@ -12,6 +12,10 @@
 
 #include "Cube.h"
 #include "Camera.h"
+#include "Pyramid.h"
+#include "Hexagon.h"
+#include "Icosahedron.h"
+#include "TriangularPrism.h"
 
 using namespace std;
 
@@ -32,14 +36,22 @@ unsigned const int DELTA_TIME = 10;
 GLuint program_id;
 GLuint uniform_mvp;
 
+Camera camera;
+
 glm::mat4 model, mvp;
+
+// ideas for forms:
+// hemisphere
+
+TriangularPrism tripri;
+Icosahedron ico;
+Hexagon hexagon;
+Pyramid pyramid;
 
 Cube cube = Cube(2.0, 2.0, 2.0, -1.0, -1.0, 1.0);
 Cube cube2 = Cube(2.0, 2.0, 2.0, -4.0, -1.0, 1.0);
 
-Cube cubes[2] = { cube, cube2 };
-
-Camera camera;
+Cube cubes[1] = { cube2 };
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -75,7 +87,16 @@ void keyboardHandler(unsigned char key, int a, int b)
 		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 	}
 
-	camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
+	// TODO: REMOVE THIS BEFORE UPLOADING IT!
+	if (key == 'q') {
+		camera.cameraPos.y += 1.0f;
+	}
+
+	if (key == 'e') {
+		camera.cameraPos.y -= 1.0f;
+	}
+
+	//camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
 
 	/*---------------------------STRAFING---------------------------------*/
 
@@ -151,8 +172,14 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
-	cube.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	for (Cube& c : cubes) {
+		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	}
+
+	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -247,8 +274,14 @@ void InitMatrices()
 
 void InitBuffers()
 {
-	cube.InitBuffers(program_id, uniform_mvp, mvp);
-	cube2.InitBuffers(program_id, uniform_mvp, mvp);
+	for (Cube& c : cubes) {
+		c.InitBuffers(program_id, uniform_mvp, mvp);
+	}
+
+	//pyramid.InitBuffers(program_id, uniform_mvp, mvp);
+	//hexagon.InitBuffers(program_id, uniform_mvp, mvp);
+	//ico.InitBuffers(program_id, uniform_mvp, mvp);
+	tripri.InitBuffers(program_id, uniform_mvp, mvp);
 }
 
 int main(int argc, char** argv)

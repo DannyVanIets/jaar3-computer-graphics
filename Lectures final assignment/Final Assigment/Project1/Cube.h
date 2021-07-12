@@ -7,15 +7,15 @@ class Cube
 public:
     GLfloat Vertices[24] = {
         // front
-        -1.0, -1.0, 1.0, // bottom left
-        1.0, -1.0, 1.0, // bottom right
-        1.0, 1.0, 1.0, // top right
-        -1.0, 1.0, 1.0, // top left
+        -1.0, -1.0, 1.0, // bottom left, 0
+        1.0, -1.0, 1.0, // bottom right, 1
+        1.0, 1.0, 1.0, // top right, 2
+        -1.0, 1.0, 1.0, // top left, 3
         // back
-        -1.0, -1.0, -1.0, // bottom left
-        1.0, -1.0, -1.0, // bottom right
-        1.0, 1.0, -1.0, // top right
-        -1.0, 1.0, -1.0 // top left
+        -1.0, -1.0, -1.0, // bottom left, 4
+        1.0, -1.0, -1.0, // bottom right, 5
+        1.0, 1.0, -1.0, // top right, 6
+        -1.0, 1.0, -1.0 // top left, 7
     };
 
     GLfloat Colors[72] = {

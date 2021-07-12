@@ -142,7 +142,7 @@ void Render()
     glBindVertexArray(vao);
 	
     glDrawElements(
-        GL_TRIANGLES,
+        GL_LINES,
         sizeof(cube_elements) / sizeof(GLushort),
         GL_UNSIGNED_SHORT,
         0);

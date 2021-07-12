@@ -131,12 +131,23 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="glsl.cpp" />
+    <ClCompile Include="Hexagon.cpp" />
+    <ClCompile Include="Icosahedron.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="TriangularPrism.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="glsl.h" />
+    <ClInclude Include="Hexagon.h" />
+    <ClInclude Include="Icosahedron.h" />
+    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TriangularPrism.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexshader.vert">

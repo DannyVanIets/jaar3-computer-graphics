@@ -13,11 +13,12 @@ void Camera::CalculateView()
 
 void Camera::CalculateProjection()
 {
+	// In the comments are the original values, in-case you want to revert it.
 	projection = glm::perspective(
-		glm::radians(45.0f),
-		800.0f / 600.0f,
-		0.1f,
-		10.0f);
+		glm::radians(45.0f), // 45
+		800.0f / 600.0f, // 800 / 600
+		0.1f, // 0.1
+		100.0f); // 10
 }
 
 /// <summary>
