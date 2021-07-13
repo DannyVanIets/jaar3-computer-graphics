@@ -71,5 +71,9 @@ void Camera::LookAround(int xpos, int ypos)
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraFront = glm::normalize(direction); // CameraFront is used in the LookAt function.
 
+	// Normalize and cross are used, so that you are not slowed down if you look down or up.
+	Right = glm::normalize(glm::cross(cameraFront, WorldUp));
+	cameraUp = glm::normalize(glm::cross(Right, cameraFront));
+
 	glutWarpPointer(400, 300); // Centers the mouse after moving it into a certain direction.
 }

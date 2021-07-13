@@ -46,15 +46,70 @@ unsigned int Skybox::loadCubemap(vector<std::string> faces)
 	return textureID;
 }
 
-void Skybox::renderCubemap(GLuint program_id)
+void Skybox::RenderCubemap(GLuint shader_id, GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
 {
+	//glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+	
 	// Skybox.
 	glDepthMask(GL_FALSE);
-	glUseProgram(program_id);
-	//glActiveTexture(GL_TEXTURE0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+	//glUseProgram(shader_id);
+	glActiveTexture(GL_TEXTURE);
 	glBindVertexArray(vao);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
+
 	glDepthMask(GL_TRUE);
+	glBindVertexArray(0);
+}
+
+void Skybox::InitBuffers(GLuint shader_id, GLuint uniform_mvp, glm::mat4 mvp)
+{
+	GLuint position_id;
+	GLuint color_id;
+
+	// Get vertex attributes
+	position_id = glGetAttribLocation(shader_id, "position");
+
+	GLuint vbo_vertices;
+
+	// vbo for vertices.
+	glGenBuffers(1, &vbo_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Allocate memory for vao.
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	// Bind vertices to vao.
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(position_id);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Stop bind to vao
+	glBindVertexArray(0);
+
+	// Make uniform vars
+	uniform_mvp = glGetUniformLocation(shader_id, "mvp");
+
+	// Send mvp
+	glUseProgram(shader_id);
+	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+}
+
+void Skybox::InitBuffers2(GLuint shader_id)
+{
+	unsigned int skyboxVBO;
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &skyboxVBO);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 }

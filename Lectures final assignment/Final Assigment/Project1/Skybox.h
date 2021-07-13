@@ -68,7 +68,9 @@ public:
 
 	Skybox() = default;
 	unsigned int loadCubemap(vector<std::string> faces); // or std::string faces[]
-	void renderCubemap(GLuint program_id);
+	void RenderCubemap(GLuint shader_id, GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
+	void InitBuffers(GLuint shader_id, GLuint uniform_mvp, glm::mat4 mvp);
+	void InitBuffers2(GLuint shader_id);
 
 	unsigned int cubemapTexture = loadCubemap(faces);
 };

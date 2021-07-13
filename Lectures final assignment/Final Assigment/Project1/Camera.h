@@ -15,6 +15,9 @@ public:
 
 	bool firstMouse = true;
 
+	glm::vec3 Right;
+	glm::vec3 WorldUp = cameraUp;
+
 	glm::mat4 view, projection;
 
 	Camera() = default;

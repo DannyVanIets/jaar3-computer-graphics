@@ -79,19 +79,25 @@ void keyboardHandler(unsigned char key, int a, int b)
 	const float cameraSpeedX = 0.1f; // Controls how fast you can move left/right.
 
 	if (key == 87 || key == 119) { // 87 is W and 119 is w, moving forwards.
-		camera.cameraPos += cameraSpeedZ * camera.cameraFront;
+		// First line of code is for the drone mode, second is for just walking around.
+		//camera.cameraPos += cameraSpeedZ * camera.cameraFront;
+		camera.cameraPos += cameraSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 	}
 
 	if (key == 83 || key == 115) { // 83 is S and 115 is s, moving backwards.
-		camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
+		// First line of code is for the drone mode, second is for just walking around.
+		//camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
+		camera.cameraPos -= cameraSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 	}
 
 	if (key == 65 || key == 97) { // 65 is A and 97 is a, moving left.
-		camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		//camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		camera.cameraPos -= camera.Right * cameraSpeedX;
 	}
 
 	if (key == 68 || key == 100) { // 68 is D and 100 is d, moving right.
-		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		//camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		camera.cameraPos += camera.Right * cameraSpeedX;
 	}
 
 	// TODO: REMOVE THIS BEFORE UPLOADING IT!
@@ -179,7 +185,7 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
-	//skybox.renderCubemap(skybox_shader); // Skybox_shader = program_id, but then for the skybox.
+	skybox.RenderCubemap(skybox_shader, uniform_mvp, camera.projection, camera.view, mvp); // Skybox_shader = program_id, but then for the skybox.
 
 	for (Cube& c : cubes) {
 		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
@@ -188,7 +194,7 @@ void Render()
 	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	//tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -293,6 +299,10 @@ void InitMatrices()
 
 void InitBuffers()
 {
+	// Both work fine.
+	//skybox.InitBuffers(skybox_shader, uniform_mvp, mvp);
+	skybox.InitBuffers2(skybox_shader);
+
 	for (Cube& c : cubes) {
 		c.InitBuffers(program_id, uniform_mvp, mvp);
 	}
@@ -300,7 +310,7 @@ void InitBuffers()
 	//pyramid.InitBuffers(program_id, uniform_mvp, mvp);
 	//hexagon.InitBuffers(program_id, uniform_mvp, mvp);
 	//ico.InitBuffers(program_id, uniform_mvp, mvp);
-	tripri.InitBuffers(program_id, uniform_mvp, mvp);
+	//tripri.InitBuffers(program_id, uniform_mvp, mvp);
 }
 
 int main(int argc, char** argv)

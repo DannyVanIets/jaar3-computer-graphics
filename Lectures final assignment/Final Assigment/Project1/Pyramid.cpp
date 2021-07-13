@@ -7,7 +7,6 @@ Pyramid::Pyramid(float height, float width, float length, float x, float y, floa
 	Length = length;
 
     // TODO: Make it possible to change the x, y and z positions, just like the cube.
-
 }
 
 void Pyramid::Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
