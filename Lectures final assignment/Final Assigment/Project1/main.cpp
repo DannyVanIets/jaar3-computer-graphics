@@ -17,6 +17,7 @@
 #include "Icosahedron.h"
 #include "TriangularPrism.h"
 #include "Skybox.h"
+#include "Shader.h"
 
 using namespace std;
 
@@ -26,18 +27,22 @@ using namespace std;
 
 const int WIDTH = 800, HEIGHT = 600;
 
-const char* skybox_fragshader_name = "skyboxfs.frag";
-const char* fragshader_name = "fragmentshader.frag";
-const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* vertexshader_name = "vertexshader.vert";
+const char* fragshader_name = "fragmentshader.frag";
+
+const char* skybox_vertexshader_name = "skyboxvs.vert";
+const char* skybox_fragshader_name = "skyboxfs.frag";
 
 unsigned const int DELTA_TIME = 10;
 
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
-GLuint program_id;
-GLuint skybox_shader; // Uses skyboxfs.frag and skyboxvs.vert for the shading and such.
+//GLuint program_id;
+//GLuint skybox_shader; // Uses skyboxfs.frag and skyboxvs.vert for the shading and such.
+
+Shader shader;
+Shader skyboxShader;
 
 GLuint uniform_mvp;
 
@@ -167,11 +172,12 @@ void MouseCallback(int x, int y) {
 void Render()
 {
 	// Define background
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(0.0, 0.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Attach to program_id
-	glUseProgram(program_id);
+	shader.Use();
+	//skyboxShader.Use();
 
 	// Rotate the models.
 	/*model = glm::rotate(
@@ -185,7 +191,7 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
-	skybox.RenderCubemap(skybox_shader, uniform_mvp, camera.projection, camera.view, mvp); // Skybox_shader = program_id, but then for the skybox.
+	skybox.RenderCubemap(skyboxShader.ID, uniform_mvp, camera.projection, camera.view, mvp);
 
 	for (Cube& c : cubes) {
 		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
@@ -235,7 +241,6 @@ void InitGlutGlew(int argc, char** argv)
 	glutPassiveMotionFunc(MouseCallback);
 
 	glutTimerFunc(DELTA_TIME, Render, 0);
-
 	glewInit();
 }
 
@@ -246,23 +251,9 @@ void InitGlutGlew(int argc, char** argv)
 
 void InitShaders()
 {
-	// for the cubes, pyramids, etc.
-	char* vertexshader = glsl::readFile(vertexshader_name);
-	GLuint vsh_id = glsl::makeVertexShader(vertexshader);
-
-	char* fragshader = glsl::readFile(fragshader_name);
-	GLuint fsh_id = glsl::makeFragmentShader(fragshader);
-
-	program_id = glsl::makeShaderProgram(vsh_id, fsh_id);
-
-	// For the skybox.
-	vertexshader = glsl::readFile(skybox_vertexshader_name);
-	vsh_id = glsl::makeVertexShader(vertexshader);
-
-	fragshader = glsl::readFile(skybox_fragshader_name);
-	fsh_id = glsl::makeFragmentShader(fragshader);
-
-	skybox_shader = glsl::makeShaderProgram(vsh_id, fsh_id);
+	shader = Shader(vertexshader_name, fragshader_name);
+	skyboxShader = Shader(skybox_vertexshader_name, skybox_fragshader_name);
+	skyboxShader.setInt("skybox", 0);
 }
 
 void InitMatrices()
@@ -300,11 +291,11 @@ void InitMatrices()
 void InitBuffers()
 {
 	// Both work fine.
-	//skybox.InitBuffers(skybox_shader, uniform_mvp, mvp);
-	skybox.InitBuffers2(skybox_shader);
+	skybox.InitBuffers(skyboxShader.ID, uniform_mvp, mvp);
+	//skybox.InitBuffers2(skyboxShader.ID);
 
 	for (Cube& c : cubes) {
-		c.InitBuffers(program_id, uniform_mvp, mvp);
+		c.InitBuffers(shader, uniform_mvp, mvp);
 	}
 
 	//pyramid.InitBuffers(program_id, uniform_mvp, mvp);

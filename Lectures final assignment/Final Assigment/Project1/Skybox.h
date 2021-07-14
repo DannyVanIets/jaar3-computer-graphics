@@ -58,7 +58,7 @@ public:
 
 	vector<string> faces
 	{
-		"textures/right.jpg",
+        "textures/right.jpg",
 		"textures/left.jpg",
 		"textures/top.jpg",
 		"textures/bottom.jpg",

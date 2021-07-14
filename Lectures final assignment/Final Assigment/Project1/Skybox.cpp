@@ -10,7 +10,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <iostream>
-using namespace std;
 
 // For the skybox: https://learnopengl.com/Advanced-OpenGL/Cubemaps
 
@@ -25,6 +24,7 @@ unsigned int Skybox::loadCubemap(vector<std::string> faces)
 
 	// for stbi_load: https://learnopengl.com/getting-started/textures
 	for (unsigned int i = 0; i < faces.size(); i++) {
+
 		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
 
 		if (data) {
@@ -48,29 +48,28 @@ unsigned int Skybox::loadCubemap(vector<std::string> faces)
 
 void Skybox::RenderCubemap(GLuint shader_id, GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
 {
-	//glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 	
 	// Skybox.
-	glDepthMask(GL_FALSE);
-	//glUseProgram(shader_id);
-	glActiveTexture(GL_TEXTURE);
+	glDepthMask(GL_LEQUAL);
+	glUseProgram(shader_id);
 	glBindVertexArray(vao);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 
-	glDepthMask(GL_TRUE);
 	glBindVertexArray(0);
+	glDepthMask(GL_LESS);
 }
 
 void Skybox::InitBuffers(GLuint shader_id, GLuint uniform_mvp, glm::mat4 mvp)
 {
 	GLuint position_id;
-	GLuint color_id;
 
 	// Get vertex attributes
-	position_id = glGetAttribLocation(shader_id, "position");
+	position_id = glGetAttribLocation(shader_id, "skybox");
 
 	GLuint vbo_vertices;
 
@@ -93,12 +92,14 @@ void Skybox::InitBuffers(GLuint shader_id, GLuint uniform_mvp, glm::mat4 mvp)
 	// Stop bind to vao
 	glBindVertexArray(0);
 
+	glUniform1i(position_id, 0);
+
 	// Make uniform vars
-	uniform_mvp = glGetUniformLocation(shader_id, "mvp");
+	/*uniform_mvp = glGetUniformLocation(shader_id, "mvp");
 
 	// Send mvp
 	glUseProgram(shader_id);
-	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));*/
 }
 
 void Skybox::InitBuffers2(GLuint shader_id)

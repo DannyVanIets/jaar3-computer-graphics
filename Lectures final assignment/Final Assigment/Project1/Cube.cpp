@@ -47,14 +47,14 @@ void Cube::Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm:
     glBindVertexArray(0);
 }
 
-void Cube::InitBuffers(GLuint program_id, GLuint uniform_mvp, glm::mat4 mvp)
+void Cube::InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
 {
     GLuint position_id;
     GLuint color_id;
 
     // Get vertex attributes
-    position_id = glGetAttribLocation(program_id, "position");
-    color_id = glGetAttribLocation(program_id, "color");
+    position_id = glGetAttribLocation(shader.ID, "position");
+    color_id = glGetAttribLocation(shader.ID, "color");
 
     GLuint ibo_cube_elements;
     GLuint vbo_vertices;
@@ -105,9 +105,9 @@ void Cube::InitBuffers(GLuint program_id, GLuint uniform_mvp, glm::mat4 mvp)
     glBindVertexArray(0);
 
     // Make uniform vars
-    uniform_mvp = glGetUniformLocation(program_id, "mvp");
+    uniform_mvp = glGetUniformLocation(shader.ID, "mvp");
 
     // Send mvp
-    glUseProgram(program_id);
+    shader.Use();
     glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }

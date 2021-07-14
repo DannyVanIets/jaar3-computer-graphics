@@ -1,6 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
+#include "Shader.h"
 
 class Cube
 {
@@ -84,5 +85,5 @@ public:
 
     // Methods
     void Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-    void InitBuffers(GLuint program_id, GLuint uniform_mvp, glm::mat4 mvp);
+    void InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
 };
