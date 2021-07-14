@@ -16,7 +16,6 @@
 #include "Hexagon.h"
 #include "Icosahedron.h"
 #include "TriangularPrism.h"
-#include "Skybox.h"
 #include "Shader.h"
 
 using namespace std;
@@ -38,11 +37,7 @@ unsigned const int DELTA_TIME = 10;
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
-//GLuint program_id;
-//GLuint skybox_shader; // Uses skyboxfs.frag and skyboxvs.vert for the shading and such.
-
 Shader shader;
-Shader skyboxShader;
 
 GLuint uniform_mvp;
 
@@ -52,8 +47,6 @@ glm::mat4 model, mvp;
 
 // ideas for forms:
 // hemisphere
-
-Skybox skybox;
 
 TriangularPrism tripri;
 Icosahedron ico;
@@ -172,12 +165,11 @@ void MouseCallback(int x, int y) {
 void Render()
 {
 	// Define background
-	glClearColor(0.0, 0.0, 1.0, 1.0);
+	glClearColor(0.0, 0.5, 0.5, 0.5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Attach to program_id
 	shader.Use();
-	//skyboxShader.Use();
 
 	// Rotate the models.
 	/*model = glm::rotate(
@@ -190,8 +182,6 @@ void Render()
 	camera.CalculateView();
 
 	mvp = camera.projection * camera.view * model;
-
-	skybox.RenderCubemap(skyboxShader.ID, uniform_mvp, camera.projection, camera.view, mvp);
 
 	for (Cube& c : cubes) {
 		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
@@ -252,8 +242,6 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
-	skyboxShader = Shader(skybox_vertexshader_name, skybox_fragshader_name);
-	skyboxShader.setInt("skybox", 0);
 }
 
 void InitMatrices()
@@ -290,18 +278,14 @@ void InitMatrices()
 
 void InitBuffers()
 {
-	// Both work fine.
-	skybox.InitBuffers(skyboxShader.ID, uniform_mvp, mvp);
-	//skybox.InitBuffers2(skyboxShader.ID);
-
 	for (Cube& c : cubes) {
 		c.InitBuffers(shader, uniform_mvp, mvp);
 	}
 
-	//pyramid.InitBuffers(program_id, uniform_mvp, mvp);
-	//hexagon.InitBuffers(program_id, uniform_mvp, mvp);
-	//ico.InitBuffers(program_id, uniform_mvp, mvp);
-	//tripri.InitBuffers(program_id, uniform_mvp, mvp);
+	//pyramid.InitBuffers(shader.ID, uniform_mvp, mvp);
+	//hexagon.InitBuffers(shader.ID, uniform_mvp, mvp);
+	//ico.InitBuffers(shader.ID, uniform_mvp, mvp);
+	//tripri.InitBuffers(shader.ID, uniform_mvp, mvp);
 }
 
 int main(int argc, char** argv)

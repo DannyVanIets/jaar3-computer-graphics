@@ -136,7 +136,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TriangularPrism.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,8 +146,6 @@
     <ClInclude Include="Icosahedron.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="Skybox.h" />
-    <ClInclude Include="stb_image.h" />
     <ClInclude Include="TriangularPrism.h" />
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentshader.frag" />
-    <None Include="skyboxfs.frag" />
-    <None Include="skyboxvs.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
