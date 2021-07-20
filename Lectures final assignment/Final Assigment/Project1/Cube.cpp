@@ -28,7 +28,10 @@ Cube::Cube(float height = 1.0, float width = 1.0, float length = 1.0, float x = 
         x,         y + Height, LengthMinusZ, // Top Left
     };
 
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    //std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+
+    for (int i = 1; i < 6; i++)
+        memcpy(&uvs[i * 4 * 2], &uvs[0], 2 * 4 * sizeof(GLfloat));
 }
 
 void Cube::Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)

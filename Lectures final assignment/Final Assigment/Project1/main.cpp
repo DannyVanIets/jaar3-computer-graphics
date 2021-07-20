@@ -35,6 +35,9 @@ const char* texture_fragshader_name = "texturefs.frag";
 const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* skybox_fragshader_name = "skyboxfs.frag";
 
+//const char* texture_name = "texture/uvtemplate.bmp";
+const char* texture_name = "texture/Yellobrk.bmp";
+
 unsigned const int DELTA_TIME = 10;
 
 //--------------------------------------------------------------------------------
@@ -190,7 +193,7 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
-	glBindTexture(GL_TEXTURE_2D, texture_id);
+	//glBindTexture(GL_TEXTURE_2D, texture_id); 
 
 	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 	for (Cube& c : cubes) {
@@ -283,7 +286,7 @@ void InitMatrices()
 }
 
 void InitLoadTextures() {
-	texture_id = loadBMP("texture/Yellobrk.bmp");
+	texture_id = loadBMP(texture_name);
 }
 
 //-----------------------------------------------------------

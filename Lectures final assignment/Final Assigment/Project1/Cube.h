@@ -6,17 +6,50 @@
 class Cube
 {
 public:
-    GLfloat Vertices[24] = {
+    GLfloat Vertices2[72] = {
         // front
         -1.0, -1.0, 1.0, // bottom left, 0
-        1.0, -1.0, 1.0, // bottom right, 1
-        1.0, 1.0, 1.0, // top right, 2
+         1.0, -1.0, 1.0, // bottom right, 1
+         1.0, 1.0, 1.0, // top right, 2
         -1.0, 1.0, 1.0, // top left, 3
         // back
         -1.0, -1.0, -1.0, // bottom left, 4
-        1.0, -1.0, -1.0, // bottom right, 5
-        1.0, 1.0, -1.0, // top right, 6
-        -1.0, 1.0, -1.0 // top left, 7
+         1.0, -1.0, -1.0, // bottom right, 5
+         1.0, 1.0, -1.0, // top right, 6
+        -1.0, 1.0, -1.0, // top left, 7
+    };
+
+    GLfloat Vertices[72] = {
+        // front
+        -1.0, -1.0,  1.0, // bottom left, 0
+         1.0, -1.0,  1.0, // bottom right, 1
+         1.0,  1.0,  1.0, // top right, 2
+        -1.0,  1.0,  1.0, // top left, 3
+        // top
+        -1.0,  1.0,  1.0,
+         1.0,  1.0,  1.0,
+         1.0,  1.0, -1.0,
+        -1.0,  1.0, -1.0,
+        // back
+         1.0, -1.0, -1.0,
+        -1.0, -1.0, -1.0,
+        -1.0,  1.0, -1.0,
+         1.0,  1.0, -1.0,
+        // bottom
+        -1.0, -1.0, -1.0,
+         1.0, -1.0, -1.0,
+         1.0, -1.0,  1.0,
+        -1.0, -1.0,  1.0,
+        // left
+        -1.0, -1.0, -1.0,
+        -1.0, -1.0,  1.0,
+        -1.0,  1.0,  1.0,
+        -1.0,  1.0, -1.0,
+        // right
+         1.0, -1.0,  1.0,
+         1.0, -1.0, -1.0,
+         1.0,  1.0, -1.0,
+         1.0,  1.0,  1.0,
     };
 
     GLfloat Colors[72] = {
@@ -49,7 +82,7 @@ public:
         0.0, 1.0, 1.0,
         1.0, 0.0, 1.0,
         1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0
+        1.0, 1.0, 0.0,
     };
 
     //------------------------------------------------------------
@@ -66,7 +99,7 @@ public:
     //      0----------1
     //------------------------------------------------------------
 
-    GLushort Cube_elements[36] = {
+    GLushort Cube_elements2[36] = {
         0,1,2, 0,2,3, // front
         1,5,6, 1,6,2, // right side
         4,0,3, 4,3,7, // left side
@@ -75,23 +108,38 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
-    // Two UV coordinatesfor each vertex.
-    GLfloat uvs[32] = {
+    GLushort Cube_elements[36] = {
+        // front
+        0, 1, 2,
+        2, 3, 0,
+        // top
+        4, 5, 6,
+        6, 7, 4,
+        // back
+        8, 9, 10,
+        10, 11, 8,
+        // bottom
+        12, 13, 14,
+        14, 15, 12,
+        // left
+        16, 17, 18,
+        18, 19, 16,
+        // right
+        20, 21, 22,
+        22, 23, 20,
+    };
+
+    // Two UV coordinates for each vertex.
+    GLfloat uvs[48] = {
         // U, V,
         // front
         0.0f, 0.0f, // bottom left
         1.0f, 0.0f, // bottom right
         1.0f, 1.0f, // top right
         0.0f, 1.0f, // top left
-
-        // back
-        0.0f, 0.0f, // bottom left
-        1.0f, 0.0f, // bottom right
-        1.0f, 1.0f, // top right
-        0.0f, 1.0f, // top left
     };
 
-    GLfloat uvs2[32] = {
+    GLfloat uvs2[24] = {
         // U, V,
         // front
         0.0f, 0.0f, // bottom left

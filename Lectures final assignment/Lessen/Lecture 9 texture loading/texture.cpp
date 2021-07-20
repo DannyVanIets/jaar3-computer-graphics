@@ -1,18 +1,18 @@
-#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <GL/glew.h>
 
+
 GLuint loadBMP(const char * imagepath) {
 
     printf("Reading image %s\n", imagepath);
 
     // Data read from the header of the BMP file
-    unsigned char header[54]; // Each BMP file begins by a 54-bytes header
-    unsigned int dataPos;     // Position in the file where the actual data begins
-    unsigned int imageSize;   // = width*height*3
+    unsigned char header[54];
+    unsigned int dataPos;
+    unsigned int imageSize;
     unsigned int width, height;
     // Actual RGB data
     unsigned char * data;
@@ -38,7 +38,6 @@ GLuint loadBMP(const char * imagepath) {
     if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    return 0; }
 
     // Read the information about the image
-    // Read ints from the byte array
     dataPos = *(int*)&(header[0x0A]);
     imageSize = *(int*)&(header[0x22]);
     width = *(int*)&(header[0x12]);
@@ -64,23 +63,14 @@ GLuint loadBMP(const char * imagepath) {
     // "Bind" the newly created texture : all future texture functions will modify this texture
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-
-    // When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    // Generate mipmaps, by the way.
-    glGenerateMipmap(GL_TEXTURE_2D);
-
     // Give the image to OpenGL
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
     // OpenGL has now copied the data. Free our own version
     delete[] data;
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     // Return the ID of the texture we just created
     return textureID;
