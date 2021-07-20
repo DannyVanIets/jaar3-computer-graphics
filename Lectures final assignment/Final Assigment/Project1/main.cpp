@@ -4,11 +4,10 @@
 #include <GL/freeglut.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "glsl.h"
-
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "Cube.h"
 #include "Camera.h"
@@ -17,6 +16,7 @@
 #include "Icosahedron.h"
 #include "TriangularPrism.h"
 #include "Shader.h"
+#include "texture/texture.h"
 
 using namespace std;
 
@@ -29,6 +29,9 @@ const int WIDTH = 800, HEIGHT = 600;
 const char* vertexshader_name = "vertexshader.vert";
 const char* fragshader_name = "fragmentshader.frag";
 
+const char* texture_vertexshader_name = "texturevs.vert";
+const char* texture_fragshader_name = "texturefs.frag";
+
 const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* skybox_fragshader_name = "skyboxfs.frag";
 
@@ -37,7 +40,10 @@ unsigned const int DELTA_TIME = 10;
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
+GLuint texture_id;
+
 Shader shader;
+Shader texturedShader;
 
 GLuint uniform_mvp;
 
@@ -170,6 +176,7 @@ void Render()
 
 	// Attach to program_id
 	shader.Use();
+	texturedShader.Use();
 
 	// Rotate the models.
 	/*model = glm::rotate(
@@ -183,6 +190,9 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+
+	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 	for (Cube& c : cubes) {
 		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	}
@@ -242,6 +252,7 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
+	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
 }
 
 void InitMatrices()
@@ -271,6 +282,10 @@ void InitMatrices()
 	mvp = camera.projection * camera.view * model;
 }
 
+void InitLoadTextures() {
+	texture_id = loadBMP("texture/Yellobrk.bmp");
+}
+
 //-----------------------------------------------------------
 // void InitBuffers()
 // Allocates and fills buffers
@@ -279,7 +294,7 @@ void InitMatrices()
 void InitBuffers()
 {
 	for (Cube& c : cubes) {
-		c.InitBuffers(shader, uniform_mvp, mvp);
+		c.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
 	}
 
 	//pyramid.InitBuffers(shader.ID, uniform_mvp, mvp);
@@ -293,6 +308,7 @@ int main(int argc, char** argv)
 	InitGlutGlew(argc, argv);
 	InitShaders();
 	InitMatrices();
+	InitLoadTextures();
 	InitBuffers();
 
 	glEnable(GL_DEPTH_TEST);

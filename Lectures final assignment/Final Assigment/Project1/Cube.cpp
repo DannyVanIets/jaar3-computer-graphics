@@ -111,3 +111,68 @@ void Cube::InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
     shader.Use();
     glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }
+
+void Cube::InitBuffersTexture(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
+{
+    GLuint position_id;
+    GLuint uv_id;
+
+    // Get vertex attributes
+    position_id = glGetAttribLocation(shader.ID, "vertexPosition");
+    uv_id = glGetAttribLocation(shader.ID, "vertexUV");
+
+    GLuint ibo_cube_elements;
+    GLuint vbo_vertices;
+    GLuint vbo_uvs;
+
+    // vbo for vertices
+    glGenBuffers(1, &vbo_vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // vbo for uvs
+    glGenBuffers(1, &vbo_uvs);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // vbo for cube elements
+    glGenBuffers(1, &ibo_cube_elements);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_cube_elements);
+    glBufferData(
+        GL_ELEMENT_ARRAY_BUFFER, sizeof(Cube_elements),
+        Cube_elements, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    // Allocate memory for vao
+    glGenVertexArrays(1, &vao);
+
+    // Bind to vao
+    glBindVertexArray(vao);
+
+    // Bind vertices to vao
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+    glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(position_id);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Bind uvs to vao
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
+    glVertexAttribPointer(uv_id, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(uv_id);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Bind cube elements.
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_cube_elements);
+
+    // Stop bind to vao
+    glBindVertexArray(0);
+
+    // Make uniform vars
+    uniform_mvp = glGetUniformLocation(shader.ID, "mvp");
+
+    // Send mvp
+    shader.Use();
+    glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+}

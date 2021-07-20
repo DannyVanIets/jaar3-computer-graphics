@@ -16,64 +16,88 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{b6d3753c-2746-41a8-9d5b-263920dc5c10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shapes">
+      <UniqueIdentifier>{fe9bab0e-8b37-4e4b-a757-89b66a62e546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Libraries">
+      <UniqueIdentifier>{790d4b52-01d9-4014-a118-9ac2db8b48d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes">
+      <UniqueIdentifier>{a9cddf44-416c-451a-9532-2741558a51a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries">
+      <UniqueIdentifier>{4f7a11f9-ec24-4b0e-a4c8-e7bd5cfdcc2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="glsl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hexagon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Icosahedron.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TriangularPrism.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="texture\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Icosahedron.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Hexagon.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangularPrism.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="glsl.cpp">
+      <Filter>Source Files\Libraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="glsl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hexagon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Icosahedron.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TriangularPrism.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="texture\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Icosahedron.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Hexagon.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangularPrism.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="glsl.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="texturefs.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="texturevs.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

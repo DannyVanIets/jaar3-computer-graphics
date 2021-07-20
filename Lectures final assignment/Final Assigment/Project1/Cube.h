@@ -75,6 +75,76 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
+    // Two UV coordinatesfor each vertex.
+    GLfloat uvs[32] = {
+        // U, V,
+        // front
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+
+        // back
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+    };
+
+    GLfloat uvs2[32] = {
+        // U, V,
+        // front
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+
+        // behind
+        1.0f, 1.0f, // bottom right
+        0.0f, 1.0f, // top right
+        0.0f, 0.0f, // top left
+        1.0f, 0.0f, // bottom left
+    };
+
+    GLfloat uvs3[72] = {
+        0.000059f, 1.0f - 0.000004f,
+        0.000103f, 1.0f - 0.336048f,
+        0.335973f, 1.0f - 0.335903f,
+        1.000023f, 1.0f - 0.000013f,
+        0.667979f, 1.0f - 0.335851f,
+        0.999958f, 1.0f - 0.336064f,
+        0.667979f, 1.0f - 0.335851f,
+        0.336024f, 1.0f - 0.671877f,
+        0.667969f, 1.0f - 0.671889f,
+        1.000023f, 1.0f - 0.000013f,
+        0.668104f, 1.0f - 0.000013f,
+        0.667979f, 1.0f - 0.335851f,
+        0.000059f, 1.0f - 0.000004f,
+        0.335973f, 1.0f - 0.335903f,
+        0.336098f, 1.0f - 0.000071f,
+        0.667979f, 1.0f - 0.335851f,
+        0.335973f, 1.0f - 0.335903f,
+        0.336024f, 1.0f - 0.671877f,
+        1.000004f, 1.0f - 0.671847f,
+        0.999958f, 1.0f - 0.336064f,
+        0.667979f, 1.0f - 0.335851f,
+        0.668104f, 1.0f - 0.000013f,
+        0.335973f, 1.0f - 0.335903f,
+        0.667979f, 1.0f - 0.335851f,
+        0.335973f, 1.0f - 0.335903f,
+        0.668104f, 1.0f - 0.000013f,
+        0.336098f, 1.0f - 0.000071f,
+        0.000103f, 1.0f - 0.336048f,
+        0.000004f, 1.0f - 0.671870f,
+        0.336024f, 1.0f - 0.671877f,
+        0.000103f, 1.0f - 0.336048f,
+        0.336024f, 1.0f - 0.671877f,
+        0.335973f, 1.0f - 0.335903f,
+        0.667969f, 1.0f - 0.671889f,
+        1.000004f, 1.0f - 0.671847f,
+        0.667979f, 1.0f - 0.335851f
+    };
+
     float Height = 1.0, Width = 1.0, Length = 1.0;
     //glm::mat4 model, mvp;
     GLuint vao;
@@ -86,4 +156,5 @@ public:
     // Methods
     void Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
     void InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
+    void InitBuffersTexture(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
 };

@@ -255,17 +255,13 @@ void InitBuffers()
 
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER,
-        vertices.size() * sizeof(glm::vec3), &vertices[0],
-        GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // vbo for normals
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER,
-        normals.size() * sizeof(glm::vec3),
-        &normals[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // vbo for uvs

@@ -136,6 +136,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="texture\texture.cpp" />
     <ClCompile Include="TriangularPrism.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Icosahedron.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="texture\texture.h" />
     <ClInclude Include="TriangularPrism.h" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentshader.frag" />
+    <None Include="texturefs.frag" />
+    <None Include="texturevs.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
