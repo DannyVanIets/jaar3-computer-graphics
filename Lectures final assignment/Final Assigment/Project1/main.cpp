@@ -179,9 +179,9 @@ void Render()
 
 	// Attach to program_id
 	shader.Use();
-	texturedShader.Use();
+	//texturedShader.Use();
 
-	// Rotate the models.
+	// Rotate the models continiously.
 	/*model = glm::rotate(
 		model,
 		glm::radians(0.1f),
@@ -192,8 +192,6 @@ void Render()
 	camera.CalculateView();
 
 	mvp = camera.projection * camera.view * model;
-
-	//glBindTexture(GL_TEXTURE_2D, texture_id); 
 
 	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 	for (Cube& c : cubes) {
@@ -297,7 +295,8 @@ void InitLoadTextures() {
 void InitBuffers()
 {
 	for (Cube& c : cubes) {
-		c.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
+		c.InitBuffers(shader, uniform_mvp, mvp);
+		//c.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
 	}
 
 	//pyramid.InitBuffers(shader.ID, uniform_mvp, mvp);

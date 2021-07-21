@@ -2,11 +2,13 @@
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include "Shape.h"
 
-class Cube
+class Cube : public Shape
 {
 public:
-    GLfloat Vertices2[72] = {
+
+    std::vector<GLfloat> Cube_Vertices = {
         // front
         -1.0, -1.0, 1.0, // bottom left, 0
          1.0, -1.0, 1.0, // bottom right, 1
@@ -19,7 +21,7 @@ public:
         -1.0, 1.0, -1.0, // top left, 7
     };
 
-    GLfloat Vertices[72] = {
+    std::vector<GLfloat> Cube_Vertices2 = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0
          1.0, -1.0,  1.0, // bottom right, 1
@@ -52,39 +54,6 @@ public:
          1.0,  1.0,  1.0,
     };
 
-    GLfloat Colors[72] = {
-        // front colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
-        // right side colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
-        // left side colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
-        // back colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
-        // top colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
-        // bottom colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
-    };
-
     //------------------------------------------------------------
     // Variables for object
     //
@@ -99,7 +68,7 @@ public:
     //      0----------1
     //------------------------------------------------------------
 
-    GLushort Cube_elements2[36] = {
+    std::vector<GLushort> Cube_elements = {
         0,1,2, 0,2,3, // front
         1,5,6, 1,6,2, // right side
         4,0,3, 4,3,7, // left side
@@ -108,7 +77,7 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
-    GLushort Cube_elements[36] = {
+    std::vector<GLushort> Cube_elements2 = {
         // front
         0, 1, 2,
         2, 3, 0,
@@ -130,7 +99,7 @@ public:
     };
 
     // Two UV coordinates for each vertex.
-    GLfloat uvs[48] = {
+    std::vector<GLfloat> Cube_uvs = {
         // U, V,
         // front
         0.0f, 0.0f, // bottom left
@@ -139,7 +108,7 @@ public:
         0.0f, 1.0f, // top left
     };
 
-    GLfloat uvs2[24] = {
+    std::vector<GLfloat> uvs2 = {
         // U, V,
         // front
         0.0f, 0.0f, // bottom left
@@ -154,7 +123,7 @@ public:
         1.0f, 0.0f, // bottom left
     };
 
-    GLfloat uvs3[72] = {
+    std::vector<GLfloat> uvs3 = {
         0.000059f, 1.0f - 0.000004f,
         0.000103f, 1.0f - 0.336048f,
         0.335973f, 1.0f - 0.335903f,
@@ -193,16 +162,7 @@ public:
         0.667979f, 1.0f - 0.335851f
     };
 
-    float Height = 1.0, Width = 1.0, Length = 1.0;
-    //glm::mat4 model, mvp;
-    GLuint vao;
-
     // Constructors
     Cube() = default;
     Cube(float height, float width, float length, float x, float y, float z);
-
-    // Methods
-    void Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-    void InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
-    void InitBuffersTexture(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
 };

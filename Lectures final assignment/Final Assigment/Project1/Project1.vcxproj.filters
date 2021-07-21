@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Libraries">
       <UniqueIdentifier>{4f7a11f9-ec24-4b0e-a4c8-e7bd5cfdcc2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{000ef22b-cc58-42f7-93f8-b9ee28723665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{eeaf9ef4-96a4-4796-836e-1291c79e5d78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +66,12 @@
     <ClCompile Include="glsl.cpp">
       <Filter>Source Files\Libraries</Filter>
     </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -88,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="glsl.h">
       <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
