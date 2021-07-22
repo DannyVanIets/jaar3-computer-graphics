@@ -18,7 +18,7 @@ Cube::Cube(float x, float y, float z)
         x,         y,          z, // Bottom left
         x + Width, y,          z, // Bottom Right
         x + Width, y + Height, z, // Top Right
-        x,        y + Height, z, // Top Left
+        x,         y + Height, z, // Top Left
         // Back
         x,         y,          LengthMinusZ, // Bottom left
         x + Width, y,          LengthMinusZ, // Bottom Right

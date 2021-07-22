@@ -10,13 +10,13 @@ public:
     std::vector<GLfloat> TriangularPrism_Vertices = { 
         // X, Y, Z.
         // front
-        -1.0, -1.0,  1.0, // 0
-         1.0, -1.0,  1.0, // 1
-         0.0,  1.0,  1.0, // 2
+        -1.0, -1.0,  1.0, // bottom left,  0
+         1.0, -1.0,  1.0, // bottom right, 1
+         0.0,  1.0,  1.0, // top middle,   2
         // back
-        -1.0, -1.0, -1.0, // 3
-         1.0, -1.0, -1.0, // 4
-         0.0,  1.0, -1.0, // 5
+        -1.0, -1.0, -1.0, // bottom left,  3
+         1.0, -1.0, -1.0, // bottom right, 4
+         0.0,  1.0, -1.0, // top middle,   5
     };
 
     std::vector<GLfloat> TriangularPrism_Colors = {

@@ -4,7 +4,21 @@ TriangularPrism::TriangularPrism(float x, float y, float z)
 {
     Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
 
+    float LengthMinusZ = z - Length;
+    float TopMiddle = (x + Width + x);
 
+    GLfloat newVertices[] = {
+        // Front
+        x,         y,          z, // Bottom left
+        x + Width, y,          z, // Bottom Right
+        TopMiddle, y + Height, z, // Top Right
+        // Back
+        x,         y,          LengthMinusZ, // Bottom left
+        x + Width, y,          LengthMinusZ, // Bottom Right
+        TopMiddle, y + Height, LengthMinusZ, // Top Right
+    };
+
+    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
 }
 
 TriangularPrism::TriangularPrism(float x, float y, float z, float height, float width, float length)
@@ -15,5 +29,19 @@ TriangularPrism::TriangularPrism(float x, float y, float z, float height, float 
     Width = width;
     Length = length;
 
-    // TODO: Make it possible to change the x, y and z positions, just like the cube.
+    float LengthMinusZ = z - Length;
+    float TopMiddle = (x + Width + x);
+
+    GLfloat newVertices[] = {
+        // Front
+        x,         y,          z, // Bottom left
+        x + Width, y,          z, // Bottom Right
+        TopMiddle, y + Height, z, // Top Right
+        // Back
+        x,         y,          LengthMinusZ, // Bottom left
+        x + Width, y,          LengthMinusZ, // Bottom Right
+        TopMiddle, y + Height, LengthMinusZ, // Top Right
+    };
+
+    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
 }
