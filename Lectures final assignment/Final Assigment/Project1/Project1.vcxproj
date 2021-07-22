@@ -139,6 +139,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="texture\texture.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TriangularPrism.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="texture\texture.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="TriangularPrism.h" />
   </ItemGroup>
   <ItemGroup>

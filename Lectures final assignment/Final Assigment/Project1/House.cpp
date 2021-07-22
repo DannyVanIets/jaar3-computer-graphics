@@ -7,26 +7,30 @@ House::House(int amountOfCubes)
 	AddCubes();
 }
 
-House::House(float x, float y, float z, float height = 1, float width = 1, float length = 1)
+House::House(float x, float y, float z, float height, float width, float length)
 {
 	X = x;
 	Y = y;
 	Z = z;
+
 	Height = height;
 	Width = width;
 	Length = length;
+
 	AddCubes();
 }
 
-House::House(int amountOfCubes, float x, float y, float z, float height = 1, float width = 1, float length = 1)
+House::House(int amountOfCubes, float x, float y, float z, float height, float width, float length)
 {
 	AmountOfCubes = amountOfCubes;
 	X = x;
 	Y = y;
 	Z = z;
+
 	Height = height;
 	Width = width;
 	Length = length;
+
 	AddCubes();
 }
 
@@ -34,12 +38,29 @@ void House::AddCubes()
 {
 	Shapes.clear();
 
-	// TODO: Make sure the cubes are stacked on top of each other.
-	// Maybe add windows and doors too, would be really nice!
+	// TODO: Maybe add windows and doors too, would be really nice!
 	for (int i = 0; i < AmountOfCubes; i++) {
-		Cube cube;
+		Cube cube = Cube(X, Y, Z);
+
 		Shapes.push_back(cube);
+
+		Y += Height;
 	}
+}
+
+void House::AddRoof()
+{
+
+}
+
+void House::AddChimney()
+{
+
+}
+
+void House::AddSmoke()
+{
+
 }
 
 void House::RenderAllShapes(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)

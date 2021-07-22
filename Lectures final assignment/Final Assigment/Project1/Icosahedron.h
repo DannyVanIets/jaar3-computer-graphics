@@ -2,10 +2,12 @@
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
-class Icosahedron
+#include "Shape.h"
+
+class Icosahedron : public Shape
 {
 public:
-    GLfloat Vertices[36] = { // X, Y, Z.
+    std::vector<GLfloat> Icosahedron_Vertices = { // X, Y, Z.
         -0.5, 0.5, 0.75, // 0
         0.5, 0.5, 0.75, // 1
         0.75, 0.5, -0.25, // 2
@@ -22,7 +24,7 @@ public:
         0, 2.25, 0, // 11
     };
 
-    GLfloat Colors[72] = {
+    std::vector<GLfloat> Icosahedron_Colors = {
         // front colors
         1.0, 1.0, 0.0,
         0.0, 1.0, 0.0,
@@ -55,7 +57,7 @@ public:
         1.0, 1.0, 0.0
     };
 
-    GLushort Elements[60] = {
+    std::vector<GLushort> Icosahedron_Elements = {
         // All the middle triangles.
         0,1,5,
         5,6,1,
@@ -67,7 +69,7 @@ public:
         8,9,4,
         4,0,9,
         9,5,0,
-        // All the bottom triangles. TODO: CHANGE 5 TO 10!
+        // All the bottom triangles.
         0,1,10,
         1,2,10,
         2,3,10,
@@ -81,14 +83,8 @@ public:
         9,5,11
     };
 
-    float Height = 1.0, Width = 1.0, Length = 1.0;
-    GLuint vao;
-
     // Constructors
     Icosahedron() = default;
-    Icosahedron(float height, float width, float length, float x, float y, float z);
-
-    // Methods
-    void Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-    void InitBuffers(GLuint program_id, GLuint uniform_mvp, glm::mat4 mvp);
+    Icosahedron(float x, float y, float z);
+    Icosahedron(float x, float y, float z, float height, float width, float length);
 };

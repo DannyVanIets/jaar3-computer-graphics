@@ -42,11 +42,11 @@ public:
         1.0, 1.0, 0.0,
     };
 
-    GLushort Elements[36] = { };
+    GLushort Elements[72] = { };
 
-    GLfloat uvs[48] = { };
+    GLfloat uvs[72] = { };
 
-    float Height = 1.0, Width = 1.0, Length = 1.0;
+    float Height = 2.0, Width = 2.0, Length = 2.0;
     //glm::mat4 model, mvp;
     GLuint vao;
 

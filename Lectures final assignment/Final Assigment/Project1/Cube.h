@@ -1,7 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
-#include "Shader.h"
+
 #include "Shape.h"
 
 class Cube : public Shape
@@ -164,5 +164,6 @@ public:
 
     // Constructors
     Cube() = default;
-    Cube(float height, float width, float length, float x, float y, float z);
+    Cube(float x, float y, float z);
+    Cube(float x, float y, float z, float height, float width, float length);
 };
