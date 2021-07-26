@@ -5,7 +5,7 @@ TriangularPrism::TriangularPrism(float x, float y, float z)
     Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
 
     float LengthMinusZ = z - Length;
-    float TopMiddle = (x + Width + x); // TODO: FIX THIS! WERKT NOG NIET.
+    float TopMiddle = x + Width / 2;
 
     GLfloat newVertices[] = {
         // Front
@@ -30,7 +30,7 @@ TriangularPrism::TriangularPrism(float x, float y, float z, float height, float 
     Length = length;
 
     float LengthMinusZ = z - Length;
-    float TopMiddle = (x + Width + x);
+    float TopMiddle = x + Width / 2;
 
     GLfloat newVertices[] = {
         // Front

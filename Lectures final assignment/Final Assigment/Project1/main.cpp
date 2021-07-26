@@ -60,11 +60,11 @@ glm::mat4 model, mvp;
 
 TriangularPrism tripri = TriangularPrism(-1.0, -1.0, 1.0);
 Icosahedron ico = Icosahedron(-1.0, -1.0, 1.0);
-Hexagon hexagon = Hexagon(-1.0, -1.0, 1.0);
+Hexagon hexagon = Hexagon(7.0, -1.0, 15.0);
 Pyramid pyramid = Pyramid(-1.0, -1.0, 1.0);
 
-Cube cube = Cube(-1.0, -1.0, 1.0);
-Cube cube2 = Cube(-4.0, -1.0, 1.0, 2.0, 2.0, 2.0);
+//Cube cube = Cube(-1.0, -1.0, 1.0);
+Cube cube2 = Cube(0.0, 0.0, 0.0, 2.0, 2.0, 2.0);
 
 House house = House(5);
 
@@ -74,6 +74,8 @@ House house = House(5);
 
 void keyboardHandler(unsigned char key, int a, int b)
 {
+	key = tolower(key);
+
 	// TODO: Implement movement speed from here: https://learnopengl.com/Getting-started/Camera.
 	// Helpful: https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/game_callbacks.cpp, ctrl + f on deltatime.
 	// All code: https://github.com/mattearly/TheOnlyEscapeIsESC/tree/master/code.
@@ -180,7 +182,6 @@ void Render()
 
 	// Attach to program_id
 	shader.Use();
-	//texturedShader.Use();
 
 	// Rotate the models continiously.
 	/*model = glm::rotate(
@@ -196,11 +197,12 @@ void Render()
 
 	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 
-	house.RenderAllShapes(uniform_mvp, camera.projection, camera.view, mvp);
+	//house.RenderAllShapes(uniform_mvp, camera.projection, camera.view, mvp);
 
+	//texturedShader.Use();
 	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
@@ -272,7 +274,7 @@ void InitMatrices()
 		glm::radians(10.0f),
 		glm::vec3(0.0f, 0.0f, 1.0f));
 
-	// Translation
+	// Translation, base values are 
 	model = glm::translate(
 		model,
 		glm::vec3(1.0f, 2.0f, -1.0f));*/
@@ -295,12 +297,12 @@ void InitLoadTextures() {
 
 void InitBuffers()
 {
-	house.BufferAllShapes(shader, uniform_mvp, mvp);
+	//house.BufferAllShapes(shader, uniform_mvp, mvp);
 
 	cube2.InitBuffers(shader, uniform_mvp, mvp);
 	//cube2.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
 	//pyramid.InitBuffers(shader, uniform_mvp, mvp);
-	//hexagon.InitBuffers(shader, uniform_mvp, mvp);
+	hexagon.InitBuffers(shader, uniform_mvp, mvp);
 	//ico.InitBuffers(shader, uniform_mvp, mvp);
 	//tripri.InitBuffers(shader, uniform_mvp, mvp);
 }

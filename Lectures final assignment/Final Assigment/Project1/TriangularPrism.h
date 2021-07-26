@@ -7,6 +7,19 @@
 class TriangularPrism : public Shape
 {
 public:
+    float x, y, z, LengthMinusZ, TopMiddle;
+
+    GLfloat example[36] = {
+        // Front
+        x,         y,          z, // Bottom left
+        x + Width, y,          z, // Bottom Right
+        TopMiddle, y + Height, z, // Top Right
+        // Back
+        x,         y,          LengthMinusZ, // Bottom left
+        x + Width, y,          LengthMinusZ, // Bottom Right
+        TopMiddle, y + Height, LengthMinusZ, // Top Right
+    };
+
     std::vector<GLfloat> TriangularPrism_Vertices = { 
         // X, Y, Z.
         // front

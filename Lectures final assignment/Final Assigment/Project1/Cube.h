@@ -10,15 +10,15 @@ public:
 
     std::vector<GLfloat> Cube_Vertices = {
         // front
-        -1.0, -1.0, 1.0, // bottom left, 0
-         1.0, -1.0, 1.0, // bottom right, 1
-         1.0, 1.0, 1.0, // top right, 2
-        -1.0, 1.0, 1.0, // top left, 3
+        -1.0, -1.0,  1.0, // bottom left, 0
+         1.0, -1.0,  1.0, // bottom right, 1
+         1.0,  1.0,  1.0, // top right, 2
+        -1.0,  1.0,  1.0, // top left, 3
         // back
         -1.0, -1.0, -1.0, // bottom left, 4
          1.0, -1.0, -1.0, // bottom right, 5
-         1.0, 1.0, -1.0, // top right, 6
-        -1.0, 1.0, -1.0, // top left, 7
+         1.0,  1.0, -1.0, // top right, 6
+        -1.0,  1.0, -1.0, // top left, 7
     };
 
     std::vector<GLfloat> Cube_Vertices2 = {

@@ -8,7 +8,7 @@ class Shape
 {
 public:
     GLfloat Vertices[72] = { };
-
+    
     GLfloat Colors[72] = {
         // front colors
         1.0, 1.0, 0.0,
