@@ -191,14 +191,14 @@ void Render()
 
 	mvp = camera.projection * camera.view * model;
 
-	skybox.RenderCubemap(skyboxShader.ID, uniform_mvp, camera.projection, camera.view, mvp);
+	//skybox.RenderCubemap(skyboxShader.ID, uniform_mvp, camera.projection, camera.view, mvp);
 
 	for (Cube& c : cubes) {
-		c.Render(uniform_mvp, camera.projection, camera.view, mvp);
+		//c.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	}
 
 	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
@@ -291,15 +291,15 @@ void InitMatrices()
 void InitBuffers()
 {
 	// Both work fine.
-	skybox.InitBuffers(skyboxShader.ID, uniform_mvp, mvp);
+	//skybox.InitBuffers(skyboxShader.ID, uniform_mvp, mvp);
 	//skybox.InitBuffers2(skyboxShader.ID);
 
 	for (Cube& c : cubes) {
-		c.InitBuffers(shader, uniform_mvp, mvp);
+		//c.InitBuffers(shader, uniform_mvp, mvp);
 	}
 
 	//pyramid.InitBuffers(program_id, uniform_mvp, mvp);
-	//hexagon.InitBuffers(program_id, uniform_mvp, mvp);
+	hexagon.InitBuffers(shader.ID, uniform_mvp, mvp);
 	//ico.InitBuffers(program_id, uniform_mvp, mvp);
 	//tripri.InitBuffers(program_id, uniform_mvp, mvp);
 }
