@@ -7,7 +7,6 @@
 class Cube : public Shape
 {
 public:
-
     std::vector<GLfloat> Cube_Vertices = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0

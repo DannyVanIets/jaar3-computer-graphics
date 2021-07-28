@@ -1,12 +1,15 @@
 #include "House.h"
 #include "Cube.h"
 #include "TriangularPrism.h"
+#include "Hexagon.h"
 
 House::House(int amountOfCubes)
 {
 	AmountOfCubes = amountOfCubes;
+
 	AddCubes();
 	AddRoof();
+	AddChimney();
 }
 
 House::House(float x, float y, float z, float height, float width, float length)
@@ -18,9 +21,6 @@ House::House(float x, float y, float z, float height, float width, float length)
 	Height = height;
 	Width = width;
 	Length = length;
-
-	AddCubes();
-	AddRoof();
 }
 
 House::House(int amountOfCubes, float x, float y, float z, float height, float width, float length)
@@ -33,9 +33,6 @@ House::House(int amountOfCubes, float x, float y, float z, float height, float w
 	Height = height;
 	Width = width;
 	Length = length;
-
-	AddCubes();
-	AddRoof();
 }
 
 void House::AddCubes()
@@ -60,7 +57,8 @@ void House::AddRoof()
 
 void House::AddChimney()
 {
-
+	Hexagon chimney = Hexagon(X + 1.0, Y, Z - 0.5, 3.0, 0.75, 0.75);
+	Shapes.push_back(chimney);
 }
 
 void House::AddSmoke()

@@ -66,7 +66,7 @@ Pyramid pyramid = Pyramid(-1.0, -1.0, 1.0);
 //Cube cube = Cube(-1.0, -1.0, 1.0);
 Cube cube2 = Cube(0.0, 0.0, 0.0, 2.0, 2.0, 2.0);
 
-House house = House(5);
+House house = House(2);
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -197,12 +197,12 @@ void Render()
 
 	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 
-	//house.RenderAllShapes(uniform_mvp, camera.projection, camera.view, mvp);
+	house.RenderAllShapes(uniform_mvp, camera.projection, camera.view, mvp);
 
 	//texturedShader.Use();
 	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
 
@@ -297,12 +297,12 @@ void InitLoadTextures() {
 
 void InitBuffers()
 {
-	//house.BufferAllShapes(shader, uniform_mvp, mvp);
+	house.BufferAllShapes(shader, uniform_mvp, mvp);
 
-	cube2.InitBuffers(shader, uniform_mvp, mvp);
+	//cube2.InitBuffers(shader, uniform_mvp, mvp);
 	//cube2.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
 	//pyramid.InitBuffers(shader, uniform_mvp, mvp);
-	hexagon.InitBuffers(shader, uniform_mvp, mvp);
+	//hexagon.InitBuffers(shader, uniform_mvp, mvp);
 	//ico.InitBuffers(shader, uniform_mvp, mvp);
 	//tripri.InitBuffers(shader, uniform_mvp, mvp);
 }

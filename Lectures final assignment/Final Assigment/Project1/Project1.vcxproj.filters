@@ -72,7 +72,13 @@
     <ClCompile Include="House.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="Trapezoid3D.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
     <ClCompile Include="Tree.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Lampost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,7 +116,13 @@
     <ClInclude Include="House.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
+    <ClInclude Include="Trapezoid3D.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
     <ClInclude Include="Tree.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Lampost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

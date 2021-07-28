@@ -134,11 +134,13 @@
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="Icosahedron.cpp" />
+    <ClCompile Include="Lampost.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="texture\texture.cpp" />
+    <ClCompile Include="Trapezoid3D.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TriangularPrism.cpp" />
   </ItemGroup>
@@ -149,10 +151,12 @@
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="Icosahedron.h" />
+    <ClInclude Include="Lampost.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="texture\texture.h" />
+    <ClInclude Include="Trapezoid3D.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="TriangularPrism.h" />
   </ItemGroup>
