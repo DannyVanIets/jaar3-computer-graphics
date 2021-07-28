@@ -7,7 +7,7 @@ Icosahedron::Icosahedron(float x, float y, float z)
 
 }
 
-Icosahedron::Icosahedron(float x, float y, float z, float height, float width, float length)
+Icosahedron::Icosahedron(float x, float y, float z, float width, float height, float length)
 {
 	Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
 

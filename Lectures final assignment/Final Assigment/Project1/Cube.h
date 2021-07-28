@@ -164,5 +164,5 @@ public:
     // Constructors
     Cube() = default;
     Cube(float x, float y, float z);
-    Cube(float x, float y, float z, float height, float width, float length);
+    Cube(float x, float y, float z, float width, float height, float length);
 };

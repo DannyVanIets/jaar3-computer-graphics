@@ -18,6 +18,7 @@
 #include "Shader.h"
 #include "texture/texture.h"
 #include "House.h"
+#include "TrapezoidPrism.h"
 
 using namespace std;
 
@@ -55,18 +56,16 @@ Camera camera;
 
 glm::mat4 model, mvp;
 
-// ideas for forms:
-// hemisphere
-
 TriangularPrism tripri = TriangularPrism(-1.0, -1.0, 1.0);
 Icosahedron ico = Icosahedron(-1.0, -1.0, 1.0);
 Hexagon hexagon = Hexagon(7.0, -1.0, 15.0);
 Pyramid pyramid = Pyramid(-1.0, -1.0, 1.0);
+TrapezoidPrism trapezoid = TrapezoidPrism(-1.0, -1.0, 1.0, 4.0, 2.0, 2.0);
 
 //Cube cube = Cube(-1.0, -1.0, 1.0);
-Cube cube2 = Cube(0.0, 0.0, 0.0, 2.0, 2.0, 2.0);
+Cube cube2 = Cube(0.0, -1.0, -3.0);
 
-House house = House(2);
+House house = House(2, 5.0f, -1.0f, 1.0f);
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -201,6 +200,7 @@ void Render()
 
 	//texturedShader.Use();
 	cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	//trapezoid.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
 	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
@@ -299,7 +299,8 @@ void InitBuffers()
 {
 	house.BufferAllShapes(shader, uniform_mvp, mvp);
 
-	//cube2.InitBuffers(shader, uniform_mvp, mvp);
+	cube2.InitBuffers(shader, uniform_mvp, mvp);
+	//trapezoid.InitBuffers(shader, uniform_mvp, mvp);
 	//cube2.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
 	//pyramid.InitBuffers(shader, uniform_mvp, mvp);
 	//hexagon.InitBuffers(shader, uniform_mvp, mvp);

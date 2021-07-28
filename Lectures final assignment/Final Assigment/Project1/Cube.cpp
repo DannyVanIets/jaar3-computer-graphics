@@ -33,7 +33,7 @@ Cube::Cube(float x, float y, float z)
         //memcpy(&Cube_uvs[i * 4 * 2], &Cube_uvs[0], 2 * 4 * sizeof(GLfloat));
 }
 
-Cube::Cube(float x, float y, float z, float height, float width, float length)
+Cube::Cube(float x, float y, float z, float width, float height, float length)
 {
     Setup(Cube_Vertices, {}, Cube_elements, Cube_uvs);
 

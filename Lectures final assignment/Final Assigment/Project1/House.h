@@ -6,7 +6,7 @@ class House
 {
 public:
 	// Variabeles
-	int AmountOfCubes = 1;
+	int AmountOfFloors = 1;
 	float X = 2.0, Y = -1.0, Z = 2.0;
 	float Height = 2.0, Width = 2.0, Length = 2.0;
 
@@ -14,14 +14,22 @@ public:
 
 	// Constructors
 	House() = default;
-	House(int amountOfCubes);
-	House(float x, float y, float z, float height, float width, float length);
-	House(int amountOfCubes, float x, float y, float z, float height, float width, float length);
+	House(float x, float y, float z);
+	House(float x, float y, float z, float width, float height, float length);
+	House(int amountOfFloors);
+	House(int amountOfFloors, float x, float y, float z);
+	House(int amountOfFloors, float x, float y, float z, float width, float height, float length);
 
-	void AddCubes();
+	// Shapes.
+	// TODO: Maybe add windows and doors too, would be really nice!
+	void AddAllShapes();
+	void AddGarage();
+	void AddFloors();
 	void AddRoof();
 	void AddChimney();
 	void AddSmoke();
+
+
 	void RenderAllShapes(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
 	void BufferAllShapes(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
 };

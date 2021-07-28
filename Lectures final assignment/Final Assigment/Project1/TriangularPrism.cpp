@@ -21,7 +21,7 @@ TriangularPrism::TriangularPrism(float x, float y, float z)
     std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
 }
 
-TriangularPrism::TriangularPrism(float x, float y, float z, float height, float width, float length)
+TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length)
 {
     Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
 

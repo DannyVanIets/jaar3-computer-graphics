@@ -2,17 +2,18 @@
 #include "Cube.h"
 #include "TriangularPrism.h"
 #include "Hexagon.h"
+#include "TrapezoidPrism.h"
 
-House::House(int amountOfCubes)
+House::House(float x, float y, float z)
 {
-	AmountOfCubes = amountOfCubes;
+	X = x;
+	Y = y;
+	Z = z;
 
-	AddCubes();
-	AddRoof();
-	AddChimney();
+	AddAllShapes();
 }
 
-House::House(float x, float y, float z, float height, float width, float length)
+House::House(float x, float y, float z, float width, float height, float length)
 {
 	X = x;
 	Y = y;
@@ -21,11 +22,32 @@ House::House(float x, float y, float z, float height, float width, float length)
 	Height = height;
 	Width = width;
 	Length = length;
+
+	AddAllShapes();
 }
 
-House::House(int amountOfCubes, float x, float y, float z, float height, float width, float length)
+House::House(int amountOfFloors)
 {
-	AmountOfCubes = amountOfCubes;
+	AmountOfFloors = amountOfFloors;
+
+	AddAllShapes();
+}
+
+House::House(int amountOfFloors, float x, float y, float z)
+{
+	AmountOfFloors = amountOfFloors;
+
+	X = x;
+	Y = y;
+	Z = z;
+
+	AddAllShapes();
+}
+
+House::House(int amountOfFloors, float x, float y, float z, float width, float height, float length)
+{
+	AmountOfFloors = amountOfFloors;
+
 	X = x;
 	Y = y;
 	Z = z;
@@ -33,14 +55,31 @@ House::House(int amountOfCubes, float x, float y, float z, float height, float w
 	Height = height;
 	Width = width;
 	Length = length;
+
+	AddAllShapes();
 }
 
-void House::AddCubes()
+void House::AddAllShapes()
 {
 	Shapes.clear();
 
-	// TODO: Maybe add windows and doors too, would be really nice!
-	for (int i = 0; i < AmountOfCubes; i++) {
+	AddFloors();
+	AddGarage();
+	AddRoof();
+	AddChimney();
+	AddSmoke();
+}
+
+void House::AddGarage()
+{
+	TrapezoidPrism groundFloor = TrapezoidPrism(X, Y, Z);
+
+	Shapes.push_back(groundFloor);
+}
+
+void House::AddFloors()
+{
+	for (int i = 0; i < AmountOfFloors; i++) {
 		Cube cube = Cube(X, Y, Z);
 
 		Shapes.push_back(cube);
@@ -51,13 +90,13 @@ void House::AddCubes()
 
 void House::AddRoof()
 {
-	TriangularPrism roof = TriangularPrism(X, Y, Z);
+	TriangularPrism roof = TriangularPrism(X + 0.5, Y, Z, 1.0, 2.0, 2.0);
 	Shapes.push_back(roof);
 }
 
 void House::AddChimney()
 {
-	Hexagon chimney = Hexagon(X + 1.0, Y, Z - 0.5, 3.0, 0.75, 0.75);
+	Hexagon chimney = Hexagon(X + 1.0, Y, Z - 0.5, 0.75, 3.0, 0.75);
 	Shapes.push_back(chimney);
 }
 

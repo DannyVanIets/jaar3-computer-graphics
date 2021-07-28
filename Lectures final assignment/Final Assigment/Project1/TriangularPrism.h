@@ -76,6 +76,6 @@ public:
     // Constructors
     TriangularPrism() = default;
     TriangularPrism(float x, float y, float z);
-    TriangularPrism(float x, float y, float z, float height, float width, float length);
+    TriangularPrism(float x, float y, float z, float width, float height, float length);
 };
 

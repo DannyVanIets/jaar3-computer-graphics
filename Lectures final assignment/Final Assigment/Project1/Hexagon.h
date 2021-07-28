@@ -86,5 +86,5 @@ public:
     // Constructors
     Hexagon() = default;
     Hexagon(float x, float y, float z);
-    Hexagon(float x, float y, float z, float height, float width, float length);
+    Hexagon(float x, float y, float z, float width, float height, float length);
 };

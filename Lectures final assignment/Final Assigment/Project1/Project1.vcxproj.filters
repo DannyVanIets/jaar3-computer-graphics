@@ -34,18 +34,15 @@
     <Filter Include="Source Files\Models">
       <UniqueIdentifier>{eeaf9ef4-96a4-4796-836e-1291c79e5d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{1bb5cf4a-99af-4618-8331-24b1469bfff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{51c46282-8b5f-409d-8049-751119731e3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="texture\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
@@ -72,26 +69,29 @@
     <ClCompile Include="House.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="Trapezoid3D.cpp">
+    <ClCompile Include="TrapezoidPrism.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="Lampost.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="texture\texture.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Wedge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="texture\texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Pyramid.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
@@ -116,13 +116,25 @@
     <ClInclude Include="House.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="Trapezoid3D.h">
+    <ClInclude Include="TrapezoidPrism.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="Lampost.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="texture\texture.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Wedge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -61,5 +61,5 @@ public:
 	// Constructors
 	Pyramid() = default;
 	Pyramid(float x, float y, float z);
-	Pyramid(float x, float y, float z, float height, float width, float length);
+	Pyramid(float x, float y, float z, float width, float height, float length);
 };

@@ -45,7 +45,7 @@ Hexagon::Hexagon(float x, float y, float z)
     std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
 }
 
-Hexagon::Hexagon(float x, float y, float z, float height, float width, float length)
+Hexagon::Hexagon(float x, float y, float z, float width, float height, float length)
 {
 	Setup(Hexagon_Vertices, {}, Hexagon_Elements, {});
 

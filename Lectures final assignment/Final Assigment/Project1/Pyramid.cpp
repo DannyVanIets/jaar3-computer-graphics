@@ -7,7 +7,7 @@ Pyramid::Pyramid(float x, float y, float z)
 
 }
 
-Pyramid::Pyramid(float x, float y, float z, float height, float width, float length)
+Pyramid::Pyramid(float x, float y, float z, float width, float height, float length)
 {
     Setup(Pyramid_Vertices, {}, Pyramid_Elements, {});
 
