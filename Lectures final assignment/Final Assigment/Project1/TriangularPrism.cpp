@@ -11,11 +11,11 @@ TriangularPrism::TriangularPrism(float x, float y, float z)
         // Front
         x,         y,          z, // Bottom left
         x + Width, y,          z, // Bottom Right
-        TopMiddle, y + Height, z, // Top Right
+        TopMiddle, y + Height, z, // Top Middle
         // Back
         x,         y,          LengthMinusZ, // Bottom left
         x + Width, y,          LengthMinusZ, // Bottom Right
-        TopMiddle, y + Height, LengthMinusZ, // Top Right
+        TopMiddle, y + Height, LengthMinusZ, // Top Middle
     };
 
     std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
@@ -36,11 +36,11 @@ TriangularPrism::TriangularPrism(float x, float y, float z, float width, float h
         // Front
         x,         y,          z, // Bottom left
         x + Width, y,          z, // Bottom Right
-        TopMiddle, y + Height, z, // Top Right
+        TopMiddle, y + Height, z, // Top Middle
         // Back
         x,         y,          LengthMinusZ, // Bottom left
         x + Width, y,          LengthMinusZ, // Bottom Right
-        TopMiddle, y + Height, LengthMinusZ, // Top Right
+        TopMiddle, y + Height, LengthMinusZ, // Top Middle
     };
 
     std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);

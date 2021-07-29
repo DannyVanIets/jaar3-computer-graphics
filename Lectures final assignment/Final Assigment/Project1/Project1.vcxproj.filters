@@ -75,9 +75,6 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="Lampost.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
     <ClCompile Include="texture\texture.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
@@ -88,7 +85,16 @@
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Wedge.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="RightRemovedTrapezoidPrism.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Lampost.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="objloader.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,8 +140,14 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="RightRemovedTrapezoidPrism.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
     <ClInclude Include="Wedge.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="objloader.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
