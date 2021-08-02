@@ -107,7 +107,7 @@ public:
         0.0f, 1.0f, // top left
     };
 
-    std::vector<GLfloat> uvs2 = {
+    std::vector<GLfloat> Cube_uvs2 = {
         // U, V,
         // front
         0.0f, 0.0f, // bottom left

@@ -31,6 +31,6 @@ public:
 	void AddChimney();
 	void AddSmoke();
 
-	void RenderAllShapes(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-	void BufferAllShapes(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
+	void RenderAllShapes(glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
+	void BufferAllShapes(Shader shader, glm::mat4 mvp);
 };

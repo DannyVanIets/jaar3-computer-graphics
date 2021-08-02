@@ -21,6 +21,8 @@
 #include "TrapezoidPrism.h"
 #include "RightRemovedTrapezoidPrism.h"
 #include "Wedge.h"
+#include "Object.h"
+#include "Movement.h"
 
 using namespace std;
 
@@ -35,6 +37,9 @@ const char* fragshader_name = "fragmentshader.frag";
 
 const char* texture_vertexshader_name = "texturevs.vert";
 const char* texture_fragshader_name = "texturefs.frag";
+
+const char* object_vertexshader_name = "objectvs.vert";
+const char* object_fragshader_name = "objectfs.frag";
 
 const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* skybox_fragshader_name = "skyboxfs.frag";
@@ -51,12 +56,14 @@ GLuint texture_id;
 
 Shader shader;
 Shader texturedShader;
+Shader objectShader;
 
 GLuint uniform_mvp;
 
-glm::mat4 model, mvp;
+glm::mat4 model, mvp, mv;
 
 Camera camera;
+Movement movement;
 
 TriangularPrism tripri = TriangularPrism(-1.0, -1.0, 1.0);
 Icosahedron ico = Icosahedron(-1.0, -1.0, 1.0);
@@ -71,105 +78,28 @@ Cube cube2 = Cube(-10.0, -1.0, -3.0);
 
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
+//Object object;
+Object object = Object("teapot");
+
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
 //--------------------------------------------------------------------------------
 
 void keyboardHandler(unsigned char key, int a, int b)
 {
-	key = tolower(key);
-
-	// TODO: Implement movement speed from here: https://learnopengl.com/Getting-started/Camera.
-	// Helpful: https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/game_callbacks.cpp, ctrl + f on deltatime.
-	// All code: https://github.com/mattearly/TheOnlyEscapeIsESC/tree/master/code.
-
-	if (key == 27) // 27 is ESC, closes the tab.
-		glutExit();
-
-	/*---------------------------MOVEMENT---------------------------------*/
-
-	const float cameraSpeedZ = 0.1f; // Controls how fast you can move forward/backward.
-	const float cameraSpeedX = 0.1f; // Controls how fast you can move left/right.
-
-	if (key == 87 || key == 119) { // 87 is W and 119 is w, moving forwards.
-		// First line of code is for the drone mode, second is for just walking around.
-		//camera.cameraPos += cameraSpeedZ * camera.cameraFront;
-		camera.cameraPos += cameraSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
-	}
-
-	if (key == 83 || key == 115) { // 83 is S and 115 is s, moving backwards.
-		// First line of code is for the drone mode, second is for just walking around.
-		//camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
-		camera.cameraPos -= cameraSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
-	}
-
-	if (key == 65 || key == 97) { // 65 is A and 97 is a, moving left.
-		//camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
-		camera.cameraPos -= camera.Right * cameraSpeedX;
-	}
-
-	if (key == 68 || key == 100) { // 68 is D and 100 is d, moving right.
-		//camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
-		camera.cameraPos += camera.Right * cameraSpeedX;
-	}
-
-	// TODO: REMOVE THIS BEFORE UPLOADING IT!
-	if (key == 'q') {
-		camera.cameraPos.y += 1.0f;
-	}
-
-	if (key == 'e') {
-		camera.cameraPos.y -= 1.0f;
-	}
-
-	//camera.cameraPos.y = 1.0f; // Keeps you at ground level, so you cannot fly.
-
-	/*---------------------------STRAFING---------------------------------*/
-
-	if (key == 106) { // 65 is J, strafing to the left.
-
-	}
-
-	if (key == 108) { // 108 is L, strafing to the right.
-
-	}
-
-	if (key == 105) { // 105 is I, strafing up.
-
-	}
-
-	if (key == 107) { // 107 is K, strafing down.
-
-	}
+	// Move around with WASD.
+	camera = movement.KeyboardKeys(camera, key);
 }
 
 void pressKeySpecial(int key, int a, int b)
 {
-	const float cameraSpeedZ = 0.1f; // Controls how fast you can move forward/backward.
-	const float cameraSpeedX = 0.1f; // Controls how fast you can move left/right.
-
 	// Move around with the arrow keys.
-	switch (key)
-	{
-	case GLUT_KEY_UP: // Move forward.
-		camera.cameraPos += cameraSpeedZ * camera.cameraFront;
-		break;
-
-	case GLUT_KEY_DOWN: // Move backward.
-		camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
-		break;
-
-	case GLUT_KEY_LEFT: // Move left
-		camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
-		break;
-
-	case GLUT_KEY_RIGHT: // strafe right.
-		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
-		break;
-	}
+	camera = movement.KeyboardKeysSpecial(camera, key);
 }
 
-void MouseCallback(int x, int y) {
+void MouseCallback(int x, int y) 
+{
+	// Look around with the moused.
 	camera.LookAround(x, y);
 }
 
@@ -185,13 +115,13 @@ void Render()
 
 	// Draw the ground.
 	//glColor3f(0.039f, 0.341f, 0.078f);
-	glNormal3f(1.0f, 1.0f, 1.0f);
+	/*glNormal3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
 		glVertex3f(-100.0f, -1.0f, -100.0f);
 		glVertex3f(-100.0f, -1.0f, 100.0f);
 		glVertex3f(100.0f, -1.0f, 100.0f);
 		glVertex3f(100.0f, -1.0f, -100.0f);
-	glEnd();
+	glEnd();*/
 
 	// Attach to program_id
 	shader.Use();
@@ -206,21 +136,24 @@ void Render()
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
-	mvp = camera.projection * camera.view * model;
+	mvp = model * camera.view * camera.projection;
+	
+	house.RenderAllShapes(camera.projection, camera.view, mvp);
 
-	// Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	cube2.Render(camera.projection, camera.view, mvp);
+	//wedge.Render(camera.projection, camera.view, mvp);
+	//trapezoid.Render(camera.projection, camera.view, mvp);
+	//trapezoidNoRight.Render(camera.projection, camera.view, mvp);
+	//pyramid.Render(camera.projection, camera.view, mvp);
+	//hexagon.Render(camera.projection, camera.view, mvp);
+	//ico.Render(camera.projection, camera.view, mvp);
+	//tripri.Render(camera.projection, camera.view, mvp);
 
-	house.RenderAllShapes(uniform_mvp, camera.projection, camera.view, mvp);
+	// Objects
+	objectShader.Use();
 
-	//texturedShader.Use();
-	//cube2.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//wedge.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//trapezoid.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//trapezoidNoRight.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//pyramid.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//hexagon.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//ico.Render(uniform_mvp, camera.projection, camera.view, mvp);
-	//tripri.Render(uniform_mvp, camera.projection, camera.view, mvp);
+	object.Render(mv);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -272,7 +205,8 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
-	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	objectShader = Shader(object_vertexshader_name, object_fragshader_name);
 }
 
 void InitMatrices()
@@ -290,7 +224,7 @@ void InitMatrices()
 		glm::radians(10.0f),
 		glm::vec3(0.0f, 0.0f, 1.0f));
 
-	// Translation, base values are 
+	// Translation, base values are
 	model = glm::translate(
 		model,
 		glm::vec3(1.0f, 2.0f, -1.0f));*/
@@ -299,7 +233,18 @@ void InitMatrices()
 	camera.CalculateProjection();
 
 	// Combine everything.
-	mvp = camera.projection * camera.view * model;
+	mvp = model * camera.view * camera.projection;
+
+	/*model = glm::translate(
+		model,
+		glm::vec3(-1.0f, -1.0f, 1.0f));;*/
+
+	mv = model * camera.view;
+}
+
+void InitLoadObjects() 
+{
+	object.LoadObject();
 }
 
 void InitLoadTextures() {
@@ -313,17 +258,18 @@ void InitLoadTextures() {
 
 void InitBuffers()
 {
-	house.BufferAllShapes(shader, uniform_mvp, mvp);
+	house.BufferAllShapes(shader, mvp);
+	object.InitBuffers(objectShader, mv, camera.projection);
 
-	//cube2.InitBuffers(shader, uniform_mvp, mvp);
-	//wedge.InitBuffers(shader, uniform_mvp, mvp);
-	//trapezoid.InitBuffers(shader, uniform_mvp, mvp);
-	//trapezoidNoRight.InitBuffers(shader, uniform_mvp, mvp);
-	//cube2.InitBuffersTexture(texturedShader, uniform_mvp, mvp);
-	//pyramid.InitBuffers(shader, uniform_mvp, mvp);
-	//hexagon.InitBuffers(shader, uniform_mvp, mvp);
-	//ico.InitBuffers(shader, uniform_mvp, mvp);
-	//tripri.InitBuffers(shader, uniform_mvp, mvp);
+	cube2.InitBuffers(shader, mvp);
+	//cube2.InitBuffersTexture(texturedShader, mvp);
+	//wedge.InitBuffers(shader, mvp);
+	//trapezoid.InitBuffers(shader, mvp);
+	//trapezoidNoRight.InitBuffers(shader, mvp);
+	//pyramid.InitBuffers(shader, mvp);
+	//hexagon.InitBuffers(shader, mvp);
+	//ico.InitBuffers(shader, mvp);
+	//tripri.InitBuffers(shader, mvp);
 }
 
 int main(int argc, char** argv)
@@ -331,6 +277,7 @@ int main(int argc, char** argv)
 	InitGlutGlew(argc, argv);
 	InitShaders();
 	InitMatrices();
+	InitLoadObjects();
 	InitLoadTextures();
 	InitBuffers();
 

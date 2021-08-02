@@ -22,7 +22,7 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColo
     }
 }
 
-void Shape::Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
+void Shape::Render(glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
 {
     glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 
@@ -38,7 +38,7 @@ void Shape::Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm
     glBindVertexArray(0);
 }
 
-void Shape::InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
+void Shape::InitBuffers(Shader shader, glm::mat4 mvp)
 {
     GLuint position_id;
     GLuint color_id;
@@ -103,7 +103,7 @@ void Shape::InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
     glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
-void Shape::InitBuffersTexture(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
+void Shape::InitBuffersTexture(Shader shader, glm::mat4 mvp)
 {
     GLuint position_id;
     GLuint uv_id;

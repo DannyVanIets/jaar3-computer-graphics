@@ -49,10 +49,11 @@ public:
     float Height = 2.0, Width = 2.0, Length = 2.0;
     //glm::mat4 model, mvp;
     GLuint vao;
+    GLuint uniform_mvp;
 
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
     
-    void Render(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-    void InitBuffers(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
-    void InitBuffersTexture(Shader shader, GLuint uniform_mvp, glm::mat4 mvp);
+    void Render(glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
+    void InitBuffers(Shader shader, glm::mat4 mvp);
+    void InitBuffersTexture(Shader shader, glm::mat4 mvp);
 };

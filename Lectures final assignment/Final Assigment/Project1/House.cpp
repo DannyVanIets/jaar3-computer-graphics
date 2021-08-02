@@ -136,16 +136,16 @@ void House::AddSmoke()
 
 }
 
-void House::RenderAllShapes(GLuint uniform_mvp, glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
+void House::RenderAllShapes(glm::mat4 projection, glm::mat4 view, glm::mat4 mvp)
 {
 	for (auto& shape : Shapes) {
-		shape.Render(uniform_mvp, projection, view, mvp);
+		shape.Render(projection, view, mvp);
 	}
 }
 
-void House::BufferAllShapes(Shader shader, GLuint uniform_mvp, glm::mat4 mvp)
+void House::BufferAllShapes(Shader shader, glm::mat4 mvp)
 {
 	for (auto& shape : Shapes) {
-		shape.InitBuffers(shader, uniform_mvp, mvp);
+		shape.InitBuffers(shader, mvp);
 	}
 }
