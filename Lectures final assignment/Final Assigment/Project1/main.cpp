@@ -79,6 +79,7 @@ Cube cube2 = Cube(-10.0, -1.0, -3.0);
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
 //Object object;
+//Object object = Object("ufo"); // Duurt lang om te laden!
 Object object = Object("teapot");
 
 //--------------------------------------------------------------------------------
@@ -136,12 +137,12 @@ void Render()
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
-	mvp = model * camera.view * camera.projection;
+	mvp = camera.projection * camera.view * model;
 	
 	house.RenderAllShapes(camera.projection, camera.view, mvp);
 
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	cube2.Render(camera.projection, camera.view, mvp);
+	//cube2.Render(camera.projection, camera.view, mvp);
 	//wedge.Render(camera.projection, camera.view, mvp);
 	//trapezoid.Render(camera.projection, camera.view, mvp);
 	//trapezoidNoRight.Render(camera.projection, camera.view, mvp);
@@ -152,6 +153,8 @@ void Render()
 
 	// Objects
 	objectShader.Use();
+
+	mv = camera.view * model;
 
 	object.Render(mv);
 
@@ -205,7 +208,7 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
-	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
 	objectShader = Shader(object_vertexshader_name, object_fragshader_name);
 }
 
@@ -233,13 +236,13 @@ void InitMatrices()
 	camera.CalculateProjection();
 
 	// Combine everything.
-	mvp = model * camera.view * camera.projection;
+	mvp = camera.projection * camera.view * model;
 
-	/*model = glm::translate(
+	model = glm::translate(
 		model,
-		glm::vec3(-1.0f, -1.0f, 1.0f));;*/
+		glm::vec3(-1.0f, -1.0f, 1.0f));;
 
-	mv = model * camera.view;
+	mv = camera.view * model;
 }
 
 void InitLoadObjects() 
@@ -261,7 +264,7 @@ void InitBuffers()
 	house.BufferAllShapes(shader, mvp);
 	object.InitBuffers(objectShader, mv, camera.projection);
 
-	cube2.InitBuffers(shader, mvp);
+	//cube2.InitBuffers(shader, mvp);
 	//cube2.InitBuffersTexture(texturedShader, mvp);
 	//wedge.InitBuffers(shader, mvp);
 	//trapezoid.InitBuffers(shader, mvp);

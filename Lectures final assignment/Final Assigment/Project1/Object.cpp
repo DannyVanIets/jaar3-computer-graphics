@@ -7,7 +7,7 @@
 #include "objloader.h"
 #include "Shader.h"
 
-Object::Object(string path)
+Object::Object(std::string path)
 {
     this->path = "objects/" + path + ".obj";
 }
@@ -92,7 +92,7 @@ void Object::InitBuffers(Shader shader, glm::mat4 mv, glm::mat4 projection)
     GLuint uniform_material_power = glGetUniformLocation(
         shader.ID, "mat_power");
 
-    // Send mvp
+    // Send mv
     glUseProgram(shader.ID);
     glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
     glUniformMatrix4fv(uniform_proj, 1, GL_FALSE, glm::value_ptr(projection));

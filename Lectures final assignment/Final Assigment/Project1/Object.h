@@ -13,7 +13,7 @@ public:
 	// Properties
 	GLuint vao;
 	GLuint uniform_mv;
-	string path = "objects/teapot.obj";
+	std::string path = "objects/teapot.obj";
 	
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
@@ -27,7 +27,7 @@ public:
 	
 	// Constructors
 	Object() = default;
-	Object(string path);
+	Object(std::string path);
 
 	// Methods
 	void LoadObject();
