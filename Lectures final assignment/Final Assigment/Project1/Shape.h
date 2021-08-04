@@ -1,12 +1,14 @@
 #pragma once
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
+#include "Entity.h"
 #include "Shader.h"
 #include <vector>
 
-class Shape
+class Shape : public Entity
 {
 public:
+    // Properties
     GLfloat Vertices[72] = { };
     
     GLfloat Colors[72] = {
@@ -47,13 +49,11 @@ public:
     GLfloat uvs[72] = { };
 
     float Height = 2.0, Width = 2.0, Length = 2.0;
-    //glm::mat4 model, mvp;
-    GLuint vao;
-    GLuint uniform_mvp;
 
+    // Methods
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
-    
-    void Render(glm::mat4 projection, glm::mat4 view, glm::mat4 mvp);
-    void InitBuffers(Shader shader, glm::mat4 mvp);
-    void InitBuffersTexture(Shader shader, glm::mat4 mvp);
+
+    void Render(glm::mat4 projection, glm::mat4 view);
+    void InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view);
+    void InitBuffersTexture(Shader shader, glm::mat4 projection, glm::mat4 view);
 };

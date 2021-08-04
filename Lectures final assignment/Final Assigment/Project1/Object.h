@@ -5,14 +5,13 @@
 #include <vector>
 #include <string>
 
+#include "Entity.h"
 #include "Shader.h"
 
-class Object
+class Object : public Entity
 {
 public:
 	// Properties
-	GLuint vao;
-	GLuint uniform_mv;
 	std::string path = "objects/teapot.obj";
 	
 	std::vector<glm::vec3> vertices;
@@ -31,6 +30,7 @@ public:
 
 	// Methods
 	void LoadObject();
-	void Render(glm::mat4 mvp);
-	void InitBuffers(Shader shader, glm::mat4 mvp, glm::mat4 projection);
+
+	void Render(glm::mat4 view);
+	void InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view);
 };

@@ -17,8 +17,10 @@ void Object::LoadObject()
     bool result = loadOBJ(path.c_str(), vertices, uvs, normals);
 }
 
-void Object::Render(glm::mat4 mv)
+void Object::Render(glm::mat4 view)
 {
+    CalculateMv(view);
+
     glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
 
     // Send vao
@@ -29,8 +31,10 @@ void Object::Render(glm::mat4 mv)
     glBindVertexArray(0);
 }
 
-void Object::InitBuffers(Shader shader, glm::mat4 mv, glm::mat4 projection)
+void Object::InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view)
 {
+    CalculateMv(view);
+
     GLuint position_id;
     GLuint vbo_vertices;
     GLuint normal_id;

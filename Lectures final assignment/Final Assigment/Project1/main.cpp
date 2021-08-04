@@ -58,10 +58,6 @@ Shader shader;
 Shader texturedShader;
 Shader objectShader;
 
-GLuint uniform_mvp;
-
-glm::mat4 model, mvp, mv;
-
 Camera camera;
 Movement movement;
 
@@ -79,7 +75,7 @@ Cube cube2 = Cube(-10.0, -1.0, -3.0);
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
 //Object object;
-//Object object = Object("ufo"); // Duurt lang om te laden!
+//Object object = Object("ufo"); // Takes a long while to load!
 Object object = Object("teapot");
 
 //--------------------------------------------------------------------------------
@@ -100,7 +96,7 @@ void pressKeySpecial(int key, int a, int b)
 
 void MouseCallback(int x, int y) 
 {
-	// Look around with the moused.
+	// Look around with the mouse.
 	camera.LookAround(x, y);
 }
 
@@ -127,36 +123,19 @@ void Render()
 	// Attach to program_id
 	shader.Use();
 
-	// Rotate the models continiously.
-	/*model = glm::rotate(
-		model,
-		glm::radians(0.1f),
-		glm::vec3(0.0f, 1.0f, 0.0f));*/
-
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
-
-	mvp = camera.projection * camera.view * model;
 	
-	house.RenderAllShapes(camera.projection, camera.view, mvp);
+	house.RenderAllShapes(camera.projection, camera.view);
 
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	//cube2.Render(camera.projection, camera.view, mvp);
-	//wedge.Render(camera.projection, camera.view, mvp);
-	//trapezoid.Render(camera.projection, camera.view, mvp);
-	//trapezoidNoRight.Render(camera.projection, camera.view, mvp);
-	//pyramid.Render(camera.projection, camera.view, mvp);
-	//hexagon.Render(camera.projection, camera.view, mvp);
-	//ico.Render(camera.projection, camera.view, mvp);
-	//tripri.Render(camera.projection, camera.view, mvp);
+	//cube2.Render(camera.projection, camera.view);
+	// TODO: Create texture class and rename the current texture.h and texture.cpp file to textureloader.
 
 	// Objects
 	objectShader.Use();
-
-	mv = camera.view * model;
-
-	object.Render(mv);
+	object.Render(camera.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -214,35 +193,10 @@ void InitShaders()
 
 void InitMatrices()
 {
-	model = glm::mat4();
-
-	// Scaling
-	/*model = glm::scale(
-		model,
-		glm::vec3(1.0f, 0.5f, 1.0f));
-
-	// Rotation
-	model = glm::rotate(
-		model,
-		glm::radians(10.0f),
-		glm::vec3(0.0f, 0.0f, 1.0f));
-
-	// Translation, base values are
-	model = glm::translate(
-		model,
-		glm::vec3(1.0f, 2.0f, -1.0f));*/
-
 	// Calculate the camera projection.
 	camera.CalculateProjection();
 
-	// Combine everything.
-	mvp = camera.projection * camera.view * model;
-
-	model = glm::translate(
-		model,
-		glm::vec3(-1.0f, -1.0f, 1.0f));;
-
-	mv = camera.view * model;
+	object.DoTranslation(-1.0f, -1.0f, 10.0f);
 }
 
 void InitLoadObjects() 
@@ -261,18 +215,11 @@ void InitLoadTextures() {
 
 void InitBuffers()
 {
-	house.BufferAllShapes(shader, mvp);
-	object.InitBuffers(objectShader, mv, camera.projection);
+	house.BufferAllShapes(shader, camera.projection, camera.view);
+	object.InitBuffers(objectShader, camera.projection, camera.view);
 
 	//cube2.InitBuffers(shader, mvp);
 	//cube2.InitBuffersTexture(texturedShader, mvp);
-	//wedge.InitBuffers(shader, mvp);
-	//trapezoid.InitBuffers(shader, mvp);
-	//trapezoidNoRight.InitBuffers(shader, mvp);
-	//pyramid.InitBuffers(shader, mvp);
-	//hexagon.InitBuffers(shader, mvp);
-	//ico.InitBuffers(shader, mvp);
-	//tripri.InitBuffers(shader, mvp);
 }
 
 int main(int argc, char** argv)
