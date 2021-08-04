@@ -16,7 +16,7 @@
 #include "Icosahedron.h"
 #include "TriangularPrism.h"
 #include "Shader.h"
-#include "texture/texture.h"
+#include "texture/TextureLoader.h"
 #include "House.h"
 #include "TrapezoidPrism.h"
 #include "RightRemovedTrapezoidPrism.h"
@@ -75,8 +75,8 @@ Cube cube2 = Cube(-10.0, -1.0, -3.0);
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
 //Object object;
-//Object object = Object("ufo"); // Takes a long while to load!
-Object object = Object("teapot");
+Object object = Object("ufo"); // Takes a long while to load!
+//Object object = Object("teapot");
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -187,7 +187,7 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
-	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
 	objectShader = Shader(object_vertexshader_name, object_fragshader_name);
 }
 
@@ -196,7 +196,7 @@ void InitMatrices()
 	// Calculate the camera projection.
 	camera.CalculateProjection();
 
-	object.DoTranslation(-1.0f, -1.0f, 10.0f);
+	//object.DoTranslation(-1.0f, -1.0f, 10.0f);
 }
 
 void InitLoadObjects() 

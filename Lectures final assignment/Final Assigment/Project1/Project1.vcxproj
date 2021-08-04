@@ -144,7 +144,7 @@
     <ClCompile Include="RightRemovedTrapezoidPrism.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="texture\texture.cpp" />
+    <ClCompile Include="texture\TextureLoader.cpp" />
     <ClCompile Include="TrapezoidPrism.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TriangularPrism.cpp" />
@@ -166,7 +166,7 @@
     <ClInclude Include="RightRemovedTrapezoidPrism.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="texture\texture.h" />
+    <ClInclude Include="texture\TextureLoader.h" />
     <ClInclude Include="TrapezoidPrism.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="TriangularPrism.h" />

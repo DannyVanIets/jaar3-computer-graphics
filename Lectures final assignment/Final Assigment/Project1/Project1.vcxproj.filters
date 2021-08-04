@@ -75,7 +75,7 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="texture\texture.cpp">
+    <ClCompile Include="texture\TextureLoader.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
@@ -140,7 +140,7 @@
     <ClInclude Include="Lampost.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="texture\texture.h">
+    <ClInclude Include="texture\TextureLoader.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
