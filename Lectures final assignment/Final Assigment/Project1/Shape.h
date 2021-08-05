@@ -54,6 +54,8 @@ public:
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
 
     void Render(glm::mat4 projection, glm::mat4 view);
+    void RenderWithTexture(glm::mat4 projection, glm::mat4 view, GLuint texture_id);
+
     void InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view);
     void InitBuffersTexture(Shader shader, glm::mat4 projection, glm::mat4 view);
 };

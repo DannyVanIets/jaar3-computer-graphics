@@ -12,6 +12,12 @@ Object::Object(std::string path)
     this->path = "objects/" + path + ".obj";
 }
 
+Object::Object(std::string path, float x, float y, float z)
+{
+    this->path = "objects/" + path + ".obj";
+    DoTranslation(x, y, z);
+}
+
 void Object::LoadObject()
 {
     bool result = loadOBJ(path.c_str(), vertices, uvs, normals);

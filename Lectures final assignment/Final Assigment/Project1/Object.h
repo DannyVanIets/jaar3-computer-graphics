@@ -27,6 +27,7 @@ public:
 	// Constructors
 	Object() = default;
 	Object(std::string path);
+	Object(std::string path, float x, float y, float z);
 
 	// Methods
 	void LoadObject();

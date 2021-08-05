@@ -27,10 +27,6 @@ Cube::Cube(float x, float y, float z)
     };
 
     std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
-
-    // TODO: fix this for the UV's!
-    //for (int i = 1; i < 6; i++)
-        //memcpy(&Cube_uvs[i * 4 * 2], &Cube_uvs[0], 2 * 4 * sizeof(GLfloat));
 }
 
 Cube::Cube(float x, float y, float z, float width, float height, float length)
@@ -56,8 +52,5 @@ Cube::Cube(float x, float y, float z, float width, float height, float length)
         x,         y + Height, LengthMinusZ, // Top Left
     };
 
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
-
-    //for (int i = 1; i < 6; i++)
-        //memcpy(&Cube_uvs[i * 4 * 2], &Cube_uvs[0], 2 * 4 * sizeof(GLfloat));
+    //std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
 }

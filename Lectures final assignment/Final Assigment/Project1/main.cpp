@@ -70,13 +70,13 @@ RightRemovedTrapezoidPrism trapezoidNoRight = RightRemovedTrapezoidPrism(10.0, -
 Wedge wedge = Wedge(-1.0, -1.0, 1.0);
 
 //Cube cube = Cube(-1.0, -1.0, 1.0);
-Cube cube2 = Cube(-10.0, -1.0, -3.0);
+Cube cube2 = Cube(-2.0, -1.0, 1.0);
 
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
 //Object object;
-Object object = Object("ufo"); // Takes a long while to load!
-//Object object = Object("teapot");
+//Object object = Object("ufo"); // Takes a few seconds to load
+Object object = Object("teapot", -1.0f, -1.0f, 10.0f);
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -129,13 +129,16 @@ void Render()
 	
 	house.RenderAllShapes(camera.projection, camera.view);
 
-	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	//cube2.Render(camera.projection, camera.view);
-	// TODO: Create texture class and rename the current texture.h and texture.cpp file to textureloader.
+	texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+
+	cube2.Render(camera.projection, camera.view);
+	// TODO: Create texture class.
 
 	// Objects
-	objectShader.Use();
-	object.Render(camera.view);
+	//objectShader.Use();
+	//object.Render(camera.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -187,7 +190,7 @@ void InitGlutGlew(int argc, char** argv)
 void InitShaders()
 {
 	shader = Shader(vertexshader_name, fragshader_name);
-	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
 	objectShader = Shader(object_vertexshader_name, object_fragshader_name);
 }
 
@@ -195,8 +198,7 @@ void InitMatrices()
 {
 	// Calculate the camera projection.
 	camera.CalculateProjection();
-
-	//object.DoTranslation(-1.0f, -1.0f, 10.0f);
+	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
 }
 
 void InitLoadObjects() 
@@ -216,10 +218,10 @@ void InitLoadTextures() {
 void InitBuffers()
 {
 	house.BufferAllShapes(shader, camera.projection, camera.view);
-	object.InitBuffers(objectShader, camera.projection, camera.view);
+	//object.InitBuffers(objectShader, camera.projection, camera.view);
 
-	//cube2.InitBuffers(shader, mvp);
-	//cube2.InitBuffersTexture(texturedShader, mvp);
+	//cube2.InitBuffers(shader, camera.projection, camera.view);
+	cube2.InitBuffersTexture(texturedShader, camera.projection, camera.view);
 }
 
 int main(int argc, char** argv)

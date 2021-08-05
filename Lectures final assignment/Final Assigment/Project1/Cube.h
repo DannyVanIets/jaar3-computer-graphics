@@ -7,7 +7,7 @@
 class Cube : public Shape
 {
 public:
-    std::vector<GLfloat> Cube_Vertices = {
+    std::vector<GLfloat> Cube_Vertices2 = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0
          1.0, -1.0,  1.0, // bottom right, 1
@@ -20,7 +20,7 @@ public:
         -1.0,  1.0, -1.0, // top left, 7
     };
 
-    std::vector<GLfloat> Cube_Vertices2 = {
+    std::vector<GLfloat> Cube_Vertices = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0
          1.0, -1.0,  1.0, // bottom right, 1
@@ -67,7 +67,7 @@ public:
     //      0----------1
     //------------------------------------------------------------
 
-    std::vector<GLushort> Cube_elements = {
+    std::vector<GLushort> Cube_elements2 = {
         0,1,2, 0,2,3, // front
         1,5,6, 1,6,2, // right side
         4,0,3, 4,3,7, // left side
@@ -76,7 +76,7 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
-    std::vector<GLushort> Cube_elements2 = {
+    std::vector<GLushort> Cube_elements = {
         // front
         0, 1, 2,
         2, 3, 0,
