@@ -69,8 +69,8 @@ TrapezoidPrism trapezoid = TrapezoidPrism(-1.0, -1.0, 1.0, 4.0, 2.0, 2.0);
 RightRemovedTrapezoidPrism trapezoidNoRight = RightRemovedTrapezoidPrism(10.0, -1.0, 1.0);
 Wedge wedge = Wedge(-1.0, -1.0, 1.0);
 
-//Cube cube = Cube(-1.0, -1.0, 1.0);
-Cube cube2 = Cube(-2.0, -1.0, 1.0);
+Cube cube = Cube(-2.0, 0.0, 1.0, 2.0, 2.0, 2.0, false);
+Cube cube2 = Cube(-2.0, 0.0, 1.0, true);
 
 House house = House(2, 5.0f, -1.0f, 1.0f, true);
 
@@ -110,6 +110,9 @@ void Render()
 	glClearColor(0.0, 0.5, 0.5, 0.5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// For anti-aliasing
+	glEnable(GL_MULTISAMPLE);
+
 	// Draw the ground.
 	//glColor3f(0.039f, 0.341f, 0.078f);
 	/*glNormal3f(1.0f, 1.0f, 1.0f);
@@ -122,23 +125,23 @@ void Render()
 
 	// Attach to program_id
 	shader.Use();
+	//glBindTexture(GL_TEXTURE_2D, texture_id);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
-	
+
+	cube.Render(camera.projection, camera.view);
 	house.RenderAllShapes(camera.projection, camera.view);
 
-	texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	
-	glBindTexture(GL_TEXTURE_2D, texture_id);
-
-	cube2.Render(camera.projection, camera.view);
 	// TODO: Create texture class.
+	texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	cube2.Render(camera.projection, camera.view);
 
 	// Objects
-	//objectShader.Use();
-	//object.Render(camera.view);
+	objectShader.Use();
+	object.Render(camera.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -163,7 +166,8 @@ void Render(int n)
 void InitGlutGlew(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutSetOption(GLUT_MULTISAMPLE, 8);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
 	glutCreateWindow("Hello OpenGL");
 	glutDisplayFunc(Render);
@@ -196,9 +200,9 @@ void InitShaders()
 
 void InitMatrices()
 {
+	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
 	// Calculate the camera projection.
 	camera.CalculateProjection();
-	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
 }
 
 void InitLoadObjects() 
@@ -218,10 +222,10 @@ void InitLoadTextures() {
 void InitBuffers()
 {
 	house.BufferAllShapes(shader, camera.projection, camera.view);
-	//object.InitBuffers(objectShader, camera.projection, camera.view);
+	object.InitBuffers(objectShader, camera.projection, camera.view);
 
-	//cube2.InitBuffers(shader, camera.projection, camera.view);
-	cube2.InitBuffersTexture(texturedShader, camera.projection, camera.view);
+	cube.InitBuffer(shader, camera.projection, camera.view);
+	cube2.InitBuffer(texturedShader, camera.projection, camera.view);
 }
 
 int main(int argc, char** argv)

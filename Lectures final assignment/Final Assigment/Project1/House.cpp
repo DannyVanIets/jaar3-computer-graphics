@@ -105,7 +105,7 @@ void House::AddGarage()
 void House::AddFloors()
 {
 	for (int i = 0; i < AmountOfFloors; i++) {
-		Cube cube = Cube(X, Y, Z);
+		Cube cube = Cube(X, Y, Z, false);
 
 		Shapes.push_back(cube);
 
@@ -146,6 +146,6 @@ void House::RenderAllShapes(glm::mat4 projection, glm::mat4 view)
 void House::BufferAllShapes(Shader shader, glm::mat4 projection, glm::mat4 view)
 {
 	for (auto& shape : Shapes) {
-		shape.InitBuffers(shader, projection, view);
+		shape.InitBuffer(shader, projection, view);
 	}
 }

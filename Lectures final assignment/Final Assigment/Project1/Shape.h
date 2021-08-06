@@ -49,13 +49,14 @@ public:
     GLfloat uvs[72] = { };
 
     float Height = 2.0, Width = 2.0, Length = 2.0;
+    bool WithTexture;
 
     // Methods
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
 
     void Render(glm::mat4 projection, glm::mat4 view);
-    void RenderWithTexture(glm::mat4 projection, glm::mat4 view, GLuint texture_id);
 
-    void InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view);
-    void InitBuffersTexture(Shader shader, glm::mat4 projection, glm::mat4 view);
+    void InitBuffer(Shader shader, glm::mat4 projection, glm::mat4 view);
+    void InitBufferWithoutTexture(Shader shader);
+    void InitBufferWithTexture(Shader shader);
 };

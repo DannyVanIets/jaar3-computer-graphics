@@ -7,7 +7,7 @@
 class Cube : public Shape
 {
 public:
-    std::vector<GLfloat> Cube_Vertices2 = {
+    std::vector<GLfloat> Cube_Vertices = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0
          1.0, -1.0,  1.0, // bottom right, 1
@@ -20,7 +20,7 @@ public:
         -1.0,  1.0, -1.0, // top left, 7
     };
 
-    std::vector<GLfloat> Cube_Vertices = {
+    std::vector<GLfloat> Cube_Vertices_For_Textures = {
         // front
         -1.0, -1.0,  1.0, // bottom left, 0
          1.0, -1.0,  1.0, // bottom right, 1
@@ -67,7 +67,7 @@ public:
     //      0----------1
     //------------------------------------------------------------
 
-    std::vector<GLushort> Cube_elements2 = {
+    std::vector<GLushort> Cube_Elements = {
         0,1,2, 0,2,3, // front
         1,5,6, 1,6,2, // right side
         4,0,3, 4,3,7, // left side
@@ -76,7 +76,7 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
-    std::vector<GLushort> Cube_elements = {
+    std::vector<GLushort> Cube_Elements_for_Textures = {
         // front
         0, 1, 2,
         2, 3, 0,
@@ -107,62 +107,8 @@ public:
         0.0f, 1.0f, // top left
     };
 
-    std::vector<GLfloat> Cube_uvs2 = {
-        // U, V,
-        // front
-        0.0f, 0.0f, // bottom left
-        1.0f, 0.0f, // bottom right
-        1.0f, 1.0f, // top right
-        0.0f, 1.0f, // top left
-
-        // behind
-        1.0f, 1.0f, // bottom right
-        0.0f, 1.0f, // top right
-        0.0f, 0.0f, // top left
-        1.0f, 0.0f, // bottom left
-    };
-
-    std::vector<GLfloat> uvs3 = {
-        0.000059f, 1.0f - 0.000004f,
-        0.000103f, 1.0f - 0.336048f,
-        0.335973f, 1.0f - 0.335903f,
-        1.000023f, 1.0f - 0.000013f,
-        0.667979f, 1.0f - 0.335851f,
-        0.999958f, 1.0f - 0.336064f,
-        0.667979f, 1.0f - 0.335851f,
-        0.336024f, 1.0f - 0.671877f,
-        0.667969f, 1.0f - 0.671889f,
-        1.000023f, 1.0f - 0.000013f,
-        0.668104f, 1.0f - 0.000013f,
-        0.667979f, 1.0f - 0.335851f,
-        0.000059f, 1.0f - 0.000004f,
-        0.335973f, 1.0f - 0.335903f,
-        0.336098f, 1.0f - 0.000071f,
-        0.667979f, 1.0f - 0.335851f,
-        0.335973f, 1.0f - 0.335903f,
-        0.336024f, 1.0f - 0.671877f,
-        1.000004f, 1.0f - 0.671847f,
-        0.999958f, 1.0f - 0.336064f,
-        0.667979f, 1.0f - 0.335851f,
-        0.668104f, 1.0f - 0.000013f,
-        0.335973f, 1.0f - 0.335903f,
-        0.667979f, 1.0f - 0.335851f,
-        0.335973f, 1.0f - 0.335903f,
-        0.668104f, 1.0f - 0.000013f,
-        0.336098f, 1.0f - 0.000071f,
-        0.000103f, 1.0f - 0.336048f,
-        0.000004f, 1.0f - 0.671870f,
-        0.336024f, 1.0f - 0.671877f,
-        0.000103f, 1.0f - 0.336048f,
-        0.336024f, 1.0f - 0.671877f,
-        0.335973f, 1.0f - 0.335903f,
-        0.667969f, 1.0f - 0.671889f,
-        1.000004f, 1.0f - 0.671847f,
-        0.667979f, 1.0f - 0.335851f
-    };
-
     // Constructors
     Cube() = default;
-    Cube(float x, float y, float z);
-    Cube(float x, float y, float z, float width, float height, float length);
+    Cube(float x, float y, float z, bool withTexture);
+    Cube(float x, float y, float z, float width, float height, float length, bool withTexture);
 };
