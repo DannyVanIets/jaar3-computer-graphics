@@ -117,9 +117,6 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
-    <ClCompile Include="House2.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pyramid.h">
@@ -187,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Header Files\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="House2.h">
-      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
