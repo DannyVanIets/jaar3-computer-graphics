@@ -15,7 +15,6 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColo
 	if (newUvs.size() > 0) {
 		std::copy(newUvs.begin(), newUvs.end(), uvs);
 
-		// TODO: THIS DOES NOT WORK YET! FIX THIS GARBAGE.
 		for (int i = 1; i < 6; i++) {
 			memcpy(&uvs[i * 4 * 2], &uvs[0], 2 * 4 * sizeof(GLfloat));
 		}
@@ -24,6 +23,8 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColo
 
 void Shape::Render(glm::mat4 projection, glm::mat4 view)
 {
+	shader.Use();
+
 	CalculateMvp(projection, view);
 
 	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -40,19 +41,24 @@ void Shape::Render(glm::mat4 projection, glm::mat4 view)
 	glBindVertexArray(0);
 }
 
-void Shape::InitBuffer(Shader shader, glm::mat4 projection, glm::mat4 view)
+void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 {
+	shader = Shader(vertexshader_name, fragshader_name);
+	//textureShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+
 	CalculateMvp(projection, view);
 
-	if (WithTexture) {
-		InitBufferWithTexture(shader);
+	if (WithTexture) 
+	{
+		InitBufferWithTexture();
 	}
-	else {
-		InitBufferWithoutTexture(shader);
+	else 
+	{
+		InitBufferWithoutTexture();
 	}
 }
 
-void Shape::InitBufferWithoutTexture(Shader shader)
+void Shape::InitBufferWithoutTexture()
 {
 	GLuint position_id;
 	GLuint color_id;
@@ -117,7 +123,7 @@ void Shape::InitBufferWithoutTexture(Shader shader)
 	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
-void Shape::InitBufferWithTexture(Shader shader)
+void Shape::InitBufferWithTexture()
 {
 	GLuint position_id;
 	GLuint uv_id;

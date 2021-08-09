@@ -9,20 +9,15 @@
 
 #include "glsl.h"
 
-#include "Cube.h"
 #include "Camera.h"
-#include "Pyramid.h"
-#include "Hexagon.h"
-#include "Icosahedron.h"
-#include "TriangularPrism.h"
-#include "Shader.h"
-#include "texture/TextureLoader.h"
-#include "House.h"
-#include "TrapezoidPrism.h"
-#include "RightRemovedTrapezoidPrism.h"
-#include "Wedge.h"
-#include "Object.h"
 #include "Movement.h"
+
+#include "texture/TextureLoader.h"
+
+#include "House2.h"
+#include "Cube.h"
+#include "House.h"
+#include "Object.h"
 
 using namespace std;
 
@@ -31,15 +26,6 @@ using namespace std;
 //--------------------------------------------------------------------------------
 
 const int WIDTH = 800, HEIGHT = 600;
-
-const char* vertexshader_name = "vertexshader.vert";
-const char* fragshader_name = "fragmentshader.frag";
-
-const char* texture_vertexshader_name = "texturevs.vert";
-const char* texture_fragshader_name = "texturefs.frag";
-
-const char* object_vertexshader_name = "objectvs.vert";
-const char* object_fragshader_name = "objectfs.frag";
 
 const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* skybox_fragshader_name = "skyboxfs.frag";
@@ -54,29 +40,117 @@ unsigned const int DELTA_TIME = 10;
 //--------------------------------------------------------------------------------
 GLuint texture_id;
 
-Shader shader;
-Shader texturedShader;
-Shader objectShader;
-
 Camera camera;
 Movement movement;
 
-TriangularPrism tripri = TriangularPrism(-1.0, -1.0, 1.0);
-Icosahedron ico = Icosahedron(-1.0, -1.0, 1.0);
-Hexagon hexagon = Hexagon(7.0, -1.0, 15.0);
-Pyramid pyramid = Pyramid(-1.0, -1.0, 1.0);
-TrapezoidPrism trapezoid = TrapezoidPrism(-1.0, -1.0, 1.0, 4.0, 2.0, 2.0);
-RightRemovedTrapezoidPrism trapezoidNoRight = RightRemovedTrapezoidPrism(10.0, -1.0, 1.0);
-Wedge wedge = Wedge(-1.0, -1.0, 1.0);
+Cube cube = Cube(-3.0, 0.0, 1.0, false);
+House house = House(2, 5.0f, 0.0f, 10.0f, true);
 
-Cube cube = Cube(-2.0, 0.0, 1.0, 2.0, 2.0, 2.0, false);
-Cube cube2 = Cube(-2.0, 0.0, 1.0, true);
+Object object = Object("teapot", 0.0, 0.0, 10.0);
+Object object2 = Object("sphere", 5.0, 0.0, 10.0);
 
-House house = House(2, 5.0f, -1.0f, 1.0f, true);
+//--------------------------------------------------------------------------------
+// Rendering
+//--------------------------------------------------------------------------------
 
-//Object object;
-//Object object = Object("ufo"); // Takes a few seconds to load
-Object object = Object("teapot", -1.0f, -1.0f, 10.0f);
+void Render()
+{
+	// Define background
+	glClearColor(0.0, 0.5, 0.5, 0.5);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// For anti-aliasing
+	glEnable(GL_MULTISAMPLE);
+
+	// Draw the ground.
+	/*glColor3f(0.039f, 0.341f, 0.078f);
+	glNormal3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+		glVertex3f(-10.0f, -1.0f, -10.0f);
+		glVertex3f(-10.0f, -1.0f, 10.0f);
+		glVertex3f(10.0f, -1.0f, 10.0f);
+		glVertex3f(10.0f, -1.0f, -10.0f);
+	glEnd();*/
+
+	// Attach to program_id
+	//shader.Use();
+	//glBindTexture(GL_TEXTURE_2D, texture_id);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
+
+	// Calculate the view of the camera.
+	// Will update the view after a button has been pressed for the movement.
+	camera.CalculateView();
+
+	cube.Render(camera.projection, camera.view);
+
+	object.Render(camera.projection, camera.view);
+	object2.Render(camera.projection, camera.view);
+
+	//house.RenderAll(camera.projection, camera.view);
+	//tree.Render(camera.projection, camera.view);
+
+	// TODO: Create texture class.
+	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	//cube2.Render(camera.projection, camera.view);
+
+	// Objects
+	//objectShader.Use();
+	//object.Render(camera.projection, camera.view);
+
+	// Swap buffers
+	glutSwapBuffers();
+}
+
+//-----------------------------------------------------------
+// void InitBuffers()
+// Allocates and fills buffers
+//------------------------------------------------------------
+
+void InitBuffers()
+{
+	cube.InitBuffers(camera.projection, camera.view);
+
+	object.InitBuffers(camera.projection, camera.view);
+	object2.InitBuffers(camera.projection, camera.view);
+
+	//house.InitBufferAll(camera.projection, camera.view);
+	//tree.InitBuffers(camera.projection, camera.view);
+
+	//cube2.InitBuffers(texturedShader, camera.projection, camera.view);
+
+	//object.InitBuffers(camera.projection, camera.view);
+}
+
+//------------------------------------------------------------
+// void InitShaders()
+// Initializes the fragmentshader and vertexshader
+//------------------------------------------------------------
+
+void InitShaders()
+{
+	//shader = Shader(vertexshader_name, fragshader_name);
+	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	//objectShader = Shader(object_vertexshader_name, object_fragshader_name);
+}
+
+void InitMatrices()
+{
+	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
+	// Calculate the camera projection.
+	camera.CalculateProjection();
+
+	object.diffuse_color = glm::vec3(1.0, 0.0, 0.0);
+	object2.diffuse_color = glm::vec3(0.0, 1.0, 0.0);
+}
+
+/*void InitLoadObjects()
+{
+	object.LoadObject();
+}*/
+
+void InitLoadTextures() {
+	texture_id = loadBMP(texture_name);
+}
 
 //--------------------------------------------------------------------------------
 // Control handling, with keyboard and mouse
@@ -94,57 +168,10 @@ void pressKeySpecial(int key, int a, int b)
 	camera = movement.KeyboardKeysSpecial(camera, key);
 }
 
-void MouseCallback(int x, int y) 
+void MouseCallback(int x, int y)
 {
 	// Look around with the mouse.
 	camera.LookAround(x, y);
-}
-
-//--------------------------------------------------------------------------------
-// Rendering
-//--------------------------------------------------------------------------------
-
-void Render()
-{
-	// Define background
-	glClearColor(0.0, 0.5, 0.5, 0.5);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// For anti-aliasing
-	glEnable(GL_MULTISAMPLE);
-
-	// Draw the ground.
-	//glColor3f(0.039f, 0.341f, 0.078f);
-	/*glNormal3f(1.0f, 1.0f, 1.0f);
-	glBegin(GL_QUADS);
-		glVertex3f(-100.0f, -1.0f, -100.0f);
-		glVertex3f(-100.0f, -1.0f, 100.0f);
-		glVertex3f(100.0f, -1.0f, 100.0f);
-		glVertex3f(100.0f, -1.0f, -100.0f);
-	glEnd();*/
-
-	// Attach to program_id
-	shader.Use();
-	//glBindTexture(GL_TEXTURE_2D, texture_id);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
-
-	// Calculate the view of the camera.
-	// Will update the view after a button has been pressed for the movement.
-	camera.CalculateView();
-
-	cube.Render(camera.projection, camera.view);
-	house.RenderAllShapes(camera.projection, camera.view);
-
-	// TODO: Create texture class.
-	texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	cube2.Render(camera.projection, camera.view);
-
-	// Objects
-	objectShader.Use();
-	object.Render(camera.view);
-
-	// Swap buffers
-	glutSwapBuffers();
 }
 
 //------------------------------------------------------------
@@ -169,7 +196,7 @@ void InitGlutGlew(int argc, char** argv)
 	glutSetOption(GLUT_MULTISAMPLE, 8);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow("Hello OpenGL");
+	glutCreateWindow("Hello there");
 	glutDisplayFunc(Render);
 
 	// For the movement with WASD.
@@ -183,49 +210,10 @@ void InitGlutGlew(int argc, char** argv)
 	glutPassiveMotionFunc(MouseCallback);
 
 	glutTimerFunc(DELTA_TIME, Render, 0);
+
+	glewExperimental = GL_TRUE;
+
 	glewInit();
-}
-
-//------------------------------------------------------------
-// void InitShaders()
-// Initializes the fragmentshader and vertexshader
-//------------------------------------------------------------
-
-void InitShaders()
-{
-	shader = Shader(vertexshader_name, fragshader_name);
-	texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
-	objectShader = Shader(object_vertexshader_name, object_fragshader_name);
-}
-
-void InitMatrices()
-{
-	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
-	// Calculate the camera projection.
-	camera.CalculateProjection();
-}
-
-void InitLoadObjects() 
-{
-	object.LoadObject();
-}
-
-void InitLoadTextures() {
-	texture_id = loadBMP(texture_name);
-}
-
-//-----------------------------------------------------------
-// void InitBuffers()
-// Allocates and fills buffers
-//------------------------------------------------------------
-
-void InitBuffers()
-{
-	house.BufferAllShapes(shader, camera.projection, camera.view);
-	object.InitBuffers(objectShader, camera.projection, camera.view);
-
-	cube.InitBuffer(shader, camera.projection, camera.view);
-	cube2.InitBuffer(texturedShader, camera.projection, camera.view);
 }
 
 int main(int argc, char** argv)
@@ -233,8 +221,8 @@ int main(int argc, char** argv)
 	InitGlutGlew(argc, argv);
 	InitShaders();
 	InitMatrices();
-	InitLoadObjects();
 	InitLoadTextures();
+	//InitLoadObjects();
 	InitBuffers();
 
 	glEnable(GL_DEPTH_TEST);

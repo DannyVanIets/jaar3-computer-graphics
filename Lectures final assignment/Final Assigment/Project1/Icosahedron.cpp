@@ -1,20 +1,40 @@
 #include "Icosahedron.h"
 
-Icosahedron::Icosahedron(float x, float y, float z)
+Icosahedron::Icosahedron(float x, float y, float z, bool withTexture)
 {
-	Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
+	WithTexture = withTexture;
 
+	if (WithTexture)
+	{
+		Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
+	}
+	else
+	{
+		Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
+	}
 
+	DoTranslation(x, y, z);
 }
 
-Icosahedron::Icosahedron(float x, float y, float z, float width, float height, float length)
+Icosahedron::Icosahedron(float x, float y, float z, float width, float height, float length, bool withTexture)
 {
 	Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
 
-	Height = height;
 	Width = width;
+	Height = height;
 	Length = length;
 
-	// TODO: Make it possible to change the x, y and z positions, just like the cube.
+	WithTexture = withTexture;
 
+	if (WithTexture)
+	{
+		Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
+	}	
+	else
+	{
+		Setup(Icosahedron_Vertices, {}, Icosahedron_Elements, {});
+	}
+
+	DoTranslation(x, y, z);
+	DoScaling(Width, Height, Length);
 }

@@ -10,12 +10,25 @@
 Object::Object(std::string path)
 {
     this->path = "objects/" + path + ".obj";
+
+    LoadObject();
 }
 
 Object::Object(std::string path, float x, float y, float z)
 {
     this->path = "objects/" + path + ".obj";
+
     DoTranslation(x, y, z);
+    LoadObject();
+}
+
+Object::Object(std::string path, float x, float y, float z, float width, float height, float length)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    DoScaling(width, height, length);
+    LoadObject();
 }
 
 void Object::LoadObject()
@@ -23,8 +36,10 @@ void Object::LoadObject()
     bool result = loadOBJ(path.c_str(), vertices, uvs, normals);
 }
 
-void Object::Render(glm::mat4 view)
+void Object::Render(glm::mat4 projection, glm::mat4 view)
 {
+    shader.Use();
+
     CalculateMv(view);
 
     glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
@@ -37,8 +52,10 @@ void Object::Render(glm::mat4 view)
     glBindVertexArray(0);
 }
 
-void Object::InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view)
+void Object::InitBuffers(glm::mat4 projection, glm::mat4 view)
 {
+    shader = Shader(object_vertexshader_name, object_fragshader_name);
+
     CalculateMv(view);
 
     GLuint position_id;
@@ -103,7 +120,7 @@ void Object::InitBuffers(Shader shader, glm::mat4 projection, glm::mat4 view)
         shader.ID, "mat_power");
 
     // Send mv
-    glUseProgram(shader.ID);
+    shader.Use();
     glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
     glUniformMatrix4fv(uniform_proj, 1, GL_FALSE, glm::value_ptr(projection));
     glUniform3fv(uniform_light_pos, 1, glm::value_ptr(light_position));

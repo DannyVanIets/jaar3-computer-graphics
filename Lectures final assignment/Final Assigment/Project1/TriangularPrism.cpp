@@ -1,47 +1,38 @@
 #include "TriangularPrism.h"
 
-TriangularPrism::TriangularPrism(float x, float y, float z)
+TriangularPrism::TriangularPrism(float x, float y, float z, bool withTexture)
 {
-    Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
+    WithTexture = withTexture;
 
-    float LengthMinusZ = z - Length;
-    float TopMiddle = x + Width / 2;
+    if (WithTexture)
+    {
+        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, TriangularPrism_uvs);
+    }
+    else
+    {
+        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
+    }
 
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,          z, // Bottom left
-        x + Width, y,          z, // Bottom Right
-        TopMiddle, y + Height, z, // Top Middle
-        // Back
-        x,         y,          LengthMinusZ, // Bottom left
-        x + Width, y,          LengthMinusZ, // Bottom Right
-        TopMiddle, y + Height, LengthMinusZ, // Top Middle
-    };
-
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
 }
 
-TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length)
+TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length, bool withTexture)
 {
-    Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
-
     Height = height;
     Width = width;
     Length = length;
 
-    float LengthMinusZ = z - Length;
-    float TopMiddle = x + Width / 2;
+    WithTexture = withTexture;
 
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,          z, // Bottom left
-        x + Width, y,          z, // Bottom Right
-        TopMiddle, y + Height, z, // Top Middle
-        // Back
-        x,         y,          LengthMinusZ, // Bottom left
-        x + Width, y,          LengthMinusZ, // Bottom Right
-        TopMiddle, y + Height, LengthMinusZ, // Top Middle
-    };
+    if (WithTexture)
+    {
+        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, TriangularPrism_uvs);
+    }
+    else
+    {
+        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
+    }
 
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
+    DoScaling(Width, Height, Length);
 }

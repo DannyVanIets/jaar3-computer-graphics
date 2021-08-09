@@ -11,7 +11,7 @@ public:
     // Properties
     GLfloat Vertices[72] = { };
     
-    GLfloat Colors[72] = {
+    GLfloat Colors[72] = { // Standard rainbow colors.
         // front colors
         1.0, 1.0, 0.0,
         0.0, 1.0, 0.0,
@@ -46,17 +46,35 @@ public:
 
     GLushort Elements[72] = { };
 
-    GLfloat uvs[72] = { };
+    GLfloat uvs[72] = { 
+        // U, V,
+        // front
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+    };
 
-    float Height = 2.0, Width = 2.0, Length = 2.0;
+    float Height = 1.0, Width = 1.0, Length = 1.0;
     bool WithTexture;
+
+    const char* vertexshader_name = "vertexshader.vert";
+    const char* fragshader_name = "fragmentshader.frag";
+
+    const char* texture_vertexshader_name = "texturevs.vert";
+    const char* texture_fragshader_name = "texturefs.frag";
+
+    Shader shader;
+    Shader textureShader;
+
+    // Constructors/Destructors
 
     // Methods
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
 
-    void Render(glm::mat4 projection, glm::mat4 view);
+    void Render(glm::mat4 projection, glm::mat4 view) override;
 
-    void InitBuffer(Shader shader, glm::mat4 projection, glm::mat4 view);
-    void InitBufferWithoutTexture(Shader shader);
-    void InitBufferWithTexture(Shader shader);
+    void InitBuffers(glm::mat4 projection, glm::mat4 view) override;
+    void InitBufferWithoutTexture();
+    void InitBufferWithTexture();
 };

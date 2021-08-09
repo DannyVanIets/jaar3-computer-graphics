@@ -60,8 +60,17 @@ public:
         0,1,3, 1,3,4  // bottom
     };
 
+    std::vector<GLfloat> TriangularPrism_uvs = {
+        // U, V,
+        // front
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+    };
+
     // Constructors
     TriangularPrism() = default;
-    TriangularPrism(float x, float y, float z);
-    TriangularPrism(float x, float y, float z, float width, float height, float length);
+    TriangularPrism(float x, float y, float z, bool withTexture);
+    TriangularPrism(float x, float y, float z, float width, float height, float length, bool withTexture);
 };

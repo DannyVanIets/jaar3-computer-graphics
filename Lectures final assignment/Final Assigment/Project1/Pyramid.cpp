@@ -1,19 +1,38 @@
 #include "Pyramid.h"
 
-Pyramid::Pyramid(float x, float y, float z)
+Pyramid::Pyramid(float x, float y, float z, bool withTexture)
 {
-    Setup(Pyramid_Vertices, {}, Pyramid_Elements, {});
+	WithTexture = withTexture;
 
+	if (WithTexture)
+	{
+		Setup(Pyramid_Vertices, {}, Pyramid_Elements, Pyramid_uvs);
+	}
+	else
+	{
+		Setup(Pyramid_Vertices, {}, Pyramid_Elements, {});
+	}
 
+	DoTranslation(x, y, z);
 }
 
-Pyramid::Pyramid(float x, float y, float z, float width, float height, float length)
+Pyramid::Pyramid(float x, float y, float z, float width, float height, float length, bool withTexture)
 {
-    Setup(Pyramid_Vertices, {}, Pyramid_Elements, {});
-
-	Height = height;
 	Width = width;
+	Height = height;
 	Length = length;
 
-    // TODO: Make it possible to change the x, y and z positions, just like the cube.
+	WithTexture = withTexture;
+
+	if (WithTexture)
+	{
+		Setup(Pyramid_Vertices, {}, Pyramid_Elements, Pyramid_uvs);
+	}
+	else
+	{
+		Setup(Pyramid_Vertices, {}, Pyramid_Elements, {});
+	}
+
+	DoTranslation(x, y, z);
+	DoScaling(Width, Height, Length);
 }

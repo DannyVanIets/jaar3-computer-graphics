@@ -1,47 +1,38 @@
 #include "Wedge.h"
 
-Wedge::Wedge(float x, float y, float z)
+Wedge::Wedge(float x, float y, float z, bool withTexture)
 {
-    Setup(Wedge_Vertices, {}, Wedge_Elements, {});
+    WithTexture = withTexture;
 
-    float YHeight = y + Height / 2;
-    float LengthMinusZ = z - Length;
+    if (WithTexture)
+    {
+        Setup(Wedge_Vertices, {}, Wedge_Elements, Wedge_uvs);
+    }
+    else
+    {
+        Setup(Wedge_Vertices, {}, Wedge_Elements, {});
+    }
 
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,       z, // Bottom left
-        x + Width, y,       z, // Bottom Right
-        x + Width, YHeight, z, // Top Right
-        // Back
-        x,         y,       LengthMinusZ, // Bottom left
-        x + Width, y,       LengthMinusZ, // Bottom Right
-        x + Width, YHeight, LengthMinusZ, // Top Right
-    };
-
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
 }
 
-Wedge::Wedge(float x, float y, float z, float width, float height, float length)
+Wedge::Wedge(float x, float y, float z, float width, float height, float length, bool withTexture)
 {
-    Setup(Wedge_Vertices, {}, Wedge_Elements, {});
-
     Height = height;
     Width = width;
     Length = length;
 
-    float YHeight = y + Height / 2;
-    float LengthMinusZ = z - Length;
+    WithTexture = withTexture;
 
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,       z, // Bottom left
-        x + Width, y,       z, // Bottom Right
-        x + Width, YHeight, z, // Top Right
-        // Back
-        x,         y,       LengthMinusZ, // Bottom left
-        x + Width, y,       LengthMinusZ, // Bottom Right
-        x + Width, YHeight, LengthMinusZ, // Top Right
-    };
+    if (WithTexture)
+    {
+        Setup(Wedge_Vertices, {}, Wedge_Elements, Wedge_uvs);
+    }
+    else
+    {
+        Setup(Wedge_Vertices, {}, Wedge_Elements, {});
+    }
 
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
+    DoScaling(Width, Height, Length);
 }

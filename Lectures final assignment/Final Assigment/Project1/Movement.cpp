@@ -4,7 +4,6 @@
 
 Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 {
-	// Move around with WASD.
 	// TODO: Implement deltatime from here: https://learnopengl.com/Getting-started/Camera.
 	// Helpful: https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/game_callbacks.cpp, ctrl + f on deltatime.
 	// All code: https://github.com/mattearly/TheOnlyEscapeIsESC/tree/master/code.
@@ -18,29 +17,29 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 
 	/*---------------------------MOVEMENT---------------------------------*/
 
-	if (key == 87 || key == 119) { // 87 is W and 119 is w, moving forwards.
+	if (key == 'w') { // Walk forward.
 		// First line of code is for the drone mode, second is for just walking around.
 		//camera.cameraPos += cameraSpeedZ * camera.cameraFront;
 		camera.cameraPos += walkSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 	}
 
-	if (key == 83 || key == 115) { // 83 is S and 115 is s, moving backwards.
+	if (key == 's') { // Walk backwards.
 		// First line of code is for the drone mode, second is for just walking around.
 		//camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
 		camera.cameraPos -= walkSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 	}
 
-	if (key == 65 || key == 97) { // 65 is A and 97 is a, moving left.
+	if (key == 'a') { // Walk left.
 		//camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 		camera.cameraPos -= camera.Right * walkSpeedX;
 	}
 
-	if (key == 68 || key == 100) { // 68 is D and 100 is d, moving right.
+	if (key == 'd') { // Walk right
 		//camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
 		camera.cameraPos += camera.Right * walkSpeedX;
 	}
 
-	// TODO: REMOVE THIS BEFORE UPLOADING IT!
+	// TODO: TURN THIS INTO DRONE MODE!
 	if (key == 'q') {
 		camera.cameraPos.y += 1.0f;
 	}
@@ -53,20 +52,20 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 
 	/*---------------------------STRAFING---------------------------------*/
 
-	if (key == 106) { // 65 is J, strafing to the left.
-
+	if (key == 'j') { // Strafing to the left.
+		camera.yaw -= 1.0f;
 	}
 
-	if (key == 108) { // 108 is L, strafing to the right.
-
+	if (key == 'l') { // Strafing to the right.
+		camera.yaw += 1.0f;
 	}
 
-	if (key == 105) { // 105 is I, strafing up.
-
+	if (key == 'i') { // Strafing up.
+		camera.pitch += 1.0f;
 	}
 
-	if (key == 107) { // 107 is K, strafing down.
-
+	if (key == 'k') { // Strafing down.
+		camera.pitch -= 1.0f;
 	}
 
 	return camera;

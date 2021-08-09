@@ -85,6 +85,6 @@ public:
 
     // Constructors
     Icosahedron() = default;
-    Icosahedron(float x, float y, float z);
-    Icosahedron(float x, float y, float z, float width, float height, float length);
+    Icosahedron(float x, float y, float z, bool withTexture);
+    Icosahedron(float x, float y, float z, float width, float height, float length, bool withTexture);
 };

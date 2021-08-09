@@ -97,16 +97,6 @@ public:
         22, 23, 20,
     };
 
-    // Two UV coordinates for each vertex.
-    std::vector<GLfloat> Cube_uvs = {
-        // U, V,
-        // front
-        0.0f, 0.0f, // bottom left
-        1.0f, 0.0f, // bottom right
-        1.0f, 1.0f, // top right
-        0.0f, 1.0f, // top left
-    };
-
     // Constructors
     Cube() = default;
     Cube(float x, float y, float z, bool withTexture);

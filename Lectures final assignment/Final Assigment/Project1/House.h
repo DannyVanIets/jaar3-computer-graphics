@@ -1,17 +1,12 @@
 #pragma once
-#include <vector>
-#include "Shape.h"
+#include "Model.h"
 
-class House
+class House : public Model
 {
 public:
 	// Variabeles
 	int AmountOfFloors = 1;
 	bool PyramidRoof = true;
-	float X = 2.0, Y = -1.0, Z = 2.0;
-	float Height = 2.0, Width = 2.0, Length = 2.0;
-
-	std::vector<Shape> Shapes = {};
 
 	// Constructors
 	House() = default;
@@ -23,14 +18,10 @@ public:
 
 	// Shapes.
 	// TODO: Maybe add windows and doors too, would be really nice!
-	void AddAllShapes();
+	void AddAllEntities();
 	void AddGarage();
 	void AddFloors();
-	void AddPyramidRoof();
-	void AddTrapezoidRoof();
+	void AddRoof();
 	void AddChimney();
 	void AddSmoke();
-
-	void RenderAllShapes(glm::mat4 projection, glm::mat4 view);
-	void BufferAllShapes(Shader shader, glm::mat4 projection, glm::mat4 view);
 };

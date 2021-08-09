@@ -1,53 +1,38 @@
 #include "RightRemovedTrapezoidPrism.h"
 
-RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z)
+RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, bool withTexture)
 {
-    Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
+    WithTexture = withTexture;
 
-    float TopLeft = x + Width / 2;
+    if (WithTexture)
+    {
+        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
+    }
+    else
+    {
+        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
+    }
 
-    float LengthMinusZ = z - Length;
-
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,          z, // Bottom left
-        x + Width, y,          z, // Bottom Right
-        x + Width, y + Height, z, // Top Right
-        TopLeft,   y + Height, z, // Top Left
-        // Back
-        x,         y,          LengthMinusZ, // Bottom left
-        x + Width, y,          LengthMinusZ, // Bottom Right
-        x + Width, y + Height, LengthMinusZ, // Top Right
-        TopLeft,   y + Height, LengthMinusZ, // Top Left
-    };
-
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
 }
 
-RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length)
+RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length, bool withTexture)
 {
-    Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
-
+    WithTexture = withTexture; 
+    
     Width = width;
     Height = height;
     Length = length;
 
-    float TopLeft = x + Width / 4;
+    if (WithTexture)
+    {
+        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
+    }
+    else
+    {
+        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
+    }
 
-    float LengthMinusZ = z - Length;
-
-    GLfloat newVertices[] = {
-        // Front
-        x,         y,          z, // Bottom left
-        x + Width, y,          z, // Bottom Right
-        x + Width, y + Height, z, // Top Right
-        TopLeft,   y + Height, z, // Top Left
-        // Back
-        x,         y,          LengthMinusZ, // Bottom left
-        x + Width, y,          LengthMinusZ, // Bottom Right
-        x + Width, y + Height, LengthMinusZ, // Top Right
-        TopLeft,   y + Height, LengthMinusZ, // Top Left
-    };
-
-    std::copy_n(newVertices, sizeof(newVertices) / 4, this->Vertices);
+    DoTranslation(x, y, z);
+    DoScaling(Width, Height, Length);
 }

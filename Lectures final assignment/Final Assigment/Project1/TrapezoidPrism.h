@@ -29,8 +29,17 @@ public:
         4,5,1, 4,1,0, // bottom
     };
 
+    std::vector<GLfloat> Trapezoid_uvs = {
+        // U, V,
+        // front
+        0.0f, 0.0f, // bottom left
+        1.0f, 0.0f, // bottom right
+        1.0f, 1.0f, // top right
+        0.0f, 1.0f, // top left
+    };
+
     // Constructors
     TrapezoidPrism() = default;
-    TrapezoidPrism(float x, float y, float z);
-    TrapezoidPrism(float x, float y, float z, float width, float height, float length);
+    TrapezoidPrism(float x, float y, float z, bool withTexture);
+    TrapezoidPrism(float x, float y, float z, float width, float height, float length, bool withTexture);
 };

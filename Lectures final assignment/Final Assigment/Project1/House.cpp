@@ -14,7 +14,7 @@ House::House(float x, float y, float z, bool pyramidRoof)
 
 	PyramidRoof = pyramidRoof;
 
-	AddAllShapes();
+	AddAllEntities();
 }
 
 House::House(float x, float y, float z, float width, float height, float length, bool pyramidRoof)
@@ -29,7 +29,7 @@ House::House(float x, float y, float z, float width, float height, float length,
 
 	PyramidRoof = pyramidRoof;
 
-	AddAllShapes();
+	AddAllEntities();
 }
 
 House::House(int amountOfFloors, bool pyramidRoof)
@@ -38,7 +38,7 @@ House::House(int amountOfFloors, bool pyramidRoof)
 
 	PyramidRoof = pyramidRoof;
 
-	AddAllShapes();
+	AddAllEntities();
 }
 
 House::House(int amountOfFloors, float x, float y, float z, bool pyramidRoof)
@@ -51,7 +51,7 @@ House::House(int amountOfFloors, float x, float y, float z, bool pyramidRoof)
 
 	PyramidRoof = pyramidRoof;
 
-	AddAllShapes();
+	AddAllEntities();
 }
 
 House::House(int amountOfFloors, float x, float y, float z, float width, float height, float length, bool pyramidRoof)
@@ -68,84 +68,68 @@ House::House(int amountOfFloors, float x, float y, float z, float width, float h
 
 	PyramidRoof = pyramidRoof;
 
-	AddAllShapes();
+	AddAllEntities();
 }
 
-void House::AddAllShapes()
+void House::AddAllEntities()
 {
-	Shapes.clear();
+	Entities.clear();
 
 	AddGarage();
 	AddFloors();
-	if (PyramidRoof) {
-		AddPyramidRoof();
-	}
-	else {
-		AddTrapezoidRoof();
-	}
+	AddRoof();
 	AddChimney();
 	AddSmoke();
 }
 
 void House::AddGarage()
 {
-	RightRemovedTrapezoidPrism garage = RightRemovedTrapezoidPrism(X - Width, Y, Z);
+	float wedgeX = X - Width * 2;
+	float wedgeHeight = Height / 4;
 
-	Shapes.push_back(garage);
+	Entities.push_back(new RightRemovedTrapezoidPrism(X - Width * 2, Y, Z, Width, Height, Length, false));
 
 	if (AmountOfFloors > 1) {
-		Wedge garageRoof = Wedge(X - Width / 2, Y + Height, Z, Width / 2, Height / 2, Length);
-		Shapes.push_back(garageRoof);
+		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25, Z, Width, wedgeHeight, Length, false));
 	}
 
-	Wedge garageRoad = Wedge(X - Width / 2, Y, Z + Length, Width / 2, Height / 2, Length);
-	Shapes.push_back(garageRoad);
+	/*Wedge garageRoad = Wedge(wedgeX, Y - Height, Z + Length * 2, Width, wedgeHeight, Length, false);
+	garageRoad.DoRotation(90, 0.0, 1.0, 0.0);
+	Shapes.push_back(garageRoad);*/
 }
 
 void House::AddFloors()
 {
+	/*Cube minusOneFloor = Cube(X / 2, Y, Z, Width / 2, Height / 2, Length, false);
+	Shapes.push_back(minusOneFloor);
+	Y += 0.5;*/
+
 	for (int i = 0; i < AmountOfFloors; i++) {
-		Cube cube = Cube(X, Y, Z, false);
+		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, false));
 
-		Shapes.push_back(cube);
-
-		Y += Height;
+		Y += Height * 2;
 	}
 }
 
-void House::AddPyramidRoof()
+void House::AddRoof()
 {
-	TriangularPrism roof = TriangularPrism(X, Y, Z);
-	Shapes.push_back(roof);
-}
-
-void House::AddTrapezoidRoof()
-{
-	TrapezoidPrism roof = TrapezoidPrism(X + 0.5, Y, Z, 1.0, 2.0, 2.0);
-	Shapes.push_back(roof);
+	if (PyramidRoof)
+	{
+		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length, false));
+	}
+	else
+	{
+		// TODO: Fix this one.
+		//Shapes.push_back(new TrapezoidPrism(X + 0.5, Y, Z, 1.0, 2.0, 2.0, false));
+	}
 }
 
 void House::AddChimney()
 {
-	Hexagon chimney = Hexagon(X + 1.0, Y, Z - 0.5, 0.75, 3.0, 0.75);
-	Shapes.push_back(chimney);
+	Entities.push_back(new Hexagon(X + Height / 4, Y, Z, 0.25, Height * 1.25, 0.25, false));
 }
 
 void House::AddSmoke()
 {
 
-}
-
-void House::RenderAllShapes(glm::mat4 projection, glm::mat4 view)
-{
-	for (auto& shape : Shapes) {
-		shape.Render(projection, view);
-	}
-}
-
-void House::BufferAllShapes(Shader shader, glm::mat4 projection, glm::mat4 view)
-{
-	for (auto& shape : Shapes) {
-		shape.InitBuffer(shader, projection, view);
-	}
 }
