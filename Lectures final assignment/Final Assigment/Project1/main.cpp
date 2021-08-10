@@ -66,14 +66,14 @@ void Render()
 	glEnd();*/
 
 	// Attach to program_id
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
+	//glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
 	world.RenderAll(camera.projection, camera.view);
-	world.RenderModels(camera.projection, camera.view);
+	//world.RenderModels(camera.projection, camera.view);
 
 	// TODO: Create texture class.
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
@@ -90,11 +90,8 @@ void Render()
 
 void InitBuffers()
 {
-	//object.InitBuffers(camera.projection, camera.view);
-	//object2.InitBuffers(camera.projection, camera.view);
-
 	world.InitBufferAll(camera.projection, camera.view);
-	world.InitBufferModels(camera.projection, camera.view);
+	//world.InitBufferModels(camera.projection, camera.view);
 
 	//cube2.InitBuffers(texturedShader, camera.projection, camera.view);
 }
@@ -103,16 +100,6 @@ void InitBuffers()
 // void InitShaders()
 // Initializes the fragmentshader and vertexshader
 //------------------------------------------------------------
-
-void InitMatrices()
-{
-	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
-	// Calculate the camera projection.
-	//camera.CalculateProjection();
-
-	//object.diffuse_color = glm::vec3(1.0, 0.0, 0.0);
-	//object2.diffuse_color = glm::vec3(0.0, 1.0, 0.0);
-}
 
 void InitLoadTextures() {
 	texture_id = loadBMP(texture_name);
@@ -185,8 +172,7 @@ void InitGlutGlew(int argc, char** argv)
 int main(int argc, char** argv)
 {
 	InitGlutGlew(argc, argv);
-	//InitMatrices();
-	camera.CalculateProjection();
+	camera.CalculateProjection(); // TODO: Move this somewhere else.
 	InitLoadTextures();
 	InitBuffers();
 

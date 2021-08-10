@@ -55,6 +55,8 @@ public:
         0.0f, 1.0f, // top left
     };
 
+    GLfloat Normals [72] = { };
+
     float Height = 1.0, Width = 1.0, Length = 1.0;
     bool WithTexture;
 
@@ -64,8 +66,12 @@ public:
     const char* texture_vertexshader_name = "texturevs.vert";
     const char* texture_fragshader_name = "texturefs.frag";
 
+    const char* shape_vertexshader_name = "shapevs.vert";
+    const char* shape_fragshader_name = "shapefs.frag";
+
     Shader shader;
     Shader textureShader;
+    Shader newShader;
 
     // Constructors/Destructors
 
@@ -75,6 +81,7 @@ public:
     void Render(glm::mat4 projection, glm::mat4 view) override;
 
     void InitBuffers(glm::mat4 projection, glm::mat4 view) override;
+    void InitBufferWithShading(glm::mat4 projection, glm::mat4 view);
     void InitBufferWithoutTexture();
     void InitBufferWithTexture();
 };
