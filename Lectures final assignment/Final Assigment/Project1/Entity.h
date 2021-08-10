@@ -20,11 +20,12 @@ public:
 	float power = 1024;
 	*/
 
-	glm::vec3 light_position = glm::vec3(0, 10, 0);
+	glm::vec3 light_position = glm::vec3(4, 4, 4);
+	// To see what it all means: https://learnopengl.com/Lighting/Basic-Lighting.
 	glm::vec3 ambient_color = glm::vec3(0.2, 0.2, 0.1);
 	glm::vec3 diffuse_color = glm::vec3(0.5, 0.5, 0.3);
 	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
-	float power = 1024;
+	float power = 64;
 
 	// Constructors/Destructors
 

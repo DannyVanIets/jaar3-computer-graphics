@@ -20,7 +20,7 @@ void main()
 	vec3 V = normalize(fs_in.V);
 
 	// Compute the diffuse component for each fragment
-	vec3 diffuse = max(dot(N, L), 0.0) * mat_diffuse;
+	vec3 diffuse = max(dot(N, L), 0.3) * mat_diffuse;
 
 	// Calculate R locally
 	vec3 R = reflect(-L, N);
