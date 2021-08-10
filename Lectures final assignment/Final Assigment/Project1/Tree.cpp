@@ -59,7 +59,6 @@ void Tree::AddLeaves()
 	else 
 	{
 		Y += Height;
-		// Load in sphere and use it.
-		Entities.push_back(new Object("sphere", X, Y, Z, Width, Height, Length));
+		Entities.push_back(new Object("sphere", X, Y, Z, Width, Height, Length, glm::vec3(0.0, 1.0, 0.0)));
 	}
 }

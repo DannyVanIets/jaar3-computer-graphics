@@ -23,6 +23,11 @@ void Entity::DoTranslation(float x, float y, float z)
         glm::vec3(x, y, z));;
 }
 
+void Entity::ChangeColor(glm::vec3 rgb)
+{
+    diffuse_color = rgb;
+}
+
 void Entity::CalculateMv(glm::mat4 view)
 {
     mv = view * model;

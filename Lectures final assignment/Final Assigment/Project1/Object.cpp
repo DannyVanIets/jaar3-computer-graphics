@@ -22,6 +22,15 @@ Object::Object(std::string path, float x, float y, float z)
     LoadObject();
 }
 
+Object::Object(std::string path, float x, float y, float z, glm::vec3 rgb)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    LoadObject();
+    ChangeColor(rgb);
+}
+
 Object::Object(std::string path, float x, float y, float z, float width, float height, float length)
 {
     this->path = "objects/" + path + ".obj";
@@ -29,6 +38,16 @@ Object::Object(std::string path, float x, float y, float z, float width, float h
     DoTranslation(x, y, z);
     DoScaling(width, height, length);
     LoadObject();
+}
+
+Object::Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    DoScaling(width, height, length);
+    LoadObject();
+    ChangeColor(rgb);
 }
 
 void Object::LoadObject()
@@ -107,13 +126,13 @@ void Object::InitBuffers(glm::mat4 projection, glm::mat4 view)
 
     // Make uniform vars
     uniform_mv = glGetUniformLocation(shader.ID, "mv");
+    GLuint uniform_model = glGetUniformLocation(shader.ID, "model");
     GLuint uniform_proj = glGetUniformLocation(shader.ID, "projection");
     GLuint uniform_light_pos = glGetUniformLocation(shader.ID, "light_pos");
     GLuint uniform_material_ambient = glGetUniformLocation(shader.ID,
         "mat_ambient");
     GLuint uniform_material_diffuse = glGetUniformLocation(shader.ID,
         "mat_diffuse");
-    // Specular
     GLuint uniform_specular = glGetUniformLocation(
         shader.ID, "mat_specular");
     GLuint uniform_material_power = glGetUniformLocation(
@@ -122,6 +141,7 @@ void Object::InitBuffers(glm::mat4 projection, glm::mat4 view)
     // Send mv
     shader.Use();
     glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
+    glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(uniform_proj, 1, GL_FALSE, glm::value_ptr(projection));
     glUniform3fv(uniform_light_pos, 1, glm::value_ptr(light_position));
     glUniform3fv(uniform_material_ambient, 1, glm::value_ptr(ambient_color));

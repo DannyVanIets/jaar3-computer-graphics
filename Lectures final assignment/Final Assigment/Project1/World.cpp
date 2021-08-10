@@ -22,8 +22,8 @@ void World::AddModelsAndEntities()
 void World::AddAllShapes()
 {
 	Entities.push_back(new Cube(-3.0, 0.0, 1.0, false));
-	Entities.push_back(new Object("teapot", 5.0, 0.0, 10.0));
-	Entities.push_back(new Object("sphere", 0.0, 0.0, 10.0));
+	Entities.push_back(new Object("teapot", 5.0, 0.0, 10.0, glm::vec3(0.0, 0.0, 1.0)));
+	Entities.push_back(new Object("sphere", 0.0, 0.0, 10.0, glm::vec3(0.0, 1.0, 0.0)));
 }
 
 void World::AddAllModels()

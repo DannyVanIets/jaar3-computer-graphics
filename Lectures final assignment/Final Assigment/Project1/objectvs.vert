@@ -1,4 +1,5 @@
 uniform mat4 mv;
+uniform mat4 model;
 uniform vec3 light_pos;
 uniform mat4 projection;
 
@@ -17,13 +18,13 @@ void main()
 	// Calculate view-space coordinate
 	vec4 P = mv * vec4(position, 1.0);
 
-	// Calculate normal in view-space
-	vs_out.N = mat3(mv) * normal;
+	// Calculate normal in view-space, model is used instead of mv to make sure the lightning doesn't move with you.
+	vs_out.N = mat3(model) * normal;
 
 	// Calculate light vector
 	vs_out.L = light_pos - P.xyz;
 
-	// Calculate view vector;
+	// Calculate view vector
 	vs_out.V = -P.xyz;
 
 	// Calculate the clip-space position of each vertex
