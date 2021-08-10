@@ -14,10 +14,7 @@
 
 #include "texture/TextureLoader.h"
 
-#include "House2.h"
-#include "Cube.h"
-#include "House.h"
-#include "Object.h"
+#include "World.h"
 
 using namespace std;
 
@@ -43,11 +40,7 @@ GLuint texture_id;
 Camera camera;
 Movement movement;
 
-Cube cube = Cube(-3.0, 0.0, 1.0, false);
-House house = House(2, 5.0f, 0.0f, 10.0f, true);
-
-Object object = Object("teapot", 0.0, 0.0, 10.0);
-Object object2 = Object("sphere", 5.0, 0.0, 10.0);
+World world = World(3.0f, 0.0f, 1.0f);
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -73,29 +66,18 @@ void Render()
 	glEnd();*/
 
 	// Attach to program_id
-	//shader.Use();
-	//glBindTexture(GL_TEXTURE_2D, texture_id);
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
-	cube.Render(camera.projection, camera.view);
-
-	object.Render(camera.projection, camera.view);
-	object2.Render(camera.projection, camera.view);
-
-	//house.RenderAll(camera.projection, camera.view);
-	//tree.Render(camera.projection, camera.view);
+	world.RenderAll(camera.projection, camera.view);
+	world.RenderModels(camera.projection, camera.view);
 
 	// TODO: Create texture class.
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 	//cube2.Render(camera.projection, camera.view);
-
-	// Objects
-	//objectShader.Use();
-	//object.Render(camera.projection, camera.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -108,17 +90,13 @@ void Render()
 
 void InitBuffers()
 {
-	cube.InitBuffers(camera.projection, camera.view);
+	//object.InitBuffers(camera.projection, camera.view);
+	//object2.InitBuffers(camera.projection, camera.view);
 
-	object.InitBuffers(camera.projection, camera.view);
-	object2.InitBuffers(camera.projection, camera.view);
-
-	//house.InitBufferAll(camera.projection, camera.view);
-	//tree.InitBuffers(camera.projection, camera.view);
+	world.InitBufferAll(camera.projection, camera.view);
+	world.InitBufferModels(camera.projection, camera.view);
 
 	//cube2.InitBuffers(texturedShader, camera.projection, camera.view);
-
-	//object.InitBuffers(camera.projection, camera.view);
 }
 
 //------------------------------------------------------------
@@ -126,27 +104,15 @@ void InitBuffers()
 // Initializes the fragmentshader and vertexshader
 //------------------------------------------------------------
 
-void InitShaders()
-{
-	//shader = Shader(vertexshader_name, fragshader_name);
-	//texturedShader = Shader(texture_vertexshader_name, texture_fragshader_name);
-	//objectShader = Shader(object_vertexshader_name, object_fragshader_name);
-}
-
 void InitMatrices()
 {
 	// Calculating the MV and MVP is done in the InitBuffers and Render Function.
 	// Calculate the camera projection.
 	camera.CalculateProjection();
 
-	object.diffuse_color = glm::vec3(1.0, 0.0, 0.0);
-	object2.diffuse_color = glm::vec3(0.0, 1.0, 0.0);
+	//object.diffuse_color = glm::vec3(1.0, 0.0, 0.0);
+	//object2.diffuse_color = glm::vec3(0.0, 1.0, 0.0);
 }
-
-/*void InitLoadObjects()
-{
-	object.LoadObject();
-}*/
 
 void InitLoadTextures() {
 	texture_id = loadBMP(texture_name);
@@ -219,10 +185,9 @@ void InitGlutGlew(int argc, char** argv)
 int main(int argc, char** argv)
 {
 	InitGlutGlew(argc, argv);
-	InitShaders();
-	InitMatrices();
+	//InitMatrices();
+	camera.CalculateProjection();
 	InitLoadTextures();
-	//InitLoadObjects();
 	InitBuffers();
 
 	glEnable(GL_DEPTH_TEST);

@@ -90,20 +90,12 @@ void House::AddGarage()
 	Entities.push_back(new RightRemovedTrapezoidPrism(X - Width * 2, Y, Z, Width, Height, Length, false));
 
 	if (AmountOfFloors > 1) {
-		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25, Z, Width, wedgeHeight, Length, false));
+		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25f, Z, Width, wedgeHeight, Length, false));
 	}
-
-	/*Wedge garageRoad = Wedge(wedgeX, Y - Height, Z + Length * 2, Width, wedgeHeight, Length, false);
-	garageRoad.DoRotation(90, 0.0, 1.0, 0.0);
-	Shapes.push_back(garageRoad);*/
 }
 
 void House::AddFloors()
 {
-	/*Cube minusOneFloor = Cube(X / 2, Y, Z, Width / 2, Height / 2, Length, false);
-	Shapes.push_back(minusOneFloor);
-	Y += 0.5;*/
-
 	for (int i = 0; i < AmountOfFloors; i++) {
 		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, false));
 

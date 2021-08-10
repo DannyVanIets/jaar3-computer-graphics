@@ -1,41 +1,47 @@
-#pragma once
 #include "World.h"
 #include "Cube.h"
+#include "House.h"
 #include "Object.h"
+#include "Tree.h"
 
-//World::World()
-//{
-//	
-//}
-
-void World::RenderAll(glm::mat4 projection, glm::mat4 view)
+World::World(float x, float y, float z)
 {
-	/*for (auto& entity : WorldEntities) {
-		entity->Render(projection, view);
-	}*/
+	X = x;
+	Y = y;
+	Z = z;
 
-	for (int i = 0; i < WorldEntities.size(); ++i)
-	{
-		WorldEntities[i]->Render(projection, view);
-	}
-
-	/*for (auto& model : WorldModels) {
-		model->RenderAll(projection, view);
-	}*/
+	AddModelsAndEntities();
 }
 
-void World::InitBufferAll(glm::mat4 projection, glm::mat4 view)
+void World::AddModelsAndEntities()
 {
-	/*for (auto& entity : WorldEntities) {
-		entity->InitBuffers(projection, view);
-	}*/
+	AddAllShapes();
+	AddAllModels();
+}
 
-	for (int i = 0; i < WorldEntities.size(); ++i)
-	{
-		WorldEntities[i]->InitBuffers(projection, view);
+void World::AddAllShapes()
+{
+	Entities.push_back(new Cube(-3.0, 0.0, 1.0, false));
+	Entities.push_back(new Object("teapot", 5.0, 0.0, 10.0));
+	Entities.push_back(new Object("sphere", 5.0, 0.0, 10.0));
+}
+
+void World::AddAllModels()
+{
+	Models.push_back(new House(2, 5.0f, 0.0f, 1.0f, true));
+	Models.push_back(new Tree(-1.0f, 0.0f, 1.0f, false));
+}
+
+void World::RenderModels(glm::mat4 projection, glm::mat4 view)
+{
+	for (auto& model : Models) {
+		model->RenderAll(projection, view);
 	}
+}
 
-	/*for (auto& model : WorldModels) {
+void World::InitBufferModels(glm::mat4 projection, glm::mat4 view)
+{
+	for (auto& model : Models) {
 		model->InitBufferAll(projection, view);
-	}*/
+	}
 }

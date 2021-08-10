@@ -77,19 +77,25 @@ Camera Movement::KeyboardKeysSpecial(Camera camera, int key)
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Move forward.
-		camera.cameraPos += walkSpeedZ * camera.cameraFront;
+		// First line of code is for the drone mode, second is for just walking around.
+		//camera.cameraPos += cameraSpeedZ * camera.cameraFront;
+		camera.cameraPos += walkSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 		break;
 
 	case GLUT_KEY_DOWN: // Move backward.
-		camera.cameraPos -= walkSpeedZ * camera.cameraFront;
+		// First line of code is for the drone mode, second is for just walking around.
+		//camera.cameraPos -= cameraSpeedZ * camera.cameraFront;
+		camera.cameraPos -= walkSpeedZ * glm::normalize(glm::cross(camera.WorldUp, camera.Right));
 		break;
 
-	case GLUT_KEY_LEFT: // Move left
-		camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * walkSpeedX;
+	case GLUT_KEY_LEFT: // Move left.
+		//camera.cameraPos -= glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		camera.cameraPos -= camera.Right * walkSpeedX;
 		break;
 
 	case GLUT_KEY_RIGHT: // strafe right.
-		camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * walkSpeedX;
+		//camera.cameraPos += glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)) * cameraSpeedX;
+		camera.cameraPos += camera.Right * walkSpeedX;
 		break;
 	}
 

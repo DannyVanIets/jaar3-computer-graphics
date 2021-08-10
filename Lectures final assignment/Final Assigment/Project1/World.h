@@ -1,17 +1,22 @@
 #pragma once
-#include <vector>
-#include "Entity.h"
+#include "Model.h"
 
-class World
+class World : public Model
 {
 public:
-	std::vector<Entity*> WorldEntities = {};
-	//std::vector<Model*> WorldModels = {};
+	// Variabeles
+	int amountOfCubes = 2;
+	std::vector<Model*> Models = {};
 
 	// Constructors
-	//World();
+	World() = default;
+	World(float x, float y, float z);
 
 	// Methods
-	void RenderAll(glm::mat4 projection, glm::mat4 view);
-	void InitBufferAll(glm::mat4 projection, glm::mat4 view);
+	void AddModelsAndEntities();
+	void AddAllShapes();
+	void AddAllModels();
+
+	void RenderModels(glm::mat4 projection, glm::mat4 view);
+	void InitBufferModels(glm::mat4 projection, glm::mat4 view);
 };
