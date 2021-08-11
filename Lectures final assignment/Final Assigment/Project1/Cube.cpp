@@ -22,6 +22,9 @@ Cube::Cube(float x, float y, float z, bool withTexture)
 
 	DoTranslation(x, y, z);
 	ChangeColor(glm::vec3(0.0, 0.5, 0.1));
+
+	VerticesSize = Cube_Vertices_For_Textures.size();
+	CalculateNormals();
 }
 
 Cube::Cube(float x, float y, float z, float width, float height, float length, bool withTexture)

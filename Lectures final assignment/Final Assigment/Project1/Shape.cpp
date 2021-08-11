@@ -5,7 +5,7 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNorm
 	std::copy(newVertices.begin(), newVertices.end(), Vertices);
 
 	if (newNormals.size() > 0) {
-		std::copy(newNormals.begin(), newNormals.end(), Normals);
+		//std::copy(newNormals.begin(), newNormals.end(), Normals);
 	}
 
 	if (newElements.size() > 0) {
@@ -19,6 +19,60 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNorm
 			memcpy(&uvs[i * 4 * 2], &uvs[0], 2 * 4 * sizeof(GLfloat));
 		}
 	}
+}
+
+void Shape::CalculateNormals()
+{
+	glm::vec3 a, b, n;
+	std::vector<GLfloat> newNormals;
+
+	for (int i = 0; i < VerticesSize;) {
+		glm::vec3 p1, p2, p3;
+
+		int j = i;
+		p1 = glm::vec3(Vertices[j], Vertices[j + 1], Vertices[j + 2]);
+		j += 3;
+		p2 = glm::vec3(Vertices[j], Vertices[j + 1], Vertices[j + 2]);
+		j += 3;
+		p3 = glm::vec3(Vertices[j], Vertices[j + 1], Vertices[j + 2]);
+
+		a.x = p2.x - p1.x;
+		a.y = p2.y - p1.y;
+		a.z = p2.z - p1.z;
+
+		b.x = p3.x - p1.x;
+		b.y = p3.y - p1.y;
+		b.z = p3.z - p1.z;
+
+		n.x = (a.y * b.z) - (a.z * b.y);
+		n.y = (a.z * b.x) - (a.x * b.z);
+		n.z = (a.x * b.y) - (a.y * b.x);
+
+		// Normalize (divide by root of dot product)
+		float o = sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
+		n.x /= o;
+		n.y /= o;
+		n.z /= o;
+
+		int k = i / 2;
+		int l = 0;
+		if (Elements[k + 2] == Elements[k + 3]) {
+			i += 12;
+			l = 4;
+		}
+		else {
+			i += 9;
+			l = 3;
+		}
+
+		for (int p = 0; p < l; p++) {
+			newNormals.push_back(n.x);
+			newNormals.push_back(n.y);
+			newNormals.push_back(n.z);
+		}
+	}
+
+	std::copy(newNormals.begin(), newNormals.end(), Normals);
 }
 
 void Shape::Render(glm::mat4 projection, glm::mat4 view)
@@ -51,12 +105,12 @@ void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 
 	CalculateMvp(projection, view);
 
-	if (WithTexture) 
+	if (WithTexture)
 	{
 		//InitBufferWithTexture();
 		InitBufferWithShading(projection, view);
 	}
-	else 
+	else
 	{
 		InitBufferWithoutTexture();
 	}
@@ -76,26 +130,11 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 
 	GLuint ibo_elements;
 
-	/*glGenBuffers(1, &vbo_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-	glBufferData(GL_ARRAY_BUFFER,
-		vertices.size() * sizeof(glm::vec3), &vertices[0],
-		GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
-
 	// vbo for vertices
 	glGenBuffers(1, &vbo_vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for normals
-	/*glGenBuffers(1, &vbo_normals);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-	glBufferData(GL_ARRAY_BUFFER,
-		normals.size() * sizeof(glm::vec3),
-		&normals[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
 	glGenBuffers(1, &vbo_normals);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);

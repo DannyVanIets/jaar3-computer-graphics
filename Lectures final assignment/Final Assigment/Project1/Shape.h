@@ -10,6 +10,8 @@ class Shape : public Entity
 public:
     // Properties
     GLfloat Vertices[72] = { };
+
+    int VerticesSize = 0;
     
     GLfloat Colors[72] = { // Standard rainbow colors.
         // front colors
@@ -77,6 +79,7 @@ public:
 
     // Methods
     void Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs);
+    void CalculateNormals();
 
     void Render(glm::mat4 projection, glm::mat4 view) override;
 

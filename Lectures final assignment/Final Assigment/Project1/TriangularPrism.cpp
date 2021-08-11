@@ -6,7 +6,7 @@ TriangularPrism::TriangularPrism(float x, float y, float z, bool withTexture)
 
     if (WithTexture)
     {
-        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, TriangularPrism_uvs);
+        Setup(TriangularPrism_Vertices2, TriangularPrism_Normals, TriangularPrism_Elements2, TriangularPrism_uvs);
     }
     else
     {
@@ -14,6 +14,8 @@ TriangularPrism::TriangularPrism(float x, float y, float z, bool withTexture)
     }
 
     DoTranslation(x, y, z);
+    VerticesSize = TriangularPrism_Vertices2.size();
+    CalculateNormals();
 }
 
 TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length, bool withTexture)
@@ -26,7 +28,7 @@ TriangularPrism::TriangularPrism(float x, float y, float z, float width, float h
 
     if (WithTexture)
     {
-        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, TriangularPrism_uvs);
+        Setup(TriangularPrism_Vertices, TriangularPrism_Normals, TriangularPrism_Elements, TriangularPrism_uvs);
     }
     else
     {
