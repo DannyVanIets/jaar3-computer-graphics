@@ -17,7 +17,6 @@ public:
 	House(int amountOfFloors, float x, float y, float z, float width, float height, float length, bool pyramidRoof);
 
 	// Shapes.
-	// TODO: Maybe add windows and doors too, would be really nice!
 	void AddAllEntities();
 	void AddGarage();
 	void AddFloors();

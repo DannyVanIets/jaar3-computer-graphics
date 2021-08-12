@@ -73,7 +73,7 @@ void Render()
 	camera.CalculateView();
 
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
-	//world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
+	world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
 	// TODO: Create texture class.
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
@@ -91,7 +91,7 @@ void Render()
 void InitBuffers()
 {
 	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
-	//world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
+	world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
 
 	//cube2.InitBuffers(texturedShader, camera.currentvm.projection, camera.currentvm.view);
 }

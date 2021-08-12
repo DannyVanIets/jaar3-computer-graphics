@@ -75,11 +75,11 @@ void House::AddAllEntities()
 {
 	Entities.clear();
 
-	AddGarage();
+	//AddGarage();
 	AddFloors();
 	AddRoof();
 	AddChimney();
-	AddSmoke();
+	//AddSmoke();
 }
 
 void House::AddGarage()
@@ -97,7 +97,7 @@ void House::AddGarage()
 void House::AddFloors()
 {
 	for (int i = 0; i < AmountOfFloors; i++) {
-		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, false));
+		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, true));
 
 		Y += Height * 2;
 	}
@@ -107,7 +107,7 @@ void House::AddRoof()
 {
 	if (PyramidRoof)
 	{
-		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length, false));
+		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length, true));
 	}
 	else
 	{
@@ -118,7 +118,7 @@ void House::AddRoof()
 
 void House::AddChimney()
 {
-	Entities.push_back(new Hexagon(X + Height / 4, Y, Z, 0.25, Height * 1.25, 0.25, false));
+	Entities.push_back(new Hexagon(X + Width / 4, Y, Z, 0.25, Height * 1.25, 0.25, true));
 }
 
 void House::AddSmoke()

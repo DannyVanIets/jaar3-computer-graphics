@@ -81,6 +81,9 @@ void Shape::Render(glm::mat4 projection, glm::mat4 view)
 	newShader.Use();
 
 	//CalculateMvp(projection, view);
+	if (animationsOn) {
+		//model = animation.DoAnimation(model);
+	}
 	CalculateMv(view);
 
 	//glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));

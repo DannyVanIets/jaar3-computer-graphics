@@ -1,7 +1,9 @@
 #pragma once
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include "Animation.h"
+#include "Animate_Scaling.h"
 
 class Entity
 {
@@ -27,7 +29,11 @@ public:
 	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
 	float power = 64;
 
-	// Constructors/Destructors
+	bool animationsOn = true;
+	/*Animation animations[30] = {
+
+	};*/
+	Animate_Scaling animation = Animate_Scaling(false, false, false);
 
 	// Methods
 	void DoScaling(float x, float y, float z);

@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Base">
       <UniqueIdentifier>{89e8484d-c82f-41c7-9cda-6d60f2c851d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Animations">
+      <UniqueIdentifier>{c540b915-0e44-416a-ae51-da30743819e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animations">
+      <UniqueIdentifier>{a7b32f9d-e12d-4b67-baaa-900841f2de78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -124,7 +130,28 @@
       <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="ViewMode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MarketStall.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Chair.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Table.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_Scaling.cpp">
+      <Filter>Source Files\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +222,28 @@
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="ViewMode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketStall.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Chair.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_Scaling.h">
+      <Filter>Header Files\Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

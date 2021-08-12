@@ -37,7 +37,7 @@ Cube::Cube(float x, float y, float z, float width, float height, float length, b
 
 	if (WithTexture)
 	{
-		Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
+		Setup(Cube_Vertices_For_Textures2, Cube_Normals, Cube_Elements_for_Textures, {});
 	}
 	else
 	{
@@ -46,6 +46,9 @@ Cube::Cube(float x, float y, float z, float width, float height, float length, b
 
 	DoTranslation(x, y, z);
 	DoScaling(Width, Height, Length);
+
+	VerticesSize = Cube_Vertices_For_Textures.size();
+	CalculateNormals();
 
 	/* ------------------------ Why translation first? --------------------------------------
 	Remember that matrix multiplication is applied in reverse.This time a translation is thus

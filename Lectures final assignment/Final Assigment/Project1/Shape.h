@@ -57,7 +57,7 @@ public:
         0.0f, 1.0f, // top left
     };
 
-    GLfloat Normals [100] = { };
+    GLfloat Normals [120] = { };
 
     float Height = 1.0, Width = 1.0, Length = 1.0;
     bool WithTexture;

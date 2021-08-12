@@ -19,6 +19,46 @@ public:
          1.0,  1.0, -1.0, // top right,   5
     };
 
+    std::vector<GLfloat> Wedge_Vertices2 = {
+        // X, Y, Z.
+        // front
+        -1.0, -1.0,  1.0, // bottom left
+         1.0, -1.0,  1.0, // bottom right
+         1.0,  1.0,  1.0, // top right
+
+        // left
+         1.0,  1.0, -1.0,
+        -1.0, -1.0,  1.0,
+        -1.0, -1.0, -1.0,
+
+        -1.0, -1.0,  1.0,
+         1.0,  1.0,  1.0,
+         1.0,  1.0, -1.0,
+
+        // back
+         1.0, -1.0, -1.0, // bottom right
+        -1.0, -1.0, -1.0, // bottom left
+         1.0,  1.0, -1.0, // top right
+
+        // right
+         1.0,  1.0, -1.0,
+         1.0,  1.0,  1.0,
+         1.0, -1.0,  1.0,
+
+         1.0,  1.0, -1.0,
+         1.0, -1.0,  1.0,
+         1.0, -1.0, -1.0,
+
+         // bottom
+        -1.0, -1.0, -1.0,
+         1.0, -1.0, -1.0,
+         1.0, -1.0,  1.0,
+
+        -1.0, -1.0, -1.0,
+         1.0, -1.0,  1.0,
+        -1.0, -1.0,  1.0,
+    };
+
     std::vector<GLfloat> TriangularPrism_Colors = {
         // front colors
         1.0, 1.0, 0.0,
@@ -73,4 +113,5 @@ public:
     Wedge() = default;
     Wedge(float x, float y, float z, bool withTexture);
     Wedge(float x, float y, float z, float width, float height, float length, bool withTexture);
+    Wedge(float x, float y, float z, float width, float height, float length, float rotateRadians, float rotateX, float rotateY, float rotateZ, bool withTexture);
 };

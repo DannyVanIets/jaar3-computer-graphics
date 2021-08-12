@@ -6,7 +6,7 @@ Hexagon::Hexagon(float x, float y, float z, bool withTexture)
 
     if (WithTexture)
     {
-        Setup(Hexagon_Vertices, {}, Hexagon_Elements, {});
+        Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
     }
     else
     {
@@ -14,6 +14,8 @@ Hexagon::Hexagon(float x, float y, float z, bool withTexture)
     }
 
     DoTranslation(x, y, z);
+    VerticesSize = Hexagon_Vertices2.size();
+    CalculateNormals();
 }
 
 Hexagon::Hexagon(float x, float y, float z, float width, float height, float length, bool withTexture)
@@ -26,7 +28,7 @@ Hexagon::Hexagon(float x, float y, float z, float width, float height, float len
 
     if (WithTexture)
     {
-        Setup(Hexagon_Vertices, {}, Hexagon_Elements, {});
+        Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
     }
     else
     {
@@ -35,4 +37,6 @@ Hexagon::Hexagon(float x, float y, float z, float width, float height, float len
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);
+    VerticesSize = Hexagon_Vertices2.size();
+    CalculateNormals();
 }
