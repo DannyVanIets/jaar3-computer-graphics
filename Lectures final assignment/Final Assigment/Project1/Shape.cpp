@@ -5,7 +5,7 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNorm
 	std::copy(newVertices.begin(), newVertices.end(), Vertices);
 
 	if (newNormals.size() > 0) {
-		//std::copy(newNormals.begin(), newNormals.end(), Normals);
+		std::copy(newNormals.begin(), newNormals.end(), Normals);
 	}
 
 	if (newElements.size() > 0) {
@@ -56,14 +56,14 @@ void Shape::CalculateNormals()
 
 		int k = i / 2;
 		int l = 0;
-		if (Elements[k + 2] == Elements[k + 3]) {
+		/*if (Elements[k + 2] == Elements[k + 3]) {
 			i += 12;
 			l = 4;
-		}
-		else {
+		}*/
+		//else {
 			i += 9;
 			l = 3;
-		}
+		//}
 
 		for (int p = 0; p < l; p++) {
 			newNormals.push_back(n.x);
@@ -89,11 +89,13 @@ void Shape::Render(glm::mat4 projection, glm::mat4 view)
 	// Send vao
 	glBindVertexArray(vao);
 
-	glDrawElements(
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(Vertices));
+
+	/*glDrawElements(
 		GL_TRIANGLES,
 		sizeof(Elements) / sizeof(GLushort),
 		GL_UNSIGNED_SHORT,
-		0);
+		0);*/
 
 	glBindVertexArray(0);
 }

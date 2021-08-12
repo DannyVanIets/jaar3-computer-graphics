@@ -13,7 +13,7 @@ Cube::Cube(float x, float y, float z, bool withTexture)
 
 	if (WithTexture)
 	{
-		Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
+		Setup(Cube_Vertices_For_Textures2, Cube_Normals, Cube_Elements_for_Textures, {});
 	}
 	else
 	{

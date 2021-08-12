@@ -4,9 +4,7 @@
 
 Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 {
-	// TODO: Implement deltatime from here: https://learnopengl.com/Getting-started/Camera.
-	// Helpful: https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/game_callbacks.cpp, ctrl + f on deltatime.
-	// All code: https://github.com/mattearly/TheOnlyEscapeIsESC/tree/master/code.
+	// Created the movement class with this tutorial: 
 
 	if (key == 27) // 27 is ESC, closes the tab.
 	{
@@ -15,10 +13,11 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 
 	key = tolower(key); // Always make the key lowercase, incase you have enabled caps lock.
 
+	// Switch back and forth between walk mode and drone mode if you press 'v'.
 	if (key == 'v') {
 		if (camera.walkModeEnabled) {
 			camera.walkModeEnabled = false;
-			camera.walkMode = camera.currentvm; // Make sure that the camera changes are in walk mode, so that you can switch back to it!
+			camera.walkMode = camera.currentvm; // Make sure that the camera changes are in walk mode, so that you can switch back to it with the same values!
 			camera.currentvm = camera.droneMode;
 		}
 		else {
@@ -46,11 +45,12 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 		camera.currentvm.cameraPos += CalculateRightOrLeft(camera);
 	}
 
-	if (camera.walkModeEnabled) {
+	// TODO: Before uploading, make sure to enable this!
+	/*if (camera.walkModeEnabled) {
 		// Keeps you at ground level, so you cannot fly while in walk mode.
 		camera.currentvm.cameraPos.y = 1.0f;
 	}
-	else {
+	else {*/
 		if (key == 'q') {
 			camera.currentvm.cameraPos.y += 1.0f;
 		}
@@ -58,7 +58,7 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 		if (key == 'e') {
 			camera.currentvm.cameraPos.y -= 1.0f;
 		}
-	}
+	//}
 
 	/*---------------------------STRAFING---------------------------------*/
 
