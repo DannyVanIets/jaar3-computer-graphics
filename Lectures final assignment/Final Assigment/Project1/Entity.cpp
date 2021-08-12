@@ -12,7 +12,7 @@ void Entity::DoRotation(float radians, float x, float y, float z)
 {
     model = glm::rotate(
         model,
-        radians,
+        glm::radians(radians),
         glm::vec3(x, y, z));
 }
 

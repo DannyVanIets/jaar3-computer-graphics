@@ -33,7 +33,7 @@ public:
 	/*Animation animations[30] = {
 
 	};*/
-	Animate_Scaling animation = Animate_Scaling(false, false, false);
+	//Animate_Scaling animation = Animate_Scaling(false, false, false);
 
 	// Methods
 	void DoScaling(float x, float y, float z);
