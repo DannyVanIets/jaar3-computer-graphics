@@ -11,4 +11,7 @@ public:
 
 	Camera KeyboardKeys(Camera camera, unsigned char key);
 	Camera KeyboardKeysSpecial(Camera camera, int key);
+
+	glm::vec3 CalculateForwardOrBackward(Camera camera);
+	glm::vec3 CalculateRightOrLeft(Camera camera);
 };

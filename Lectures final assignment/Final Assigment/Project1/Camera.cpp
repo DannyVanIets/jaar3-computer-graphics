@@ -4,17 +4,17 @@
 
 void Camera::CalculateView()
 {
-	view = glm::lookAt(
-		glm::vec3(cameraPos),
-		glm::vec3(cameraPos + cameraFront),
-		glm::vec3(cameraUp)
+	currentvm.view = glm::lookAt(
+		glm::vec3(currentvm.cameraPos),
+		glm::vec3(currentvm.cameraPos + currentvm.cameraFront),
+		glm::vec3(currentvm.cameraUp)
 	);
 }
 
 void Camera::CalculateProjection()
 {
 	// In the comments are the original values, in-case you want to revert it.
-	projection = glm::perspective(
+	currentvm.projection = glm::perspective(
 		glm::radians(45.0f), // 45
 		800.0f / 600.0f, // 800 / 600
 		0.1f, // 0.1
@@ -27,7 +27,7 @@ void Camera::CalculateProjection()
 /// </summary>
 /// <param name="xpos">The current x position of the mouse.</param>
 /// <param name="ypos">The current y position of the mouse.</param>
-void Camera::LookAround(int xpos, int ypos) 
+void Camera::LookAround(int xpos, int ypos)
 {
 	// lastX and lastY are half of the window size,
 	// this is the center of the Window.
@@ -36,11 +36,11 @@ void Camera::LookAround(int xpos, int ypos)
 
 	// This if statement is for when you click into the Window for the first time,
 	// it makes sure it doesn't jump too suddenly.
-	if (firstMouse)
+	if (currentvm.firstMouse)
 	{
 		lastX = xpos;
 		lastY = ypos;
-		firstMouse = false;
+		currentvm.firstMouse = false;
 	}
 
 	float xoffset = xpos - lastX;
@@ -53,27 +53,27 @@ void Camera::LookAround(int xpos, int ypos)
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 
-	yaw += xoffset;
-	pitch += yoffset;
+	currentvm.yaw += xoffset;
+	currentvm.pitch += yoffset;
 
 	// Make sure that the camera can't go over 89 degrees while looking up or below -89 degrees while looking down.
 	// If it goes over 89, it will could cause a flip at the LookAt function.
-	if (pitch > 89.0f) {
-		pitch = 89.0f;
+	if (currentvm.pitch > 89.0f) {
+		currentvm.pitch = 89.0f;
 	}
-	if (pitch < -89.0f) {
-		pitch = -89.0f;
+	if (currentvm.pitch < -89.0f) {
+		currentvm.pitch = -89.0f;
 	}
 
 	glm::vec3 direction;
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction); // CameraFront is used in the LookAt function.
+	direction.x = cos(glm::radians(currentvm.yaw)) * cos(glm::radians(currentvm.pitch));
+	direction.y = sin(glm::radians(currentvm.pitch));
+	direction.z = sin(glm::radians(currentvm.yaw)) * cos(glm::radians(currentvm.pitch));
+	currentvm.cameraFront = glm::normalize(direction); // CameraFront is used in the LookAt function.
 
 	// Normalize and cross are used, so that you are not slowed down if you look down or up.
-	Right = glm::normalize(glm::cross(cameraFront, WorldUp));
-	cameraUp = glm::normalize(glm::cross(Right, cameraFront));
+	currentvm.Right = glm::normalize(glm::cross(currentvm.cameraFront, currentvm.WorldUp));
+	currentvm.cameraUp = glm::normalize(glm::cross(currentvm.Right, currentvm.cameraFront));
 
 	glutWarpPointer(400, 300); // Centers the mouse after moving it into a certain direction.
 }

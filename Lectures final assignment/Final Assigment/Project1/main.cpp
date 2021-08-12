@@ -72,12 +72,12 @@ void Render()
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
-	world.RenderAll(camera.projection, camera.view);
-	//world.RenderModels(camera.projection, camera.view);
+	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
+	//world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
 	// TODO: Create texture class.
 	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	//cube2.Render(camera.projection, camera.view);
+	//cube2.Render(camera.currentvm.projection, camera.currentvm.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -90,10 +90,10 @@ void Render()
 
 void InitBuffers()
 {
-	world.InitBufferAll(camera.projection, camera.view);
-	//world.InitBufferModels(camera.projection, camera.view);
+	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
+	//world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
 
-	//cube2.InitBuffers(texturedShader, camera.projection, camera.view);
+	//cube2.InitBuffers(texturedShader, camera.currentvm.projection, camera.currentvm.view);
 }
 
 //------------------------------------------------------------
@@ -111,7 +111,7 @@ void InitLoadTextures() {
 
 void keyboardHandler(unsigned char key, int a, int b)
 {
-	// Move around with WASD.
+	// Move around with WASD and/or look around with IJKL.
 	camera = movement.KeyboardKeys(camera, key);
 }
 
