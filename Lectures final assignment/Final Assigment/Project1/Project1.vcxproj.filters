@@ -162,6 +162,9 @@
     <ClCompile Include="Animate_GoUpAndThenDown.cpp">
       <Filter>Source Files\Animations</Filter>
     </ClCompile>
+    <ClCompile Include="Icosahedron.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pyramid.h">
@@ -263,15 +266,12 @@
     <ClInclude Include="Animate_GoUpAndThenDown.h">
       <Filter>Header Files\Animations</Filter>
     </ClInclude>
+    <ClInclude Include="Icosahedron.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragmentshader.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shapevs.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shapefs.frag">
+    <None Include="basicfs.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="phongfs.frag">
@@ -286,7 +286,7 @@
     <None Include="texturevs.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="vertexshader.vert">
+    <None Include="basicvs.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

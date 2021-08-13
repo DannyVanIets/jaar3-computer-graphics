@@ -141,6 +141,7 @@
     <ClCompile Include="CustomPlane.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="glsl.cpp" />
+    <ClCompile Include="Icosahedron.cpp" />
     <ClCompile Include="MarketStall.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="ViewMode.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="CustomPlane.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="glsl.h" />
+    <ClInclude Include="Icosahedron.h" />
     <ClInclude Include="MarketStall.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="ViewMode.h" />
@@ -199,14 +201,12 @@
     <ClInclude Include="Wedge.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragmentshader.frag" />
-    <None Include="shapefs.frag" />
-    <None Include="shapevs.vert" />
+    <None Include="basicfs.frag" />
     <None Include="texturefs.frag" />
     <None Include="texturevs.vert" />
     <None Include="phongvs.vert" />
     <None Include="phongfs.frag" />
-    <None Include="vertexshader.vert" />
+    <None Include="basicvs.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

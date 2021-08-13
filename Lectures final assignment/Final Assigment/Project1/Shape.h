@@ -9,7 +9,7 @@ class Shape : public Entity
 {
 public:
     // Properties
-    GLfloat Vertices[108] = { };
+    GLfloat Vertices[120] = { };
 
     int VerticesSize = 0;
     

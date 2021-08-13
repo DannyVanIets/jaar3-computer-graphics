@@ -68,17 +68,19 @@ void Shape::CalculateNormals()
 
 void Shape::Render(glm::mat4 projection, glm::mat4 view)
 {
-	RenderWithShading(projection, view);
+	if (BasicShading) {
+		RenderBasic(projection, view);
+	}
+	else {
+		RenderWithShading(projection, view);
+	}
 }
 
 void Shape::RenderBasic(glm::mat4 projection, glm::mat4 view)
 {
-	CalculateMvp(projection, view);
-
-	if (TextureEnabled) {
-		glBindTexture(GL_TEXTURE_2D, texture_id);
-	}
 	shader.Use();
+
+	CalculateMvp(projection, view);
 
 	// Send mvp
 	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -119,14 +121,21 @@ void Shape::RenderWithShading(glm::mat4 projection, glm::mat4 view)
 
 void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 {
-	if (!texture_path.empty())
+	if (BasicShading) 
 	{
-		TextureEnabled = true;
-		texture_id = loadBMP(texture_path.c_str());
+		shader = Shader(basic_vertexshader_name, basic_fragshader_name);
+		InitBufferBasic(projection, view);
 	}
-	
-	shader = Shader(phong_vertexshader_name, phong_fragshader_name);
-	InitBufferWithShading(projection, view);
+	else 
+	{
+		if (!texture_path.empty())
+		{
+			TextureEnabled = true;
+			texture_id = loadBMP(texture_path.c_str());
+		}
+		shader = Shader(phong_vertexshader_name, phong_fragshader_name);
+		InitBufferWithShading(projection, view);
+	}
 }
 
 void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
@@ -134,15 +143,15 @@ void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
 	CalculateMvp(projection, view);
 
 	GLuint position_id;
-	GLuint uv_id;
+	GLuint color_id;
 
 	// Get vertex attributes
 	position_id = glGetAttribLocation(shader.ID, "position");
-	uv_id = glGetAttribLocation(shader.ID, "vertexUV");
+	color_id = glGetAttribLocation(shader.ID, "color");
 
-	GLuint ibo_elements;
 	GLuint vbo_vertices;
-	GLuint vbo_uvs;
+	GLuint vbo_colors;
+	GLuint ibo_elements;
 
 	// vbo for vertices
 	glGenBuffers(1, &vbo_vertices);
@@ -150,10 +159,10 @@ void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// vbo for uvs
-	glGenBuffers(1, &vbo_uvs);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+	// vbo for colors
+	glGenBuffers(1, &vbo_colors);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// vbo for cube elements
@@ -175,10 +184,10 @@ void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
 	glEnableVertexAttribArray(position_id);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Bind uvs to vao
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
-	glVertexAttribPointer(uv_id, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(uv_id);
+	// Bind colors to vao
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+	glVertexAttribPointer(color_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(color_id);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Bind cube elements.

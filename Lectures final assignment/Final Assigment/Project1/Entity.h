@@ -27,7 +27,7 @@ public:
 	glm::vec3 ambient_color = glm::vec3(0.2, 0.2, 0.1);
 	glm::vec3 diffuse_color = glm::vec3(0.5, 0.5, 0.3);
 	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
-	float power = 1024; // Old value: float power = 1024;
+	float power = 64; // Old value: float power = 1024;
 
 	std::vector<Animation*> animations = {};
 
@@ -37,6 +37,7 @@ public:
 	const char* phong_vertexshader_name = "phongvs.vert";
 	const char* phong_fragshader_name = "phongfs.frag";
 
+	bool BasicShading = false;
 	Shader shader;
 
 	// Methods
