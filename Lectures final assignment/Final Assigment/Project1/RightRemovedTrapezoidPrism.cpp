@@ -1,37 +1,18 @@
 #include "RightRemovedTrapezoidPrism.h"
 
-RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, bool withTexture)
+RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z)
 {
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
-    }
-    else
-    {
-        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
-    }
-
+    Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
     DoTranslation(x, y, z);
 }
 
-RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length, bool withTexture)
+RightRemovedTrapezoidPrism::RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length)
 {
-    WithTexture = withTexture; 
-    
     Width = width;
     Height = height;
     Length = length;
 
-    if (WithTexture)
-    {
-        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
-    }
-    else
-    {
-        Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, {});
-    }
+    Setup(Trapezoid_Vertices, {}, Trapezoid_Elements, Trapezoid_uvs);
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);

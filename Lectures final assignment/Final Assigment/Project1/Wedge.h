@@ -111,7 +111,7 @@ public:
 
     // Constructors
     Wedge() = default;
-    Wedge(float x, float y, float z, bool withTexture);
-    Wedge(float x, float y, float z, float width, float height, float length, bool withTexture);
-    Wedge(float x, float y, float z, float width, float height, float length, float rotateRadians, float rotateX, float rotateY, float rotateZ, bool withTexture);
+    Wedge(float x, float y, float z);
+    Wedge(float x, float y, float z, float width, float height, float length);
+    Wedge(float x, float y, float z, float width, float height, float length, float rotateRadians, float rotateX, float rotateY, float rotateZ);
 };

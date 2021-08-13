@@ -39,14 +39,14 @@ void MarketStall::AddAllEntities()
 	float pillarX = Width * 1.4;
 	float pillarZ = Length * 0.8;
 
-	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider, true)); // Bottom left
-	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider, true)); // Top left
+	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Bottom left
+	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Top left
 	
-	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider, true)); // Bottom Right
-	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider, true)); // Top Right
+	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Bottom Right
+	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Top Right
 
 	// Roof;
-	Entities.push_back(new Wedge(X, Y + Height * 2.5, Z, Width * 1.5, Height / 2, Length, 90, 0.0, 1.0, 0.0, true));
+	Entities.push_back(new Wedge(X, Y + Height * 2.5, Z, Width * 1.5, Height / 2, Length, 90, 0.0, 1.0, 0.0));
 
 	// Items for sale on the table.
 	Entities.push_back(new Object("teapot", X - 1.0, Y, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.0, 0.0, 1.0)));

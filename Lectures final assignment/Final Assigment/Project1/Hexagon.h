@@ -108,6 +108,6 @@ public:
 
     // Constructors
     Hexagon() = default;
-    Hexagon(float x, float y, float z, bool withTexture);
-    Hexagon(float x, float y, float z, float width, float height, float length, bool withTexture);
+    Hexagon(float x, float y, float z);
+    Hexagon(float x, float y, float z, float width, float height, float length);
 };

@@ -40,7 +40,7 @@ public:
 
     // Constructors
     RightRemovedTrapezoidPrism() = default;
-    RightRemovedTrapezoidPrism(float x, float y, float z, bool withTexture);
-    RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length, bool withTexture);
+    RightRemovedTrapezoidPrism(float x, float y, float z);
+    RightRemovedTrapezoidPrism(float x, float y, float z, float width, float height, float length);
 };
 

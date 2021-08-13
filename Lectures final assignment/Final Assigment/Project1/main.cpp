@@ -47,7 +47,7 @@ Camera camera;
 Movement movement;
 
 World world = World(3.0f, 0.0f, 1.0f);
-Cube cube2 = Cube(0.0, 0.0, 0.0, "./Yellobrk.bmp");
+Cube cube2 = Cube(0.0, 0.0, 0.0, "texture/Yellobrk.bmp");
 CustomPlane customplane = CustomPlane(5.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, "texture/Yellobrk.bmp");
 
 //--------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ void Render()
 	camera.CalculateView();
 
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
-	//world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
+	world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
 	customplane.Render(camera.currentvm.projection, camera.currentvm.view, texture_id);
 
@@ -86,11 +86,11 @@ void Render()
 void InitBuffers()
 {
 	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
-	//world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
+	world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
 
 	customplane.InitBuffer(camera.currentvm.projection, camera.currentvm.view, texture_id);
 
-	cube2.InitBufferWithShadingAndTexture(camera.currentvm.projection);
+	cube2.InitBuffers(camera.currentvm.projection, camera.currentvm.view);
 }
 
 //------------------------------------------------------------

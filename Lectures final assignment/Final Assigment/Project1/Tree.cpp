@@ -46,7 +46,7 @@ void Tree::AddAllEntities()
 
 void Tree::AddTrunk()
 {
-	Entities.push_back(new Hexagon(X, Y, Z, Width / 3, Height, Length / 3, false));
+	Entities.push_back(new Hexagon(X, Y, Z, Width / 3, Height, Length / 3));
 }
 
 void Tree::AddLeaves()
@@ -54,7 +54,7 @@ void Tree::AddLeaves()
 	if (PyramidLeaves) 
 	{
 		Y += Height * 1.25f;
-		Entities.push_back(new Pyramid(X, Y, Z, Width, Height / 1.25, Length, false));
+		Entities.push_back(new Pyramid(X, Y, Z, Width, Height / 1.25, Length));
 	}
 	else 
 	{

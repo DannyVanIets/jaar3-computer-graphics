@@ -209,7 +209,9 @@
     <None Include="objectvs.vert" />
     <None Include="shapefs.frag" />
     <None Include="shapevs.vert" />
+    <None Include="texturevs2.vert" />
     <None Include="texturefs.frag" />
+    <None Include="texturefs2.frag" />
     <None Include="texturevs.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -29,7 +29,7 @@ void World::AddModelsAndEntities()
 void World::AddAllShapes()
 {
 	//Entities.push_back(new Cube(0.0, 0.0, 0.0, "texture/Yellobrk.bmp"));
-	Entities.push_back(new TriangularPrism(-3.0, 0.0, 0.0, true));
+	Entities.push_back(new TriangularPrism(-3.0, 0.0, 0.0));
 	//Entities.push_back(new Hexagon(3.0, 0.0, 10.0, true));
 	//Entities.push_back(new Wedge(6.0, 0.0, 10.0, true));
 	//Entities.push_back(new Object("teapot", 5.0, 0.0, 1.0, glm::vec3(0.0, 0.0, 1.0)));

@@ -1,17 +1,8 @@
 #include "TriangularPrism.h"
 
-TriangularPrism::TriangularPrism(float x, float y, float z, bool withTexture)
+TriangularPrism::TriangularPrism(float x, float y, float z)
 {
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(TriangularPrism_Vertices2, TriangularPrism_Normals, TriangularPrism_Elements2, TriangularPrism_uvs);
-    }
-    else
-    {
-        Setup(TriangularPrism_Vertices2, {}, TriangularPrism_Elements, {});
-    }
+    Setup(TriangularPrism_Vertices2, TriangularPrism_Normals, TriangularPrism_Elements2, TriangularPrism_uvs);
 
     DoTranslation(x, y, z);
     VerticesSize = TriangularPrism_Vertices2.size();
@@ -23,22 +14,13 @@ TriangularPrism::TriangularPrism(float x, float y, float z, bool withTexture)
     animations.push_back(new Animate_GoUpAndThenDown(3.0));
 }
 
-TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length, bool withTexture)
+TriangularPrism::TriangularPrism(float x, float y, float z, float width, float height, float length)
 {
     Height = height;
     Width = width;
     Length = length;
-
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(TriangularPrism_Vertices2, TriangularPrism_Normals, TriangularPrism_Elements2, TriangularPrism_uvs);
-    }
-    else
-    {
-        Setup(TriangularPrism_Vertices, {}, TriangularPrism_Elements, {});
-    }
+    
+    Setup(TriangularPrism_Vertices2, TriangularPrism_Normals, TriangularPrism_Elements2, TriangularPrism_uvs);
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);

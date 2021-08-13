@@ -40,6 +40,6 @@ public:
 
     // Constructors
     TrapezoidPrism() = default;
-    TrapezoidPrism(float x, float y, float z, bool withTexture);
-    TrapezoidPrism(float x, float y, float z, float width, float height, float length, bool withTexture);
+    TrapezoidPrism(float x, float y, float z);
+    TrapezoidPrism(float x, float y, float z, float width, float height, float length);
 };

@@ -1,39 +1,21 @@
 #include "Wedge.h"
 
-Wedge::Wedge(float x, float y, float z, bool withTexture)
+Wedge::Wedge(float x, float y, float z)
 {
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
-    }
-    else
-    {
-        Setup(Wedge_Vertices, {}, Wedge_Elements, {});
-    }
+    Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
 
     DoTranslation(x, y, z);
     VerticesSize = Wedge_Vertices2.size();
     CalculateNormals();
 }
 
-Wedge::Wedge(float x, float y, float z, float width, float height, float length, bool withTexture)
+Wedge::Wedge(float x, float y, float z, float width, float height, float length)
 {
     Height = height;
     Width = width;
     Length = length;
 
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
-    }
-    else
-    {
-        Setup(Wedge_Vertices, {}, Wedge_Elements, {});
-    }
+    Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);
@@ -42,22 +24,13 @@ Wedge::Wedge(float x, float y, float z, float width, float height, float length,
     CalculateNormals();
 }
 
-Wedge::Wedge(float x, float y, float z, float width, float height, float length, float rotateRadians, float rotateX, float rotateY, float rotateZ, bool withTexture)
+Wedge::Wedge(float x, float y, float z, float width, float height, float length, float rotateRadians, float rotateX, float rotateY, float rotateZ)
 {
     Height = height;
     Width = width;
     Length = length;
 
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
-    }
-    else
-    {
-        Setup(Wedge_Vertices, {}, Wedge_Elements, {});
-    }
+    Setup(Wedge_Vertices2, {}, Wedge_Elements, Wedge_uvs);
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);

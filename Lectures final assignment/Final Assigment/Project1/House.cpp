@@ -87,10 +87,10 @@ void House::AddGarage()
 	float wedgeX = X - Width * 2;
 	float wedgeHeight = Height / 4;
 
-	Entities.push_back(new RightRemovedTrapezoidPrism(X - Width * 2, Y, Z, Width, Height, Length, false));
+	Entities.push_back(new RightRemovedTrapezoidPrism(X - Width * 2, Y, Z, Width, Height, Length));
 
 	if (AmountOfFloors > 1) {
-		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25f, Z, Width, wedgeHeight, Length, false));
+		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25f, Z, Width, wedgeHeight, Length));
 	}
 }
 
@@ -107,7 +107,7 @@ void House::AddRoof()
 {
 	if (PyramidRoof)
 	{
-		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length, true));
+		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length));
 	}
 	else
 	{
@@ -118,7 +118,7 @@ void House::AddRoof()
 
 void House::AddChimney()
 {
-	Entities.push_back(new Hexagon(X + Width / 4, Y, Z, 0.25, Height * 1.25, 0.25, true));
+	Entities.push_back(new Hexagon(X + Width / 4, Y, Z, 0.25, Height * 1.25, 0.25));
 }
 
 void House::AddSmoke()

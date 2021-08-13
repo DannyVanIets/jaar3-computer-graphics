@@ -10,13 +10,13 @@
 
 Cube::Cube(float x, float y, float z, string texture_name)
 {
-	Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
+	Setup(Cube_Vertices, {}, {}, {});
 
-	//DoTranslation(x, y, z);
+	DoTranslation(x, y, z);
 	//ChangeColor(glm::vec3(0.0, 0.5, 0.1));
 
-	//VerticesSize = Cube_Vertices_For_Textures.size();
-	//CalculateNormals();
+	VerticesSize = Cube_Vertices.size();
+	CalculateNormals();
 
 	texture_path = texture_name;
 }
@@ -27,13 +27,13 @@ Cube::Cube(float x, float y, float z, float width, float height, float length, s
 	Height = height;
 	Length = length;
 
-	Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
+	Setup(Cube_Vertices, {}, {}, {});
 
-	/*DoTranslation(x, y, z);
+	DoTranslation(x, y, z);
 	DoScaling(Width, Height, Length);
 
-	VerticesSize = Cube_Vertices_For_Textures2.size();
-	CalculateNormals();*/
+	VerticesSize = Cube_Vertices.size();
+	CalculateNormals();
 
 	texture_path = texture_name;
 

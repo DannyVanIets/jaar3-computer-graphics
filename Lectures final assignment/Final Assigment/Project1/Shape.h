@@ -51,22 +51,70 @@ public:
     GLfloat uvs[72] = { 
         // U, V,
         // front
-        0.0f, 0.0f, // bottom left
-        1.0f, 0.0f, // bottom right
-        1.0f, 1.0f, // top right
-        0.0f, 1.0f, // top left
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        // top
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        // back
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        // bottom
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        // left
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        // right
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
     };
 
     GLfloat Normals [120] = { };
 
     float Height = 1.0, Width = 1.0, Length = 1.0;
-    bool WithTexture;
+    bool TextureEnabled = false;
 
-    const char* vertexshader_name = "vertexshader.vert";
-    const char* fragshader_name = "fragmentshader.frag";
+    const char* basic_vertexshader_name = "vertexshader.vert";
+    const char* basic_fragshader_name = "fragmentshader.frag";
 
-    const char* texture_vertexshader_name = "texturevs.vert";
-    const char* texture_fragshader_name = "texturefs.frag";
+    const char* phong_vertexshader_name = "texturevs2.vert";
+    const char* phong_fragshader_name = "texturefs2.frag";
 
     const char* shape_vertexshader_name = "shapevs.vert";
     const char* shape_fragshader_name = "shapefs.frag";
@@ -80,8 +128,10 @@ public:
     void CalculateNormals();
 
     void Render(glm::mat4 projection, glm::mat4 view) override;
+    void RenderBasic(glm::mat4 projection, glm::mat4 view);
+    void RenderWithShading(glm::mat4 projection, glm::mat4 view);
 
     void InitBuffers(glm::mat4 projection, glm::mat4 view) override;
-    void InitBufferWithShading(glm::mat4 projection);
-    void InitBufferWithShadingAndTexture(glm::mat4 projection);
+    void InitBufferBasic(glm::mat4 projection, glm::mat4 view);
+    void InitBufferWithShading(glm::mat4 projection, glm::mat4 view);
 };

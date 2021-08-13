@@ -286,6 +286,12 @@
     <None Include="shapefs.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="texturefs2.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="texturevs2.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexshader.vert">

@@ -1,39 +1,21 @@
 #include "Hexagon.h"
 
-Hexagon::Hexagon(float x, float y, float z, bool withTexture)
+Hexagon::Hexagon(float x, float y, float z)
 {
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
-    }
-    else
-    {
-        Setup(Hexagon_Vertices, {}, Hexagon_Elements, {});
-    }
+    Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
 
     DoTranslation(x, y, z);
     VerticesSize = Hexagon_Vertices2.size();
     CalculateNormals();
 }
 
-Hexagon::Hexagon(float x, float y, float z, float width, float height, float length, bool withTexture)
+Hexagon::Hexagon(float x, float y, float z, float width, float height, float length)
 {
 	Height = height;
 	Width = width;
 	Length = length;
 
-    WithTexture = withTexture;
-
-    if (WithTexture)
-    {
-        Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
-    }
-    else
-    {
-        Setup(Hexagon_Vertices, {}, Hexagon_Elements, {});
-    }
+    Setup(Hexagon_Vertices2, {}, Hexagon_Elements, {});
 
     DoTranslation(x, y, z);
     DoScaling(Width, Height, Length);

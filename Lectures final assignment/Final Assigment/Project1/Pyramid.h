@@ -69,6 +69,6 @@ public:
 
 	// Constructors
 	Pyramid() = default;
-	Pyramid(float x, float y, float z, bool withTexture);
-	Pyramid(float x, float y, float z, float width, float height, float length, bool withTexture);
+	Pyramid(float x, float y, float z);
+	Pyramid(float x, float y, float z, float width, float height, float length);
 };

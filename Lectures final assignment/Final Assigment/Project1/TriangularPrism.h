@@ -107,6 +107,6 @@ public:
 
     // Constructors
     TriangularPrism() = default;
-    TriangularPrism(float x, float y, float z, bool withTexture);
-    TriangularPrism(float x, float y, float z, float width, float height, float length, bool withTexture);
+    TriangularPrism(float x, float y, float z);
+    TriangularPrism(float x, float y, float z, float width, float height, float length);
 };
