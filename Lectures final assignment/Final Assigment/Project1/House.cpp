@@ -97,7 +97,7 @@ void House::AddGarage()
 void House::AddFloors()
 {
 	for (int i = 0; i < AmountOfFloors; i++) {
-		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, true));
+		Entities.push_back(new Cube(X, Y, Z, Width, Height, Length, "texture/Yellobrk.bmp"));
 
 		Y += Height * 2;
 	}

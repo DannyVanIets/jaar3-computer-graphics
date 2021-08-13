@@ -15,6 +15,8 @@
 #include "texture/TextureLoader.h"
 
 #include "World.h"
+#include "Cube.h"
+#include "CustomPlane.h"
 
 using namespace std;
 
@@ -27,6 +29,9 @@ const int WIDTH = 800, HEIGHT = 600;
 const char* skybox_vertexshader_name = "skyboxvs.vert";
 const char* skybox_fragshader_name = "skyboxfs.frag";
 
+const char* texture_vertexshader_name = "texturevs.vert";
+const char* texture_fragshader_name = "texturefs.frag";
+
 //const char* texture_name = "texture/uvtemplate.bmp";
 const char* texture_name = "texture/Yellobrk.bmp";
 
@@ -36,11 +41,14 @@ unsigned const int DELTA_TIME = 10;
 // Variables
 //--------------------------------------------------------------------------------
 GLuint texture_id;
+Shader textureShader;
 
 Camera camera;
 Movement movement;
 
 World world = World(3.0f, 0.0f, 1.0f);
+Cube cube2 = Cube(0.0, 0.0, 0.0, "./Yellobrk.bmp");
+CustomPlane customplane = CustomPlane(5.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, "texture/Yellobrk.bmp");
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -53,31 +61,22 @@ void Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// For anti-aliasing
-	glEnable(GL_MULTISAMPLE);
-
-	// Draw the ground.
-	/*glColor3f(0.039f, 0.341f, 0.078f);
-	glNormal3f(1.0f, 1.0f, 1.0f);
-	glBegin(GL_QUADS);
-		glVertex3f(-10.0f, -1.0f, -10.0f);
-		glVertex3f(-10.0f, -1.0f, 10.0f);
-		glVertex3f(10.0f, -1.0f, 10.0f);
-		glVertex3f(10.0f, -1.0f, -10.0f);
-	glEnd();*/
-
-	// Attach to program_id
-	//glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
+	//glEnable(GL_MULTISAMPLE);
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
-	world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
+	//world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
-	// TODO: Create texture class.
-	//texturedShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
-	//cube2.Render(camera.currentvm.projection, camera.currentvm.view);
+	//glBindTexture(GL_TEXTURE_2D, texture_id);
+	customplane.Render(camera.currentvm.projection, camera.currentvm.view, texture_id);
+
+	cube2.shader.Use();
+	cube2.CalculateMvp(camera.currentvm.projection, camera.currentvm.view);
+	textureShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
+	cube2.Render(camera.currentvm.projection, camera.currentvm.view);
 
 	// Swap buffers
 	glutSwapBuffers();
@@ -91,9 +90,14 @@ void Render()
 void InitBuffers()
 {
 	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
-	world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
+	//world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
 
-	//cube2.InitBuffers(texturedShader, camera.currentvm.projection, camera.currentvm.view);
+	customplane.InitBuffer(camera.currentvm.projection, camera.currentvm.view, texture_id);
+
+	cube2.CalculateMvp(camera.currentvm.projection, camera.currentvm.view);
+	cube2.shader = textureShader;
+	cube2.texture_id = 1;
+	cube2.InitBufferWithShadingAndTexture(camera.currentvm.projection);
 }
 
 //------------------------------------------------------------
@@ -101,7 +105,13 @@ void InitBuffers()
 // Initializes the fragmentshader and vertexshader
 //------------------------------------------------------------
 
+void InitLoadShaders() {
+	customplane.LoadShader();
+}
+
 void InitLoadTextures() {
+	customplane.InitLoadTextures();
+	textureShader = Shader(texture_vertexshader_name, texture_fragshader_name);
 	texture_id = loadBMP(texture_name);
 }
 
@@ -146,8 +156,9 @@ void Render(int n)
 void InitGlutGlew(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutSetOption(GLUT_MULTISAMPLE, 8);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
+	//glutSetOption(GLUT_MULTISAMPLE, 8);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	//glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
 	glutCreateWindow("Hello there");
 	glutDisplayFunc(Render);
@@ -171,7 +182,8 @@ void InitGlutGlew(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-	InitGlutGlew(argc, argv);
+	InitGlutGlew(argc, argv); 
+	InitLoadShaders();
 	camera.CalculateProjection(); // TODO: Move this somewhere else.
 	InitLoadTextures();
 	InitBuffers();

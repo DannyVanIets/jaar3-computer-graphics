@@ -66,9 +66,6 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Icosahedron.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
     <ClCompile Include="Hexagon.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
@@ -153,12 +150,21 @@
     <ClCompile Include="Animate_Scaling.cpp">
       <Filter>Source Files\Animations</Filter>
     </ClCompile>
+    <ClCompile Include="CustomPlane.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_Rotating.cpp">
+      <Filter>Source Files\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_GoUpAndReset.cpp">
+      <Filter>Source Files\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_GoUpAndThenDown.cpp">
+      <Filter>Source Files\Animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pyramid.h">
-      <Filter>Header Files\Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Icosahedron.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Hexagon.h">
@@ -243,6 +249,18 @@
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="Animate_Scaling.h">
+      <Filter>Header Files\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomPlane.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_Rotating.h">
+      <Filter>Header Files\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_GoUpAndReset.h">
+      <Filter>Header Files\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_GoUpAndThenDown.h">
       <Filter>Header Files\Animations</Filter>
     </ClInclude>
   </ItemGroup>

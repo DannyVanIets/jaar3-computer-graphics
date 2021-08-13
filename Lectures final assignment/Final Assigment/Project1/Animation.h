@@ -4,8 +4,6 @@
 class Animation
 {
 public:
-	Animation() = default;
-
 	virtual glm::mat4 DoAnimation(glm::mat4 model) = 0;
 protected:
 	glm::mat4 DoScaling(glm::mat4 model, float x, float y, float z);

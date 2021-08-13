@@ -13,7 +13,7 @@ glm::mat4 Animation::DoRotation(glm::mat4 model, float radians, float x, float y
 {
     return glm::rotate(
         model,
-        radians,
+        glm::radians(radians),
         glm::vec3(x, y, z));
 }
 

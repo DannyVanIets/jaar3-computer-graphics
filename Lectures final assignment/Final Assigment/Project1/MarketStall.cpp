@@ -30,7 +30,7 @@ MarketStall::MarketStall(float x, float y, float z, float width, float height, f
 void MarketStall::AddAllEntities()
 {
 	// Table
-	Entities.push_back(new Cube(X, Y - Height / 2, Z, Width * 1.5, Height / 2, Length, true));
+	Entities.push_back(new Cube(X, Y - Height / 2, Z, Width * 1.5, Height / 2, Length, "texture/Yellobrk.bmp"));
 
 	// Pillars
 	float pillarDivider = 10;

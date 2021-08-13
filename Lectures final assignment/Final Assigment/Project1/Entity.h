@@ -4,6 +4,10 @@
 #include "Shader.h"
 #include "Animation.h"
 #include "Animate_Scaling.h"
+#include "Animate_Rotating.h"
+#include "Animate_GoUpAndReset.h"
+#include "Animate_GoUpAndThenDown.h"
+#include <vector>
 
 class Entity
 {
@@ -13,6 +17,8 @@ public:
 	glm::mat4 mvp, mv;
 	GLuint vao;
 	GLuint uniform_mvp, uniform_mv;
+	GLuint texture_id;
+	string texture_path;
 
 	/* Old values:
 	glm::vec3 light_position = glm::vec3(4, 4, 4);
@@ -29,11 +35,7 @@ public:
 	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
 	float power = 64;
 
-	bool animationsOn = true;
-	/*Animation animations[30] = {
-
-	};*/
-	//Animate_Scaling animation = Animate_Scaling(false, false, false);
+	std::vector<Animation*> animations = {};
 
 	// Methods
 	void DoScaling(float x, float y, float z);

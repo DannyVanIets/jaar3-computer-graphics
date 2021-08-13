@@ -72,8 +72,6 @@ public:
     const char* shape_fragshader_name = "shapefs.frag";
 
     Shader shader;
-    Shader textureShader;
-    Shader newShader;
 
     // Constructors/Destructors
 
@@ -84,7 +82,6 @@ public:
     void Render(glm::mat4 projection, glm::mat4 view) override;
 
     void InitBuffers(glm::mat4 projection, glm::mat4 view) override;
-    void InitBufferWithShading(glm::mat4 projection, glm::mat4 view);
-    void InitBufferWithoutTexture();
-    void InitBufferWithTexture();
+    void InitBufferWithShading(glm::mat4 projection);
+    void InitBufferWithShadingAndTexture(glm::mat4 projection);
 };

@@ -182,6 +182,6 @@ public:
 
     // Constructors
     Cube() = default;
-    Cube(float x, float y, float z, bool withTexture);
-    Cube(float x, float y, float z, float width, float height, float length, bool withTexture);
+    Cube(float x, float y, float z, string texture_name);
+    Cube(float x, float y, float z, float width, float height, float length, string texture_name);
 };

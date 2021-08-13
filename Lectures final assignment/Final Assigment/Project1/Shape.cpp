@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "texture/TextureLoader.h"
 
 void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNormals, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs = {})
 {
@@ -13,11 +14,11 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNorm
 	}
 
 	if (newUvs.size() > 0) {
-		std::copy(newUvs.begin(), newUvs.end(), uvs);
+		//td::copy(newUvs.begin(), newUvs.end(), uvs);
+	}
 
-		for (int i = 1; i < 6; i++) {
-			memcpy(&uvs[i * 4 * 2], &uvs[0], 2 * 4 * sizeof(GLfloat));
-		}
+	for (int i = 1; i < 6; i++) {
+		memcpy(&uvs[i * 4 * 2], &uvs[0], 2 * 4 * sizeof(GLfloat));
 	}
 }
 
@@ -26,7 +27,7 @@ void Shape::CalculateNormals()
 	glm::vec3 a, b, n;
 	std::vector<GLfloat> newNormals;
 
-	for (int i = 0; i < VerticesSize;) {
+	for (int i = 0; i < VerticesSize; i += 9) {
 		glm::vec3 p1, p2, p3;
 
 		int j = i;
@@ -54,16 +55,7 @@ void Shape::CalculateNormals()
 		n.y /= o;
 		n.z /= o;
 
-		int k = i / 2;
-		int l = 0;
-		/*if (Elements[k + 2] == Elements[k + 3]) {
-			i += 12;
-			l = 4;
-		}*/
-		//else {
-			i += 9;
-			l = 3;
-		//}
+		int l = 3;
 
 		for (int p = 0; p < l; p++) {
 			newNormals.push_back(n.x);
@@ -77,56 +69,60 @@ void Shape::CalculateNormals()
 
 void Shape::Render(glm::mat4 projection, glm::mat4 view)
 {
-	//shader.Use();
-	newShader.Use();
-
-	//CalculateMvp(projection, view);
-	if (animationsOn) {
-		//model = animation.DoAnimation(model);
-	}
 	CalculateMv(view);
 
-	//glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
-	glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
+	if (animations.size() > 0) {
+		for (auto& ani : animations) {
+			model = ani->DoAnimation(model);
+		}
+	}
+	if (texture_id != 0) {
+		glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 
-	// Send vao
-	glBindVertexArray(vao);
+		// Send vao
+		glBindVertexArray(vao);
 
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(Vertices));
+		glDrawElements(
+			GL_TRIANGLES,
+			sizeof(Elements) / sizeof(GLushort),
+			GL_UNSIGNED_SHORT,
+			0);
 
-	/*glDrawElements(
-		GL_TRIANGLES,
-		sizeof(Elements) / sizeof(GLushort),
-		GL_UNSIGNED_SHORT,
-		0);*/
+		glBindVertexArray(0);
+	}
+	else {
+		shader.Use();
 
-	glBindVertexArray(0);
+		glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
+
+		// Send vao
+		glBindVertexArray(vao);
+
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(Vertices));
+
+		glBindVertexArray(0);
+	}
 }
 
 void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 {
-	shader = Shader(vertexshader_name, fragshader_name);
-	textureShader = Shader(texture_vertexshader_name, texture_fragshader_name);
+	CalculateMv(view);
 
-	CalculateMvp(projection, view);
-
-	if (WithTexture)
+	if (texture_path.empty())
 	{
-		//InitBufferWithTexture();
-		InitBufferWithShading(projection, view);
+		shader = Shader(shape_vertexshader_name, shape_fragshader_name);
+		InitBufferWithShading(projection);
 	}
 	else
 	{
-		InitBufferWithoutTexture();
+		texture_id = loadBMP(texture_path.c_str());
+		shader = Shader(texture_vertexshader_name, texture_fragshader_name);
+		InitBufferWithShadingAndTexture(projection);
 	}
 }
 
-void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
+void Shape::InitBufferWithShading(glm::mat4 projection)
 {
-	newShader = Shader(shape_vertexshader_name, shape_fragshader_name);
-
-	CalculateMv(view);
-
 	GLuint position_id;
 	GLuint vbo_vertices;
 
@@ -141,6 +137,7 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	// vbo for normals
 	glGenBuffers(1, &vbo_normals);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Normals), Normals, GL_STATIC_DRAW);
@@ -155,8 +152,8 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// Get vertex attributes
-	position_id = glGetAttribLocation(newShader.ID, "position");
-	normal_id = glGetAttribLocation(newShader.ID, "normal");
+	position_id = glGetAttribLocation(shader.ID, "position");
+	normal_id = glGetAttribLocation(shader.ID, "normal");
 
 	// Allocate memory for vao
 	glGenVertexArrays(1, &vao);
@@ -183,23 +180,25 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glBindVertexArray(0);
 
 	// Make uniform vars
-	uniform_mv = glGetUniformLocation(newShader.ID, "mv");
-	GLuint uniform_model = glGetUniformLocation(newShader.ID, "model");
-	GLuint uniform_proj = glGetUniformLocation(newShader.ID, "projection");
-	GLuint uniform_light_pos = glGetUniformLocation(newShader.ID, "light_pos");
-	GLuint uniform_material_ambient = glGetUniformLocation(newShader.ID,
+	uniform_mv = glGetUniformLocation(shader.ID, "mv");
+	GLuint uniform_model = glGetUniformLocation(shader.ID, "model");
+	GLuint uniform_proj = glGetUniformLocation(shader.ID, "projection");
+	//GLuint uniform_texture_enabled = glGetUniformLocation(shader.ID, "texture_enabled");
+	GLuint uniform_light_pos = glGetUniformLocation(shader.ID, "light_pos");
+	GLuint uniform_material_ambient = glGetUniformLocation(shader.ID,
 		"mat_ambient");
-	GLuint uniform_material_diffuse = glGetUniformLocation(newShader.ID,
+	GLuint uniform_material_diffuse = glGetUniformLocation(shader.ID,
 		"mat_diffuse");
 	GLuint uniform_specular = glGetUniformLocation(
-		newShader.ID, "mat_specular");
+		shader.ID, "mat_specular");
 	GLuint uniform_material_power = glGetUniformLocation(
-		newShader.ID, "mat_power");
+		shader.ID, "mat_power");
 
 	// Send mv
-	newShader.Use();
+	shader.Use();
 	glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
 	glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(model));
+	//glUniform1f(uniform_texture_enabled, texture_id);
 	glUniformMatrix4fv(uniform_proj, 1, GL_FALSE, glm::value_ptr(projection));
 	glUniform3fv(uniform_light_pos, 1, glm::value_ptr(light_position));
 	glUniform3fv(uniform_material_ambient, 1, glm::value_ptr(ambient_color));
@@ -208,72 +207,7 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glUniform1f(uniform_material_power, power);
 }
 
-void Shape::InitBufferWithoutTexture()
-{
-	GLuint position_id;
-	GLuint color_id;
-
-	// Get vertex attributes
-	position_id = glGetAttribLocation(shader.ID, "position");
-	color_id = glGetAttribLocation(shader.ID, "color");
-
-	GLuint ibo_elements;
-	GLuint vbo_vertices;
-	GLuint vbo_colors;
-
-	// vbo for vertices
-	glGenBuffers(1, &vbo_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for colors
-	glGenBuffers(1, &vbo_colors);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for cube elements
-	glGenBuffers(1, &ibo_elements);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
-	glBufferData(
-		GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements),
-		Elements, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	// Allocate memory for vao
-	glGenVertexArrays(1, &vao);
-
-	// Bind to vao
-	glBindVertexArray(vao);
-
-	// Bind vertices to vao
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-	glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(position_id);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Bind colors to vao
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-	glVertexAttribPointer(color_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(color_id);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Bind cube elements.
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
-
-	// Stop bind to vao
-	glBindVertexArray(0);
-
-	// Make uniform vars
-	uniform_mvp = glGetUniformLocation(shader.ID, "mvp");
-
-	// Send mvp
-	shader.Use();
-	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
-}
-
-void Shape::InitBufferWithTexture()
+void Shape::InitBufferWithShadingAndTexture(glm::mat4 projection)
 {
 	GLuint position_id;
 	GLuint uv_id;
@@ -334,6 +268,6 @@ void Shape::InitBufferWithTexture()
 	uniform_mvp = glGetUniformLocation(shader.ID, "mvp");
 
 	// Send mvp
-	shader.Use();
+	glUseProgram(shader.ID);
 	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }

@@ -6,49 +6,36 @@
 #include "glsl.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include "texture/TextureLoader.h"
 
-Cube::Cube(float x, float y, float z, bool withTexture)
+Cube::Cube(float x, float y, float z, string texture_name)
 {
-	WithTexture = withTexture;
+	Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
 
-	if (WithTexture)
-	{
-		Setup(Cube_Vertices_For_Textures2, Cube_Normals, Cube_Elements_for_Textures, {});
-	}
-	else
-	{
-		Setup(Cube_Vertices, Cube_Normals, Cube_Elements, {});
-	}
+	//DoTranslation(x, y, z);
+	//ChangeColor(glm::vec3(0.0, 0.5, 0.1));
 
-	DoTranslation(x, y, z);
-	ChangeColor(glm::vec3(0.0, 0.5, 0.1));
+	//VerticesSize = Cube_Vertices_For_Textures.size();
+	//CalculateNormals();
 
-	VerticesSize = Cube_Vertices_For_Textures.size();
-	CalculateNormals();
+	texture_path = texture_name;
 }
 
-Cube::Cube(float x, float y, float z, float width, float height, float length, bool withTexture)
+Cube::Cube(float x, float y, float z, float width, float height, float length, string texture_name)
 {
 	Width = width;
 	Height = height;
 	Length = length;
 
-	WithTexture = withTexture;
+	Setup(Cube_Vertices_For_Textures, Cube_Normals, Cube_Elements_for_Textures, {});
 
-	if (WithTexture)
-	{
-		Setup(Cube_Vertices_For_Textures2, Cube_Normals, Cube_Elements_for_Textures, {});
-	}
-	else
-	{
-		Setup(Cube_Vertices, Cube_Normals, Cube_Elements, {});
-	}
-
-	DoTranslation(x, y, z);
+	/*DoTranslation(x, y, z);
 	DoScaling(Width, Height, Length);
 
-	VerticesSize = Cube_Vertices_For_Textures.size();
-	CalculateNormals();
+	VerticesSize = Cube_Vertices_For_Textures2.size();
+	CalculateNormals();*/
+
+	texture_path = texture_name;
 
 	/* ------------------------ Why translation first? --------------------------------------
 	Remember that matrix multiplication is applied in reverse.This time a translation is thus

@@ -12,5 +12,5 @@ uniform sampler2D myTextureSampler;
 void main()
 {
     // Output FragColor = color of the texture at the specified UV
-    FragColor = texture2D(myTextureSampler, UV).rgb;
+    FragColor = texture(myTextureSampler, UV).rgb;
 }

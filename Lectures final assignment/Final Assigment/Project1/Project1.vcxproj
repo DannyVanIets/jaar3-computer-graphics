@@ -128,6 +128,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animate_GoUpAndReset.cpp" />
+    <ClCompile Include="Animate_GoUpAndThenDown.cpp" />
+    <ClCompile Include="Animate_Rotating.cpp" />
     <ClCompile Include="Animate_Scaling.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -135,6 +138,7 @@
     <ClCompile Include="Chair.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="CustomPlane.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="glsl.cpp" />
     <ClCompile Include="MarketStall.cpp" />
@@ -143,7 +147,6 @@
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="House.cpp" />
-    <ClCompile Include="Icosahedron.cpp" />
     <ClCompile Include="Lampost.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -161,6 +164,9 @@
     <ClCompile Include="Wedge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animate_GoUpAndReset.h" />
+    <ClInclude Include="Animate_GoUpAndThenDown.h" />
+    <ClInclude Include="Animate_Rotating.h" />
     <ClInclude Include="Animate_Scaling.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Camera.h" />
@@ -168,6 +174,7 @@
     <ClInclude Include="Chair.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="CustomPlane.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="MarketStall.h" />
@@ -176,7 +183,6 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="House.h" />
-    <ClInclude Include="Icosahedron.h" />
     <ClInclude Include="Lampost.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Movement.h" />
