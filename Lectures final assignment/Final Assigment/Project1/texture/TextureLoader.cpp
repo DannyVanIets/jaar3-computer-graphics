@@ -69,7 +69,6 @@ GLuint loadBMP(const char * imagepath) {
     // set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); // Only needed if you use 3D textures.
 
     // When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -80,9 +79,6 @@ GLuint loadBMP(const char * imagepath) {
 
     // OpenGL has now copied the data. Free our own version
     delete[] data;
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // If ya want to use this, remove everythign between glTexImage2D and data and uncomment this.
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     // Return the ID of the texture we just created
     return textureID;
