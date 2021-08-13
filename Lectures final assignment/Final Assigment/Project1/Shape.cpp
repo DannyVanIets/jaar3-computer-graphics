@@ -1,11 +1,11 @@
 #include "Shape.h"
 
-void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNormals, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs = {})
+void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newColors, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs)
 {
 	std::copy(newVertices.begin(), newVertices.end(), Vertices);
 
-	if (newNormals.size() > 0) {
-		std::copy(newNormals.begin(), newNormals.end(), Normals);
+	if (newColors.size() > 0) {
+		std::copy(newColors.begin(), newColors.end(), Colors);
 	}
 
 	if (newElements.size() > 0) {
@@ -13,11 +13,7 @@ void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNorm
 	}
 
 	if (newUvs.size() > 0) {
-		//td::copy(newUvs.begin(), newUvs.end(), uvs);
-	}
-
-	for (int i = 1; i < 12; i++) {
-		//memcpy(&uvs[i * 3 * 2], &uvs[0], 2 * 3 * sizeof(GLfloat));
+		std::copy(newUvs.begin(), newUvs.end(), uvs);
 	}
 }
 
@@ -81,6 +77,12 @@ void Shape::RenderBasic(glm::mat4 projection, glm::mat4 view)
 	shader.Use();
 
 	CalculateMvp(projection, view);
+
+	if (animations.size() > 0) {
+		for (auto& ani : animations) {
+			model = ani->DoAnimation(model);
+		}
+	}
 
 	// Send mvp
 	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));

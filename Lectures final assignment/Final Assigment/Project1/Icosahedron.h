@@ -25,35 +25,35 @@ public:
 
     std::vector<GLfloat> Icosahedron_Colors = {
         // front colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
         // right side colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
         // left side colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
         // back colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
         // top colors
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
         // bottom colors
-        0.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
     };
 
     std::vector<GLushort> Icosahedron_Elements = {
@@ -85,5 +85,7 @@ public:
     // Constructors
     Icosahedron() = default;
     Icosahedron(float x, float y, float z);
+    Icosahedron(float x, float y, float z, std::vector<Animation*> aniList);
     Icosahedron(float x, float y, float z, float width, float height, float length);
+    Icosahedron(float x, float y, float z, float width, float height, float length, std::vector<Animation*> aniList);
 };

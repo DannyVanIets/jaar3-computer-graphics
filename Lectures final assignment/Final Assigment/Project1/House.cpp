@@ -5,6 +5,7 @@
 #include "TrapezoidPrism.h"
 #include "RightRemovedTrapezoidPrism.h"
 #include "Wedge.h"
+#include "Icosahedron.h"
 
 House::House(float x, float y, float z, bool pyramidRoof)
 {
@@ -79,7 +80,7 @@ void House::AddAllEntities()
 	AddFloors();
 	AddRoof();
 	AddChimney();
-	//AddSmoke();
+	AddSmoke();
 }
 
 void House::AddGarage()
@@ -119,9 +120,14 @@ void House::AddRoof()
 void House::AddChimney()
 {
 	Entities.push_back(new Hexagon(X + Width / 4, Y, Z, 0.25, Height * 1.25, 0.25));
+	Y += Height;
 }
 
 void House::AddSmoke()
 {
+	std::vector<Animation*> aniList = {};
+	aniList.push_back(new Animate_Rotating(1, 0.0, 1.0, 0.0));
+	aniList.push_back(new Animate_GoUpAndReset(5.0));
 
+	Entities.push_back(new Icosahedron(X + 0.25, Y, Z, 0.25, Height, 0.25, aniList));
 }
