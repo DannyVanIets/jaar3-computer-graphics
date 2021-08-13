@@ -31,14 +31,11 @@ public:
 
 	std::vector<Animation*> animations = {};
 
-	const char* basic_vertexshader_name = "vertexshader.vert";
-	const char* basic_fragshader_name = "fragmentshader.frag";
+	const char* basic_vertexshader_name = "basicvs.vert";
+	const char* basic_fragshader_name = "basicfs.frag";
 
-	const char* phong_vertexshader_name = "texturevs2.vert";
-	const char* phong_fragshader_name = "texturefs2.frag";
-
-	const char* object_vertexshader_name = "objectvs.vert";
-	const char* object_fragshader_name = "objectfs.frag";
+	const char* phong_vertexshader_name = "phongvs.vert";
+	const char* phong_fragshader_name = "phongfs.frag";
 
 	Shader shader;
 

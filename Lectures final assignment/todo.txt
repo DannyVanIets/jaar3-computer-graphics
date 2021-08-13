@@ -1,6 +1,5 @@
 TODO:
 
-- Textures fiksen voor cubes en objecten.
 - Rook toevoegen aan huis.
 - Voeg textures toe voor huis en marktkraam.
 - Animaties doen voor teepot op marktkraam (later weghalen) en rook uit de schoorsteen.

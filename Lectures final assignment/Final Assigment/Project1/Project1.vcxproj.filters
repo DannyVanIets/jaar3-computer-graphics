@@ -268,22 +268,16 @@
     <None Include="fragmentshader.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="objectvs.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="objectfs.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="shapevs.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shapefs.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="texturefs2.frag">
+    <None Include="phongfs.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="texturevs2.vert">
+    <None Include="phongvs.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="texturefs.frag">
