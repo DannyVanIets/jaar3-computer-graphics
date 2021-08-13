@@ -55,8 +55,8 @@ void CustomPlane::Render(glm::mat4 projection, glm::mat4 view, GLuint texture_id
     mvp = projection * view * Model;
 
     if (isTextured) {
-        glBindTexture(GL_TEXTURE_2D, Loaded_texture);
-        // Should become glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
+        //glBindTexture(GL_TEXTURE_2D, Loaded_texture);
+        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
     }
     glUseProgram(Program_id);
 

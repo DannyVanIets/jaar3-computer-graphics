@@ -61,7 +61,7 @@ void Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// For anti-aliasing
-	//glEnable(GL_MULTISAMPLE);
+	glEnable(GL_MULTISAMPLE);
 
 	// Calculate the view of the camera.
 	// Will update the view after a button has been pressed for the movement.
@@ -70,12 +70,8 @@ void Render()
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
 	//world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
-	//glBindTexture(GL_TEXTURE_2D, texture_id);
 	customplane.Render(camera.currentvm.projection, camera.currentvm.view, texture_id);
 
-	cube2.shader.Use();
-	cube2.CalculateMvp(camera.currentvm.projection, camera.currentvm.view);
-	textureShader.Use(); // Textures: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/.
 	cube2.Render(camera.currentvm.projection, camera.currentvm.view);
 
 	// Swap buffers
@@ -94,9 +90,6 @@ void InitBuffers()
 
 	customplane.InitBuffer(camera.currentvm.projection, camera.currentvm.view, texture_id);
 
-	cube2.CalculateMvp(camera.currentvm.projection, camera.currentvm.view);
-	cube2.shader = textureShader;
-	cube2.texture_id = 1;
 	cube2.InitBufferWithShadingAndTexture(camera.currentvm.projection);
 }
 
@@ -156,11 +149,10 @@ void Render(int n)
 void InitGlutGlew(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	//glutSetOption(GLUT_MULTISAMPLE, 8);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	//glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
+	glutSetOption(GLUT_MULTISAMPLE, 8);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow("Hello there");
+	glutCreateWindow("Hello there!");
 	glutDisplayFunc(Render);
 
 	// For the movement with WASD.
