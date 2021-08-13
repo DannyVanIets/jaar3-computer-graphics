@@ -8,6 +8,7 @@
 #include "Animate_GoUpAndReset.h"
 #include "Animate_GoUpAndThenDown.h"
 #include <vector>
+#include "texture/TextureLoader.h"
 
 class Entity
 {
@@ -19,23 +20,27 @@ public:
 	GLuint uniform_mvp, uniform_mv;
 	GLuint texture_id;
 	string texture_path;
-
-	/* Old values:
-	glm::vec3 light_position = glm::vec3(4, 4, 4);
-	glm::vec3 ambient_color = glm::vec3(0.2, 0.2, 0.1);
-	glm::vec3 diffuse_color = glm::vec3(0.5, 0.5, 0.3);
-	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
-	float power = 1024;
-	*/
+	bool TextureEnabled = false;
 
 	// To see what it all means: https://learnopengl.com/Lighting/Basic-Lighting.
 	glm::vec3 light_position = glm::vec3(4, 4, 4);
 	glm::vec3 ambient_color = glm::vec3(0.2, 0.2, 0.1);
 	glm::vec3 diffuse_color = glm::vec3(0.5, 0.5, 0.3);
 	glm::vec3 specular = glm::vec3(0.7, 0.7, 0.7);
-	float power = 64;
+	float power = 1024; // Old value: float power = 1024;
 
 	std::vector<Animation*> animations = {};
+
+	const char* basic_vertexshader_name = "vertexshader.vert";
+	const char* basic_fragshader_name = "fragmentshader.frag";
+
+	const char* phong_vertexshader_name = "texturevs2.vert";
+	const char* phong_fragshader_name = "texturefs2.frag";
+
+	const char* object_vertexshader_name = "objectvs.vert";
+	const char* object_fragshader_name = "objectfs.frag";
+
+	Shader shader;
 
 	// Methods
 	void DoScaling(float x, float y, float z);

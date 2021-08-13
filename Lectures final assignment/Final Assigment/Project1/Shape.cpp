@@ -1,5 +1,4 @@
 #include "Shape.h"
-#include "texture/TextureLoader.h"
 
 void Shape::Setup(std::vector<GLfloat> newVertices, std::vector<GLfloat> newNormals, std::vector<GLushort> newElements, std::vector<GLfloat> newUvs = {})
 {
@@ -69,6 +68,33 @@ void Shape::CalculateNormals()
 
 void Shape::Render(glm::mat4 projection, glm::mat4 view)
 {
+	RenderWithShading(projection, view);
+}
+
+void Shape::RenderBasic(glm::mat4 projection, glm::mat4 view)
+{
+	CalculateMvp(projection, view);
+
+	if (TextureEnabled) {
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+	}
+	shader.Use();
+
+	// Send mvp
+	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
+
+	// Send vao
+	glBindVertexArray(vao);
+
+	glDrawElements(GL_TRIANGLES, sizeof(Elements) / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
+
+	glBindVertexArray(0);
+}
+
+void Shape::RenderWithShading(glm::mat4 projection, glm::mat4 view)
+{
+	shader.Use();
+
 	CalculateMv(view);
 
 	if (animations.size() > 0) {
@@ -76,10 +102,10 @@ void Shape::Render(glm::mat4 projection, glm::mat4 view)
 			model = ani->DoAnimation(model);
 		}
 	}
+
 	if (texture_id != 0) {
-		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture_id);
+		glBindTexture(GL_TEXTURE_2D, texture_id);
 	}
-	shader.Use();
 
 	glUniformMatrix4fv(uniform_mv, 1, GL_FALSE, glm::value_ptr(mv));
 
@@ -89,16 +115,6 @@ void Shape::Render(glm::mat4 projection, glm::mat4 view)
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(Vertices));
 
 	glBindVertexArray(0);
-}
-
-void Shape::RenderBasic(glm::mat4 projection, glm::mat4 view)
-{
-
-}
-
-void Shape::RenderWithShading(glm::mat4 projection, glm::mat4 view)
-{
-
 }
 
 void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
@@ -115,7 +131,68 @@ void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 
 void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
 {
-	
+	CalculateMvp(projection, view);
+
+	GLuint position_id;
+	GLuint uv_id;
+
+	// Get vertex attributes
+	position_id = glGetAttribLocation(shader.ID, "position");
+	uv_id = glGetAttribLocation(shader.ID, "vertexUV");
+
+	GLuint ibo_elements;
+	GLuint vbo_vertices;
+	GLuint vbo_uvs;
+
+	// vbo for vertices
+	glGenBuffers(1, &vbo_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// vbo for uvs
+	glGenBuffers(1, &vbo_uvs);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// vbo for cube elements
+	glGenBuffers(1, &ibo_elements);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
+	glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements), Elements, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	// Allocate memory for vao
+	glGenVertexArrays(1, &vao);
+
+	// Bind to vao
+	glBindVertexArray(vao);
+
+	// Bind vertices to vao
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glVertexAttribPointer(position_id, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(position_id);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Bind uvs to vao
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
+	glVertexAttribPointer(uv_id, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(uv_id);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Bind cube elements.
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
+
+	// Stop bind to vao
+	glBindVertexArray(0);
+
+	// Make uniform vars
+	uniform_mvp = glGetUniformLocation(shader.ID, "mvp");
+
+	// Send mvp
+	shader.Use();
+	glUniformMatrix4fv(uniform_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
@@ -130,8 +207,6 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 
 	GLuint uv_id;
 	GLuint vbo_uvs;
-
-	GLuint ibo_elements;
 
 	// vbo for vertices
 	glGenBuffers(1, &vbo_vertices);
@@ -150,14 +225,6 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_uvs);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for cube elements
-	glGenBuffers(1, &ibo_elements);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
-	glBufferData(
-		GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements),
-		Elements, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// Get vertex attributes
 	position_id = glGetAttribLocation(shader.ID, "position");
@@ -187,9 +254,6 @@ void Shape::InitBufferWithShading(glm::mat4 projection, glm::mat4 view)
 	glVertexAttribPointer(uv_id, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(uv_id);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Bind cube elements.
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
 
 	// Stop bind to vao
 	glBindVertexArray(0);

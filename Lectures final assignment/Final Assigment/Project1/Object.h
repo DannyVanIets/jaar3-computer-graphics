@@ -15,20 +15,17 @@ public:
 	std::string path = "objects/teapot.obj";
 	
 	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
-
-	const char* object_vertexshader_name = "objectvs.vert"; // TODO: Move this to a better place, kill it.
-	const char* object_fragshader_name = "objectfs.frag";
-
-	Shader shader;
+	std::vector<glm::vec2> uvs;
 	
 	// Constructors
 	Object() = default;
 	Object(std::string path);
 	Object(std::string path, float x, float y, float z);
+	Object(std::string path, float x, float y, float z, string texture_name);
 	Object(std::string path, float x, float y, float z, glm::vec3 rgb);
 	Object(std::string path, float x, float y, float z, float width, float height, float length);
+	Object(std::string path, float x, float y, float z, float width, float height, float length, string texture_name);
 	Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb);
 
 	// Methods

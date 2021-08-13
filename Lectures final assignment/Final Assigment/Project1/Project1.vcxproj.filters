@@ -268,12 +268,6 @@
     <None Include="fragmentshader.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="texturefs.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="texturevs.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="objectvs.vert">
       <Filter>Shaders</Filter>
     </None>
@@ -292,10 +286,14 @@
     <None Include="texturevs2.vert">
       <Filter>Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="vertexshader.vert">
+    <None Include="texturefs.frag">
       <Filter>Shaders</Filter>
-    </Text>
+    </None>
+    <None Include="texturevs.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="vertexshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

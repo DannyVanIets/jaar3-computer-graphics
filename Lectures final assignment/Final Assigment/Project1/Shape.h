@@ -108,18 +108,6 @@ public:
     GLfloat Normals [120] = { };
 
     float Height = 1.0, Width = 1.0, Length = 1.0;
-    bool TextureEnabled = false;
-
-    const char* basic_vertexshader_name = "vertexshader.vert";
-    const char* basic_fragshader_name = "fragmentshader.frag";
-
-    const char* phong_vertexshader_name = "texturevs2.vert";
-    const char* phong_fragshader_name = "texturefs2.frag";
-
-    const char* shape_vertexshader_name = "shapevs.vert";
-    const char* shape_fragshader_name = "shapefs.frag";
-
-    Shader shader;
 
     // Constructors/Destructors
 

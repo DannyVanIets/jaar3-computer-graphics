@@ -1,6 +1,7 @@
 TODO:
 
 - Textures fiksen voor cubes en objecten.
+- Rook toevoegen aan huis.
 - Voeg textures toe voor huis en marktkraam.
 - Animaties doen voor teepot op marktkraam (later weghalen) en rook uit de schoorsteen.
 - Stoel model maken.
@@ -15,6 +16,8 @@ Minimum gedaan!
 
 - Code opschonen (kut werk), commentaar schrijven, elements weghalen uit shapes die je alleen tekent met vertices en includes beter maken (allemaal in de base classes!).
 - Boom/teepot onder Ufo animeren.
+
+texture_id = 4
 
 Ideeën voor objecten:
 - Vlammetje voor kaars

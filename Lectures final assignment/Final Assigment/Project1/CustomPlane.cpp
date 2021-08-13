@@ -64,6 +64,7 @@ void CustomPlane::Render(glm::mat4 projection, glm::mat4 view, GLuint texture_id
 
     // Send vao
     glBindVertexArray(PlaneVAO);
+
     glDrawElements(GL_TRIANGLES, sizeof(this->Plane_elements) / sizeof(GLushort),
         GL_UNSIGNED_SHORT, 0);
 
