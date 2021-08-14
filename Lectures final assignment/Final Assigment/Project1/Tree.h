@@ -5,7 +5,10 @@ class Tree : public Model
 {
 public:
 	// Properties.
-	//int AmountOfLeaves = 1; // TODO: Maybe implement this later.
+	
+	/// <summary>
+	/// Used to have two different kind of trees, one consisting of objects and the other of metrices.
+	/// </summary>
 	bool PyramidLeaves = true;
 
 	// Constructors

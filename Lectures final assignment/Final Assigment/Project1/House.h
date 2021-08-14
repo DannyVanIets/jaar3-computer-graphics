@@ -5,6 +5,10 @@ class House : public Model
 {
 public:
 	// Variabeles
+
+	/// <summary>
+	/// Used if you want more blocks in your house.
+	/// </summary>
 	int AmountOfFloors = 1;
 
 	// Constructors
@@ -17,7 +21,6 @@ public:
 
 	// Shapes.
 	void AddAllEntities();
-	void AddGarage();
 	void AddFloors();
 	void AddRoof();
 	void AddChimney();

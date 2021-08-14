@@ -49,5 +49,4 @@ void MarketStall::AddAllEntities()
 	aniList.push_back(new Animate_Rotating(1, 0.0, 1.0, 0.0));
 	Entities.push_back(new Object("teapot", X - 1.0, Y, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.0, 0.0, 1.0), aniList));
 	Entities.push_back(new Object("torus", X, Y + 0.075, Z, Width / 4, Height / 4, Length / 4, "texture/donut.bmp")); // Supposed to be a donut.
-	//Entities.push_back(new Object("ufo", X, Y + 0.5, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.4, 0.2, 0.2))); // TODO: Implement the ufo.
 }

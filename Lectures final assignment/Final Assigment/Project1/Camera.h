@@ -12,7 +12,7 @@ public:
 	bool walkModeEnabled = true;
 
 	ViewMode walkMode;
-	ViewMode droneMode = ViewMode(glm::vec3(2.0, 10.0, 7.0), -90, -45);
+	ViewMode droneMode = ViewMode(glm::vec3(2.0, 50.0, 7.0), -90, -45);
 	ViewMode currentvm = walkMode;
 
 	Camera() = default;

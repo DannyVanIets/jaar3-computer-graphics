@@ -1,7 +1,25 @@
 #pragma once
 #include <vector>
+
 #include "Entity.h"
 
+#include "Cube.h"
+#include "Hexagon.h"
+#include "Wedge.h"
+#include "Object.h"
+#include "Animate_Scaling.h"
+#include "TriangularPrism.h"
+#include "Icosahedron.h"
+#include "Pyramid.h"
+#include "Plane.h"
+
+#include "Animate_ScaleHeightAndReset.h"
+#include "Animate_MoveLeftAndReset.h"
+
+/// <summary>
+/// Used as a base class for if you want to make a model.
+/// Don't need to override anything!
+/// </summary>
 class Model
 {
 public:
@@ -16,6 +34,7 @@ public:
 
 	/// <summary>
 	/// The list of entities attached to this model.
+	/// Will be used in RenderAll and InitBufferAll to render and buffer them all.
 	/// </summary>
 	std::vector<Entity*> Entities = {};
 

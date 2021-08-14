@@ -1,10 +1,4 @@
 #include "House.h"
-#include "Cube.h"
-#include "TriangularPrism.h"
-#include "Hexagon.h"
-#include "Wedge.h"
-#include "Icosahedron.h"
-#include "Animate_ScaleHeightAndReset.h"
 
 House::House(float x, float y, float z)
 {
@@ -97,5 +91,5 @@ void House::AddSmoke()
 	aniList.push_back(new Animate_Rotating(1, 0.0, 1.0, 0.0));
 	aniList.push_back(new Animate_GoUpAndReset(5.0));
 
-	Entities.push_back(new Icosahedron(X + 0.25, Y, Z, 0.25, Height, 0.25, aniList));
+	Entities.push_back(new Icosahedron(X + Width / 4, Y, Z, 0.25, Height, 0.25, aniList));
 }

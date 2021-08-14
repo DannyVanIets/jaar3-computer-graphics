@@ -1,7 +1,4 @@
 #include "Tree.h"
-#include "Hexagon.h"
-#include "Pyramid.h"
-#include "Object.h"
 
 Tree::Tree(bool pyramidLeaves)
 {
