@@ -7,8 +7,10 @@
 #include "Hexagon.h"
 #include "Wedge.h"
 #include "MarketStall.h"
-#include "TrapezoidPrism.h"
 #include "Icosahedron.h"
+#include "Chair.h"
+#include "Animate_MoveLeftAndReset.h"
+#include "Plane.h"
 
 World::World(float x, float y, float z)
 {
@@ -30,22 +32,19 @@ void World::AddModelsAndEntities()
 
 void World::AddAllShapes()
 {
-	Entities.push_back(new Cube(0.0, 0.0, 0.0, "texture/Yellobrk.bmp"));
-	Entities.push_back(new Cube(-5.0, 0.0, 0.0, "texture/uvtemplate.bmp"));
-	Entities.push_back(new Cube(-10.0, 0.0, 0.0, "texture/Yellobrk.bmp"));
-	Entities.push_back(new Object("teapot", 5.0, 0.0, 10.0, "texture/uvtemplate.bmp"));
-	Entities.push_back(new TriangularPrism(-3.0, 0.0, 0.0));
-	//Entities.push_back(new Hexagon(3.0, 0.0, 10.0, true));
-	//Entities.push_back(new Wedge(6.0, 0.0, 10.0, true));
-	//Entities.push_back(new Object("teapot", 5.0, 0.0, 1.0, glm::vec3(0.0, 0.0, 1.0)));
-	//Entities.push_back(new Object("sphere", 0.0, 0.0, 10.0, glm::vec3(0.0, 1.0, 0.0)));
+	Entities.push_back(new Plane(0.0, -1.0, 0.0, 100.0, 0.0, 100.0, "texture/grass.bmp"));
+	std::vector<Animation*> aniList = {};
+	aniList.push_back(new Animate_MoveLeftAndReset(-90.0));
+	Entities.push_back(new Object("ufosimple", 45.0, 10.0, 0.0, "texture/silver2.bmp", aniList));
 }
 
 void World::AddAllModels()
 {
-	//Models.push_back(new MarketStall(5.0f, 0.0f, 0.0f));
-	Models.push_back(new House(2, 5.0f, 0.0f, 1.0f, true));
-	//Models.push_back(new Tree(-1.0f, 0.0f, 1.0f, false));
+	Models.push_back(new MarketStall(5.0f, 0.0f, 0.0f));
+	Models.push_back(new House(2, 10.0f, 0.0f, 1.0f));
+	Models.push_back(new Tree(-4.0f, 0.0f, 1.0f, true));
+	Models.push_back(new Tree(-1.0f, 0.0f, 1.0f, false));
+	Models.push_back(new Chair(5.0f, 0.0f, -2.0f));
 }
 
 void World::RenderModels(glm::mat4 projection, glm::mat4 view)

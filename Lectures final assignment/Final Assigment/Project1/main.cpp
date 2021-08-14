@@ -15,8 +15,6 @@
 #include "texture/TextureLoader.h"
 
 #include "World.h"
-#include "Cube.h"
-#include "CustomPlane.h"
 
 using namespace std;
 
@@ -26,14 +24,8 @@ using namespace std;
 
 const int WIDTH = 800, HEIGHT = 600;
 
-const char* skybox_vertexshader_name = "skyboxvs.vert";
-const char* skybox_fragshader_name = "skyboxfs.frag";
-
-const char* texture_vertexshader_name = "texturevs.vert";
-const char* texture_fragshader_name = "texturefs.frag";
-
-//const char* texture_name = "texture/uvtemplate.bmp";
-const char* texture_name = "texture/Yellobrk.bmp";
+const char* texture_vertexshader_name = "basictexturevs.vert";
+const char* texture_fragshader_name = "basictexturefs.frag";
 
 unsigned const int DELTA_TIME = 10;
 
@@ -46,9 +38,8 @@ Shader textureShader;
 Camera camera;
 Movement movement;
 
+const char* texture_name = "texture/Yellobrk.bmp";
 World world = World(3.0f, 0.0f, 1.0f);
-//Cube cube2 = Cube(0.0, 0.0, 0.0, "texture/Yellobrk.bmp");
-CustomPlane customplane = CustomPlane(5.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, "texture/Yellobrk.bmp");
 
 //--------------------------------------------------------------------------------
 // Rendering
@@ -70,10 +61,6 @@ void Render()
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
 	world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
-	//customplane.Render(camera.currentvm.projection, camera.currentvm.view, texture_id);
-
-	//cube2.Render(camera.currentvm.projection, camera.currentvm.view);
-
 	// Swap buffers
 	glutSwapBuffers();
 }
@@ -87,25 +74,6 @@ void InitBuffers()
 {
 	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
 	world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
-
-	//customplane.InitBuffer(camera.currentvm.projection, camera.currentvm.view, texture_id);
-
-	//cube2.InitBuffers(camera.currentvm.projection, camera.currentvm.view);
-}
-
-//------------------------------------------------------------
-// void InitShaders()
-// Initializes the fragmentshader and vertexshader
-//------------------------------------------------------------
-
-void InitLoadShaders() {
-	//customplane.LoadShader();
-}
-
-void InitLoadTextures() {
-	//customplane.InitLoadTextures();
-	//textureShader = Shader(texture_vertexshader_name, texture_fragshader_name);
-	//texture_id = loadBMP(texture_name);
 }
 
 //--------------------------------------------------------------------------------
@@ -175,9 +143,7 @@ void InitGlutGlew(int argc, char** argv)
 int main(int argc, char** argv)
 {
 	InitGlutGlew(argc, argv); 
-	InitLoadShaders();
-	camera.CalculateProjection(); // TODO: Move this somewhere else.
-	InitLoadTextures();
+	camera.CalculateProjection(); // TODO: Move this somewhere else, if possible.
 	InitBuffers();
 
 	glEnable(GL_DEPTH_TEST);

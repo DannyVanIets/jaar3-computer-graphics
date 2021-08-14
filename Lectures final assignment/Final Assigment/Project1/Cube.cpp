@@ -8,17 +8,41 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "texture/TextureLoader.h"
 
-Cube::Cube(float x, float y, float z, string texture_name)
+Cube::Cube(float x, float y, float z)
 {
-	Setup(Cube_Vertices, {}, {}, {});
+	Setup(Cube_Vertices, {}, {}, Cube_Uvs);
 
 	DoTranslation(x, y, z);
-	//ChangeColor(glm::vec3(0.0, 0.5, 0.1));
+
+	VerticesSize = Cube_Vertices.size();
+	CalculateNormals();
+}
+
+Cube::Cube(float x, float y, float z, string texture_name)
+{
+	Setup(Cube_Vertices, {}, {}, Cube_Uvs);
+
+	DoTranslation(x, y, z);
 
 	VerticesSize = Cube_Vertices.size();
 	CalculateNormals();
 
 	texture_path = texture_name;
+}
+
+Cube::Cube(float x, float y, float z, float width, float height, float length)
+{
+	Width = width;
+	Height = height;
+	Length = length;
+
+	Setup(Cube_Vertices, {}, {}, Cube_Uvs);
+
+	DoTranslation(x, y, z);
+	DoScaling(Width, Height, Length);
+
+	VerticesSize = Cube_Vertices.size();
+	CalculateNormals();
 }
 
 Cube::Cube(float x, float y, float z, float width, float height, float length, string texture_name)
@@ -27,7 +51,7 @@ Cube::Cube(float x, float y, float z, float width, float height, float length, s
 	Height = height;
 	Length = length;
 
-	Setup(Cube_Vertices, {}, {}, {});
+	Setup(Cube_Vertices, {}, {}, Cube_Uvs);
 
 	DoTranslation(x, y, z);
 	DoScaling(Width, Height, Length);

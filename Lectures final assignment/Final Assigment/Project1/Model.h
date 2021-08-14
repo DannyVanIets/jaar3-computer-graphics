@@ -1,6 +1,11 @@
 #pragma once
 #include <vector>
 #include "Entity.h"
+#include "Cube.h"
+#include "Hexagon.h"
+#include "Wedge.h"
+#include "Object.h"
+#include "Animate_Scaling.h"
 
 class Model
 {

@@ -34,6 +34,9 @@ public:
 	const char* basic_vertexshader_name = "basicvs.vert";
 	const char* basic_fragshader_name = "basicfs.frag";
 
+	const char* basic_texture_vertexshader_name = "basictexturevs.vert";
+	const char* basic_texture_fragshader_name = "basictexturefs.frag";
+
 	const char* phong_vertexshader_name = "phongvs.vert";
 	const char* phong_fragshader_name = "phongfs.frag";
 

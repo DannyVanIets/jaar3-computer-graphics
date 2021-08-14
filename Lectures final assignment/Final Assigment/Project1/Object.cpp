@@ -32,6 +32,17 @@ Object::Object(std::string path, float x, float y, float z, string texture_name)
     texture_path = texture_name;
 }
 
+Object::Object(std::string path, float x, float y, float z, string texture_name, std::vector<Animation*> aniList)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    LoadObject();
+
+    texture_path = texture_name;
+    animations = aniList;
+}
+
 Object::Object(std::string path, float x, float y, float z, glm::vec3 rgb)
 {
     this->path = "objects/" + path + ".obj";
@@ -39,6 +50,16 @@ Object::Object(std::string path, float x, float y, float z, glm::vec3 rgb)
     DoTranslation(x, y, z);
     LoadObject();
     ChangeColor(rgb);
+}
+
+Object::Object(std::string path, float x, float y, float z, glm::vec3 rgb, std::vector<Animation*> aniList)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    LoadObject();
+    ChangeColor(rgb);
+    animations = aniList;
 }
 
 Object::Object(std::string path, float x, float y, float z, float width, float height, float length)
@@ -61,6 +82,18 @@ Object::Object(std::string path, float x, float y, float z, float width, float h
     texture_path = texture_name;
 }
 
+Object::Object(std::string path, float x, float y, float z, float width, float height, float length, string texture_name, std::vector<Animation*> aniList)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    DoScaling(width, height, length);
+    LoadObject();
+
+    texture_path = texture_name;
+    animations = aniList;
+}
+
 Object::Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb)
 {
     this->path = "objects/" + path + ".obj";
@@ -69,6 +102,18 @@ Object::Object(std::string path, float x, float y, float z, float width, float h
     DoScaling(width, height, length);
     LoadObject();
     ChangeColor(rgb);
+}
+
+Object::Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb, std::vector<Animation*> aniList)
+{
+    this->path = "objects/" + path + ".obj";
+
+    DoTranslation(x, y, z);
+    DoScaling(width, height, length);
+    LoadObject();
+    ChangeColor(rgb);
+
+    animations = aniList;
 }
 
 void Object::LoadObject()

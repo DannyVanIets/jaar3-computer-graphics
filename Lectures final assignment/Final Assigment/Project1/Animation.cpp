@@ -1,6 +1,4 @@
 #include "Animation.h"
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 glm::mat4 Animation::DoScaling(glm::mat4 model, float x, float y, float z)
 {

@@ -48,62 +48,7 @@ public:
 
     GLushort Elements[72] = { };
 
-    GLfloat uvs[72] = { 
-        // U, V,
-        // front
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        // top
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        // back
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        // bottom
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        // left
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        // right
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-    };
+    GLfloat uvs[72] = { };
 
     GLfloat Normals [120] = { };
 
@@ -121,5 +66,6 @@ public:
 
     void InitBuffers(glm::mat4 projection, glm::mat4 view) override;
     void InitBufferBasic(glm::mat4 projection, glm::mat4 view);
+    void InitBufferBasicTexture(glm::mat4 projection, glm::mat4 view);
     void InitBufferWithShading(glm::mat4 projection, glm::mat4 view);
 };

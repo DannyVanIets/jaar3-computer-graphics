@@ -23,10 +23,14 @@ public:
 	Object(std::string path);
 	Object(std::string path, float x, float y, float z);
 	Object(std::string path, float x, float y, float z, string texture_name);
+	Object(std::string path, float x, float y, float z, string texture_name, std::vector<Animation*> aniList);
 	Object(std::string path, float x, float y, float z, glm::vec3 rgb);
+	Object(std::string path, float x, float y, float z, glm::vec3 rgb, std::vector<Animation*> aniList);
 	Object(std::string path, float x, float y, float z, float width, float height, float length);
 	Object(std::string path, float x, float y, float z, float width, float height, float length, string texture_name);
+	Object(std::string path, float x, float y, float z, float width, float height, float length, string texture_name, std::vector<Animation*> aniList);
 	Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb);
+	Object(std::string path, float x, float y, float z, float width, float height, float length, glm::vec3 rgb, std::vector<Animation*> aniList);
 
 	// Methods
 	void LoadObject();

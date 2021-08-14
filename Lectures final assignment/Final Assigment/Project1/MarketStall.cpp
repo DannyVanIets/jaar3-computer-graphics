@@ -1,9 +1,4 @@
 #include "MarketStall.h"
-#include "Cube.h"
-#include "Hexagon.h"
-#include "Wedge.h"
-#include "Object.h"
-#include "Animate_Scaling.h"
 
 MarketStall::MarketStall(float x, float y, float z)
 {
@@ -30,7 +25,7 @@ MarketStall::MarketStall(float x, float y, float z, float width, float height, f
 void MarketStall::AddAllEntities()
 {
 	// Table
-	Entities.push_back(new Cube(X, Y - Height / 2, Z, Width * 1.5, Height / 2, Length, "texture/Yellobrk.bmp"));
+	Entities.push_back(new Cube(X, Y - Height / 2, Z, Width * 1.5, Height / 2, Length, "texture/wood.bmp"));
 
 	// Pillars
 	float pillarDivider = 10;
@@ -39,17 +34,20 @@ void MarketStall::AddAllEntities()
 	float pillarX = Width * 1.4;
 	float pillarZ = Length * 0.8;
 
-	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Bottom left
-	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Top left
+	glm::vec3 silver = glm::vec3(0.4, 0.4, 0.4);
+	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider, silver)); // Bottom left
+	Entities.push_back(new Hexagon(X - pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider, silver)); // Top left
 	
-	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Bottom Right
-	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider)); // Top Right
+	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z + pillarZ, Width / pillarDivider, Height, Length / pillarDivider, silver)); // Bottom Right
+	Entities.push_back(new Hexagon(X + pillarX, pillarY, Z - pillarZ, Width / pillarDivider, Height, Length / pillarDivider, silver)); // Top Right
 
-	// Roof;
-	Entities.push_back(new Wedge(X, Y + Height * 2.5, Z, Width * 1.5, Height / 2, Length, 90, 0.0, 1.0, 0.0));
+	// Roof
+	Entities.push_back(new Wedge(X, Y + Height * 2.5, Z, Width * 1.5, Height / 2, Length, 90, 0.0, 1.0, 0.0, glm::vec3(0.0, 0.0, 1.0)));
 
-	// Items for sale on the table.
-	Entities.push_back(new Object("teapot", X - 1.0, Y, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.0, 0.0, 1.0)));
-	Entities.push_back(new Object("torus", X, Y + 0.075, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.4, 0.2, 0.2))); // Supposed to be a donut.
+	// Items on the table.
+	std::vector<Animation*> aniList = {};
+	aniList.push_back(new Animate_Rotating(1, 0.0, 1.0, 0.0));
+	Entities.push_back(new Object("teapot", X - 1.0, Y, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.0, 0.0, 1.0), aniList));
+	Entities.push_back(new Object("torus", X, Y + 0.075, Z, Width / 4, Height / 4, Length / 4, "texture/donut.bmp")); // Supposed to be a donut.
 	//Entities.push_back(new Object("ufo", X, Y + 0.5, Z, Width / 4, Height / 4, Length / 4, glm::vec3(0.4, 0.2, 0.2))); // TODO: Implement the ufo.
 }

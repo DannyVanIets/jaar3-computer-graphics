@@ -2,23 +2,20 @@
 #include "Cube.h"
 #include "TriangularPrism.h"
 #include "Hexagon.h"
-#include "TrapezoidPrism.h"
-#include "RightRemovedTrapezoidPrism.h"
 #include "Wedge.h"
 #include "Icosahedron.h"
+#include "Animate_ScaleHeightAndReset.h"
 
-House::House(float x, float y, float z, bool pyramidRoof)
+House::House(float x, float y, float z)
 {
 	X = x;
 	Y = y;
 	Z = z;
 
-	PyramidRoof = pyramidRoof;
-
 	AddAllEntities();
 }
 
-House::House(float x, float y, float z, float width, float height, float length, bool pyramidRoof)
+House::House(float x, float y, float z, float width, float height, float length)
 {
 	X = x;
 	Y = y;
@@ -28,21 +25,17 @@ House::House(float x, float y, float z, float width, float height, float length,
 	Width = width;
 	Length = length;
 
-	PyramidRoof = pyramidRoof;
-
 	AddAllEntities();
 }
 
-House::House(int amountOfFloors, bool pyramidRoof)
+House::House(int amountOfFloors)
 {
 	AmountOfFloors = amountOfFloors;
 
-	PyramidRoof = pyramidRoof;
-
 	AddAllEntities();
 }
 
-House::House(int amountOfFloors, float x, float y, float z, bool pyramidRoof)
+House::House(int amountOfFloors, float x, float y, float z)
 {
 	AmountOfFloors = amountOfFloors;
 
@@ -50,12 +43,10 @@ House::House(int amountOfFloors, float x, float y, float z, bool pyramidRoof)
 	Y = y;
 	Z = z;
 
-	PyramidRoof = pyramidRoof;
-
 	AddAllEntities();
 }
 
-House::House(int amountOfFloors, float x, float y, float z, float width, float height, float length, bool pyramidRoof)
+House::House(int amountOfFloors, float x, float y, float z, float width, float height, float length)
 {
 	AmountOfFloors = amountOfFloors;
 
@@ -66,8 +57,6 @@ House::House(int amountOfFloors, float x, float y, float z, float width, float h
 	Height = height;
 	Width = width;
 	Length = length;
-
-	PyramidRoof = pyramidRoof;
 
 	AddAllEntities();
 }
@@ -76,23 +65,10 @@ void House::AddAllEntities()
 {
 	Entities.clear();
 
-	//AddGarage();
 	AddFloors();
 	AddRoof();
 	AddChimney();
 	AddSmoke();
-}
-
-void House::AddGarage()
-{
-	float wedgeX = X - Width * 2;
-	float wedgeHeight = Height / 4;
-
-	Entities.push_back(new RightRemovedTrapezoidPrism(X - Width * 2, Y, Z, Width, Height, Length));
-
-	if (AmountOfFloors > 1) {
-		Entities.push_back(new Wedge(wedgeX, Y + Height * 1.25f, Z, Width, wedgeHeight, Length));
-	}
 }
 
 void House::AddFloors()
@@ -106,15 +82,7 @@ void House::AddFloors()
 
 void House::AddRoof()
 {
-	if (PyramidRoof)
-	{
-		Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length));
-	}
-	else
-	{
-		// TODO: Fix this one.
-		//Shapes.push_back(new TrapezoidPrism(X + 0.5, Y, Z, 1.0, 2.0, 2.0, false));
-	}
+	Entities.push_back(new TriangularPrism(X, Y, Z, Width, Height, Length, glm::vec3(1.0, 0.8, 0.5)));
 }
 
 void House::AddChimney()

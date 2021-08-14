@@ -6,7 +6,6 @@ class Animate_GoUpAndReset : public Animation
 public:
 	float HowMuchHigher = 10.0;
 	float OriginalYValue = 0.0;
-	bool FirstTime = true;
 
 	Animate_GoUpAndReset() = default;
 	Animate_GoUpAndReset(float howMuchHigher);

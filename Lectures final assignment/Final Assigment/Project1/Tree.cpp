@@ -46,19 +46,26 @@ void Tree::AddAllEntities()
 
 void Tree::AddTrunk()
 {
-	Entities.push_back(new Hexagon(X, Y, Z, Width / 3, Height, Length / 3));
+	if (PyramidLeaves) 
+	{
+		Entities.push_back(new Hexagon(X, Y, Z, Width / 3, Height, Length / 3, glm::vec3(0.4, 0.1, 0.1)));
+	}
+	else 
+	{
+		Entities.push_back(new Object("cylinder32", X, Y - Height, Z, Width / 3, Height * 2, Length / 3, "texture/treewood.bmp"));
+	}
 }
 
 void Tree::AddLeaves()
 {
-	if (PyramidLeaves) 
+	if (PyramidLeaves)
 	{
 		Y += Height * 1.25f;
 		Entities.push_back(new Pyramid(X, Y, Z, Width, Height / 1.25, Length));
 	}
-	else 
+	else
 	{
 		Y += Height;
-		Entities.push_back(new Object("sphere", X, Y, Z, Width, Height, Length, glm::vec3(0.0, 1.0, 0.0)));
+		Entities.push_back(new Object("sphere", X, Y, Z, Width, Height, Length, "texture/leaves.bmp"));
 	}
 }

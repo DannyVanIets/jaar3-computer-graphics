@@ -81,9 +81,6 @@
     <ClCompile Include="House.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="TrapezoidPrism.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
@@ -95,12 +92,6 @@
     </ClCompile>
     <ClCompile Include="Wedge.cpp">
       <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="RightRemovedTrapezoidPrism.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="Lampost.cpp">
-      <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="objloader.cpp">
       <Filter>Source Files\Tools</Filter>
@@ -135,22 +126,13 @@
     <ClCompile Include="Chair.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="Table.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="Candle.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="Animate_Scaling.cpp">
       <Filter>Source Files\Animations</Filter>
     </ClCompile>
-    <ClCompile Include="CustomPlane.cpp">
+    <ClCompile Include="Plane.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="Animate_Rotating.cpp">
@@ -163,7 +145,13 @@
       <Filter>Source Files\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Icosahedron.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_ScaleHeightAndReset.cpp">
+      <Filter>Source Files\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animate_MoveLeftAndReset.cpp">
+      <Filter>Source Files\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,13 +173,7 @@
     <ClInclude Include="House.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="TrapezoidPrism.h">
-      <Filter>Header Files\Shapes</Filter>
-    </ClInclude>
     <ClInclude Include="Tree.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Lampost.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="texture\TextureLoader.h">
@@ -199,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="RightRemovedTrapezoidPrism.h">
-      <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Wedge.h">
       <Filter>Header Files\Shapes</Filter>
@@ -239,22 +218,13 @@
     <ClInclude Include="Chair.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="Table.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Candle.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Cloud.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
     <ClInclude Include="Animate_Scaling.h">
       <Filter>Header Files\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="CustomPlane.h">
+    <ClInclude Include="Plane.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Animate_Rotating.h">
@@ -267,7 +237,13 @@
       <Filter>Header Files\Animations</Filter>
     </ClInclude>
     <ClInclude Include="Icosahedron.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_ScaleHeightAndReset.h">
+      <Filter>Header Files\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animate_MoveLeftAndReset.h">
+      <Filter>Header Files\Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,10 +256,10 @@
     <None Include="phongvs.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="texturefs.frag">
+    <None Include="basictexturefs.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="texturevs.vert">
+    <None Include="basictexturevs.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="basicvs.vert">

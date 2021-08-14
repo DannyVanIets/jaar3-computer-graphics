@@ -1,20 +1,7 @@
 TODO:
 
-- Voeg textures/kleuren toe voor huis en marktkraam.
-- Animaties doen voor teepot op marktkraam (later weghalen).
-- Stoel model maken.
-- Ufo toevoegen en animeren.
-- Textures geven aan boom.
 - Plane toevoegen aan wereld, met gras texture.
-- Wedge toevoegen aan huis, kan een window worden, het liefst ook textures eraan, dan kan het makkelijk een flower garden worden.
-- Maak het mogelijk om de shapes/objects van kleur te veranderen vanuit de constructor.
 
 Minimum gedaan!
 
 - Code opschonen (kut werk), commentaar schrijven, elements weghalen uit shapes die je alleen tekent met vertices en includes beter maken (allemaal in de base classes!).
-- Boom/teepot onder Ufo animeren.
-
-Ideeën voor objecten:
-- Vlammetje voor kaars
-- Halve toros
-- Lampbulb
