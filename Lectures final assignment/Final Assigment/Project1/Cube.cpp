@@ -1,13 +1,5 @@
 #include "Cube.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "glsl.h"
-
-#include <glm/gtc/matrix_transform.hpp>
-#include "texture/TextureLoader.h"
-
 Cube::Cube(float x, float y, float z)
 {
 	Setup(Cube_Vertices, {}, {}, Cube_Uvs);

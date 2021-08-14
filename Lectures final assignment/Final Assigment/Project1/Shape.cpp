@@ -135,7 +135,7 @@ void Shape::InitBuffers(glm::mat4 projection, glm::mat4 view)
 		shader = Shader(basic_vertexshader_name, basic_fragshader_name);
 		InitBufferBasicTexture(projection, view);
 	}
-	else 
+	else
 	{
 		if (!texture_path.empty())
 		{
@@ -215,6 +215,8 @@ void Shape::InitBufferBasic(glm::mat4 projection, glm::mat4 view)
 
 void Shape::InitBufferBasicTexture(glm::mat4 projection, glm::mat4 view)
 {
+	CalculateMvp(projection, view);
+
 	GLuint position_id;
 	GLuint uv_id;
 

@@ -3,10 +3,6 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include "glsl.h"
 
 #include "Camera.h"
@@ -24,21 +20,15 @@ using namespace std;
 
 const int WIDTH = 800, HEIGHT = 600;
 
-const char* texture_vertexshader_name = "basictexturevs.vert";
-const char* texture_fragshader_name = "basictexturefs.frag";
-
 unsigned const int DELTA_TIME = 10;
 
 //--------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------
-GLuint texture_id;
-Shader textureShader;
-
 Camera camera;
 Movement movement;
 
-const char* texture_name = "texture/Yellobrk.bmp";
+// In the world class all the entities and models will be added.
 World world = World(3.0f, 0.0f, 1.0f);
 
 //--------------------------------------------------------------------------------
@@ -58,6 +48,7 @@ void Render()
 	// Will update the view after a button has been pressed for the movement.
 	camera.CalculateView();
 
+	// Render all the entities (shapes/objects) and models with their own entities.
 	world.RenderAll(camera.currentvm.projection, camera.currentvm.view);
 	world.RenderModels(camera.currentvm.projection, camera.currentvm.view);
 
@@ -72,6 +63,7 @@ void Render()
 
 void InitBuffers()
 {
+	// Init buffer all the entities (shapes/objects) and models with their own entities.
 	world.InitBufferAll(camera.currentvm.projection, camera.currentvm.view);
 	world.InitBufferModels(camera.currentvm.projection, camera.currentvm.view);
 }

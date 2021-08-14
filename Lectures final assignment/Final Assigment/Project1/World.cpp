@@ -35,6 +35,7 @@ void World::AddAllShapes()
 	Entities.push_back(new Plane(0.0, -1.0, 0.0, 100.0, 0.0, 100.0, "texture/grass.bmp"));
 	std::vector<Animation*> aniList = {};
 	aniList.push_back(new Animate_MoveLeftAndReset(-90.0));
+	aniList.push_back(new Animate_GoUpAndThenDown(10.0));
 	Entities.push_back(new Object("ufosimple", 45.0, 10.0, 0.0, "texture/silver2.bmp", aniList));
 }
 

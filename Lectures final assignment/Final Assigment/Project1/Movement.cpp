@@ -18,6 +18,7 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 		if (camera.walkModeEnabled) {
 			camera.walkModeEnabled = false;
 			camera.walkMode = camera.currentvm; // Make sure that the camera changes are in walk mode, so that you can switch back to it with the same values!
+			camera.droneMode.projection = camera.walkMode.projection; // Prevents a weird bug where you cannot see the pyramid and icosahedron.
 			camera.currentvm = camera.droneMode;
 		}
 		else {
@@ -45,20 +46,23 @@ Camera Movement::KeyboardKeys(Camera camera, unsigned char key)
 		camera.currentvm.cameraPos += CalculateRightOrLeft(camera);
 	}
 
-	// TODO: Before uploading, make sure to enable this!
-	/*if (camera.walkModeEnabled) {
+	if (camera.walkModeEnabled) {
 		// Keeps you at ground level, so you cannot fly while in walk mode.
 		camera.currentvm.cameraPos.y = 1.0f;
 	}
-	else {*/
+	else {
 		if (key == 'q') {
 			camera.currentvm.cameraPos.y += 1.0f;
 		}
 
 		if (key == 'e') {
 			camera.currentvm.cameraPos.y -= 1.0f;
+			// Make sure you don't go underground.
+			if (camera.currentvm.cameraPos.y - 1.0 <= 1.0) {
+				camera.currentvm.cameraPos.y = 1.0;
+			}
 		}
-	//}
+	}
 
 	/*---------------------------STRAFING---------------------------------*/
 

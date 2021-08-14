@@ -1,6 +1,4 @@
 #pragma once
-#include <GL/glew.h>
-#include <glm/gtc/type_ptr.hpp>
 #include "Shape.h"
 
 class Icosahedron : public Shape

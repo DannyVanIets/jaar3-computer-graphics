@@ -8,7 +8,7 @@ public:
 	bool GoingUp = true;
 	float HowMuchHigher;
 	float OriginalYValue;
-	float Y = 0.01;
+	float Y = 0.1;
 
 	Animate_GoUpAndThenDown() = default;
 	Animate_GoUpAndThenDown(float howMuchHigher);

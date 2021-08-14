@@ -15,18 +15,12 @@ void Camera::CalculateProjection()
 {
 	// In the comments are the original values, in-case you want to revert it.
 	currentvm.projection = glm::perspective(
-		glm::radians(45.0f), // 45
-		800.0f / 600.0f, // 800 / 600
+		glm::radians(45.0f), // 45. FOV.
+		800.0f / 600.0f, // 800 / 600. How width the camera is.
 		0.1f, // 0.1
-		100.0f); // 10
+		100.0f); // 10, how far you can look.
 }
 
-/// <summary>
-/// Function used to rotate the camera with the mouse.
-/// Created with this tutorial: https://learnopengl.com/Getting-started/Camera.
-/// </summary>
-/// <param name="xpos">The current x position of the mouse.</param>
-/// <param name="ypos">The current y position of the mouse.</param>
 void Camera::LookAround(int xpos, int ypos)
 {
 	// lastX and lastY are half of the window size,
